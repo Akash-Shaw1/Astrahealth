@@ -1,0 +1,34 @@
+[
+  {
+    "id": "MED012",
+    "shop_name": "HealthPlus Pharmacy",
+    "location": "Salt Lake, Kolkata",
+    "ratings": {
+      "availability": 4,
+      "pricing": 5,
+      "service_quality": 3,
+      "overall": 4
+    },
+    "review_text": "Affordable prices and good stock of medicines.",
+    "reviewer": "User234",
+    "referral_count": 3,
+    "escalation": false,
+    "timestamp": "2025-08-17T09:45:00Z"
+  },
+  {
+    "id": "MED013",
+    "shop_name": "MediCare Pharmacy",
+    "location": "Park Street, Kolkata",
+    "ratings": {
+      "availability": 5,
+      "pricing": 3,
+      "service_quality": 4,
+      "overall": 4
+    },
+    "review_text": "Always have the medicines I need, but slightly expensive.",
+    "reviewer": "User345",
+    "referral_count": 7,
+    "escalation": false,
+    "timestamp": "2025-08-15T16:30:00Z"
+  }
+]

@@ -1,0 +1,193 @@
+{
+  "modules": [
+    {
+      "id": "heart-health-101",
+      "title": "Understanding Heart Health",
+      "description": "Comprehensive guide to cardiovascular wellness and prevention strategies",
+      "detailedDescription": "This comprehensive course covers the fundamentals of cardiovascular health, including anatomy of the heart, common heart conditions, risk factors, prevention strategies, and lifestyle modifications. Learn from leading cardiologists about maintaining optimal heart health throughout your life.",
+      "instructor": "Dr. Sarah Johnson",
+      "instructorBio": "Dr. Sarah Johnson is a board-certified cardiologist with over 15 years of experience in cardiovascular medicine. She specializes in preventive cardiology and has published numerous research papers on heart disease prevention.",
+      "instructorImage": "/heart-health-illustration.png",
+      "duration": "2h 30m",
+      "lessons": 12,
+      "rating": 4.9,
+      "students": 2847,
+      "category": "cardiology",
+      "tags": ["heart", "cardiovascular", "prevention", "wellness"],
+      "image": "/heart-health-illustration.png",
+      "progress": 65,
+      "level": "Beginner",
+      "type": "course",
+      "language": ["English", "Hindi", "Spanish"],
+      "source": "WHO",
+      "verified": true,
+      "lastUpdated": "2024-01-15",
+      "popularity": 95,
+      "content": {
+        "overview": "Learn the essentials of heart health and cardiovascular wellness",
+        "objectives": [
+          "Understand heart anatomy and function",
+          "Identify risk factors for heart disease",
+          "Learn prevention strategies",
+          "Develop healthy lifestyle habits"
+        ],
+        "fullContent": "# Understanding Heart Health: A Comprehensive Guide\n\n## Introduction\n\nCardiovascular disease remains the leading cause of death globally, claiming approximately 17.9 million lives each year according to the World Health Organization. However, the majority of cardiovascular diseases can be prevented by addressing behavioral risk factors such as tobacco use, unhealthy diet, obesity, physical inactivity, and harmful use of alcohol.\n\n## Chapter 1: Heart Anatomy and Function\n\n### The Structure of Your Heart\n\nThe human heart is a remarkable muscular organ about the size of your fist, weighing approximately 250-350 grams. It consists of four chambers: two upper chambers called atria (left and right atrium) and two lower chambers called ventricles (left and right ventricle).\n\n**The Four Heart Chambers:**\n- **Right Atrium**: Receives deoxygenated blood from the body through the superior and inferior vena cava\n- **Right Ventricle**: Pumps blood to the lungs through the pulmonary artery for oxygenation\n- **Left Atrium**: Receives oxygenated blood from the lungs through the pulmonary veins\n- **Left Ventricle**: The heart's strongest chamber, pumps oxygenated blood to the entire body through the aorta\n\n### Heart Valves: The One-Way Gates\n\nFour valves ensure blood flows in the correct direction:\n1. **Tricuspid Valve**: Between right atrium and right ventricle\n2. **Pulmonary Valve**: Between right ventricle and pulmonary artery\n3. **Mitral (Bicuspid) Valve**: Between left atrium and left ventricle\n4. **Aortic Valve**: Between left ventricle and aorta\n\n### The Cardiac Cycle\n\nYour heart beats approximately 100,000 times per day, pumping about 2,000 gallons of blood. Each heartbeat consists of two phases:\n- **Systole**: Contraction phase when blood is pumped out\n- **Diastole**: Relaxation phase when chambers fill with blood\n\n## Chapter 2: Common Heart Conditions\n\n### Coronary Artery Disease (CAD)\n\nCoronary artery disease is the most common type of heart disease, caused by the buildup of plaque in the coronary arteries that supply blood to the heart muscle. This process, called atherosclerosis, can lead to:\n\n**Symptoms of CAD:**\n- Chest pain or discomfort (angina)\n- Shortness of breath\n- Fatigue\n- Heart palpitations\n- Weakness or dizziness\n\n**Risk Factors:**\n- High blood pressure\n- High cholesterol\n- Diabetes\n- Smoking\n- Obesity\n- Physical inactivity\n- Family history\n- Age (men 45+, women 55+)\n\n### Heart Attack (Myocardial Infarction)\n\nA heart attack occurs when blood flow to part of the heart muscle is blocked, usually by a blood clot. Quick treatment is crucial to prevent permanent heart damage.\n\n**Warning Signs:**\n- Chest pain or pressure\n- Pain radiating to arms, neck, jaw, or back\n- Shortness of breath\n- Cold sweats\n- Nausea or vomiting\n- Lightheadedness\n\n**Remember: Call emergency services immediately if you suspect a heart attack**\n\n### Heart Failure\n\nHeart failure doesn't mean the heart has stopped working, but rather that it's not pumping blood as efficiently as it should. This can affect the left side, right side, or both sides of the heart.\n\n**Types of Heart Failure:**\n- **Systolic Heart Failure**: Heart muscle can't contract vigorously\n- **Diastolic Heart Failure**: Heart muscle is stiff and doesn't fill properly\n\n### Arrhythmias\n\nArrhythmias are irregular heartbeats that can be too fast (tachycardia), too slow (bradycardia), or irregular. While some are harmless, others can be life-threatening.\n\n**Common Types:**\n- Atrial fibrillation (AFib)\n- Ventricular tachycardia\n- Premature ventricular contractions (PVCs)\n- Heart block\n\n## Chapter 3: Risk Factors and Prevention\n\n### Modifiable Risk Factors\n\nThese are risk factors you can control through lifestyle changes:\n\n**1. High Blood Pressure (Hypertension)**\n- Normal: Less than 120/80 mmHg\n- Elevated: 120-129 systolic, less than 80 diastolic\n- Stage 1 Hypertension: 130-139/80-89 mmHg\n- Stage 2 Hypertension: 140/90 mmHg or higher\n\n**Management Strategies:**\n- Reduce sodium intake (less than 2,300mg daily)\n- Maintain healthy weight\n- Exercise regularly\n- Limit alcohol consumption\n- Manage stress\n- Take prescribed medications as directed\n\n**2. High Cholesterol**\n\nCholesterol is a waxy substance found in your blood. Your body needs cholesterol to build healthy cells, but high levels can increase heart disease risk.\n\n**Types of Cholesterol:**\n- **LDL (Low-Density Lipoprotein)**: \"Bad\" cholesterol that builds up in arteries\n- **HDL (High-Density Lipoprotein)**: \"Good\" cholesterol that helps remove LDL\n- **Triglycerides**: Another type of fat in blood\n\n**Target Levels:**\n- Total cholesterol: Less than 200 mg/dL\n- LDL: Less than 100 mg/dL (less than 70 for high-risk individuals)\n- HDL: 40 mg/dL or higher for men, 50 mg/dL or higher for women\n- Triglycerides: Less than 150 mg/dL\n\n**3. Diabetes**\n\nDiabetes significantly increases heart disease risk. High blood sugar can damage blood vessels and nerves that control the heart.\n\n**Management:**\n- Monitor blood glucose regularly\n- Take medications as prescribed\n- Follow a heart-healthy diet\n- Exercise regularly\n- Maintain healthy weight\n\n**4. Smoking and Tobacco Use**\n\nSmoking damages blood vessels, reduces oxygen in blood, and increases blood pressure and heart rate.\n\n**Benefits of Quitting:**\n- Within 20 minutes: Heart rate and blood pressure drop\n- Within 12 hours: Carbon monoxide levels normalize\n- Within 1 year: Risk of heart disease is cut in half\n- Within 5 years: Stroke risk is reduced to that of a non-smoker\n\n### Non-Modifiable Risk Factors\n\nThese factors cannot be changed but are important to understand:\n\n- **Age**: Risk increases with age\n- **Gender**: Men have higher risk at younger ages; women's risk increases after menopause\n- **Family History**: Genetic predisposition to heart disease\n- **Race/Ethnicity**: Some groups have higher risk\n\n## Chapter 4: Heart-Healthy Lifestyle\n\n### Nutrition for Heart Health\n\n**The Mediterranean Diet Pattern:**\nResearch consistently shows the Mediterranean diet reduces heart disease risk by up to 30%.\n\n**Key Components:**\n- Abundant fruits and vegetables (5-9 servings daily)\n- Whole grains instead of refined grains\n- Healthy fats (olive oil, nuts, avocados)\n- Fish and poultry over red meat\n- Legumes and nuts\n- Limited processed foods\n- Moderate red wine consumption (if alcohol is consumed)\n\n**Foods to Emphasize:**\n- **Omega-3 Rich Fish**: Salmon, mackerel, sardines, tuna (2 servings weekly)\n- **Fiber-Rich Foods**: Oats, beans, apples, barley (25-35g daily)\n- **Antioxidant-Rich Berries**: Blueberries, strawberries, blackberries\n- **Nuts and Seeds**: Almonds, walnuts, flaxseeds, chia seeds\n- **Dark Leafy Greens**: Spinach, kale, arugula\n\n**Foods to Limit:**\n- Saturated fats (less than 7% of daily calories)\n- Trans fats (avoid completely)\n- Sodium (less than 2,300mg daily, ideally 1,500mg)\n- Added sugars (less than 6 teaspoons daily for women, 9 for men)\n- Processed and packaged foods\n\n### Physical Activity Guidelines\n\n**Aerobic Exercise:**\n- At least 150 minutes of moderate-intensity aerobic activity weekly\n- OR 75 minutes of vigorous-intensity aerobic activity weekly\n- Activities can be broken into 10-minute segments\n\n**Examples of Moderate-Intensity Activities:**\n- Brisk walking (3-4 mph)\n- Water aerobics\n- Ballroom dancing\n- General gardening\n- Tennis (doubles)\n\n**Examples of Vigorous-Intensity Activities:**\n- Running or jogging\n- Swimming laps\n- Hiking uphill\n- Basketball\n- Tennis (singles)\n\n**Strength Training:**\n- At least 2 days per week\n- Work all major muscle groups\n- 8-12 repetitions of each exercise\n\n### Stress Management\n\nChronic stress can contribute to heart disease through various mechanisms including increased blood pressure, inflammation, and unhealthy coping behaviors.\n\n**Effective Stress Management Techniques:**\n\n**1. Mindfulness and Meditation**\n- Practice deep breathing exercises\n- Try progressive muscle relaxation\n- Consider mindfulness-based stress reduction (MBSR)\n- Use meditation apps for guided sessions\n\n**2. Regular Physical Activity**\n- Exercise releases endorphins, natural mood elevators\n- Even 10 minutes of activity can reduce stress\n- Choose activities you enjoy\n\n**3. Social Support**\n- Maintain strong relationships with family and friends\n- Join support groups or community organizations\n- Consider counseling or therapy when needed\n\n**4. Time Management**\n- Prioritize tasks and set realistic goals\n- Learn to say no to excessive commitments\n- Take regular breaks throughout the day\n\n**5. Adequate Sleep**\n- Aim for 7-9 hours of quality sleep nightly\n- Maintain consistent sleep schedule\n- Create a relaxing bedtime routine\n- Limit screen time before bed\n\n### Sleep and Heart Health\n\nPoor sleep quality and insufficient sleep are linked to increased risk of heart disease, high blood pressure, diabetes, and stroke.\n\n**Sleep Hygiene Tips:**\n- Keep bedroom cool, dark, and quiet\n- Use comfortable mattress and pillows\n- Avoid caffeine 6 hours before bedtime\n- Limit alcohol consumption\n- Exercise regularly, but not close to bedtime\n- Manage stress and anxiety\n\n## Chapter 5: Monitoring Your Heart Health\n\n### Regular Health Screenings\n\n**Blood Pressure Monitoring:**\n- Check at least once every 2 years if normal\n- More frequent monitoring if elevated\n- Learn proper home monitoring technique\n\n**Cholesterol Testing:**\n- Every 4-6 years for adults 20 and older\n- More frequent testing if abnormal or high risk\n- Fasting lipid panel provides complete picture\n\n**Blood Sugar Testing:**\n- Every 3 years starting at age 45\n- Earlier and more frequent if risk factors present\n- Hemoglobin A1C test shows average blood sugar over 3 months\n\n**Body Weight and BMI:**\n- Monitor regularly at home\n- Calculate BMI (Body Mass Index)\n- Measure waist circumference\n\n### Warning Signs to Watch For\n\n**Seek Immediate Medical Attention for:**\n- Chest pain or pressure\n- Severe shortness of breath\n- Fainting or near-fainting\n- Rapid or irregular heartbeat\n- Severe fatigue or weakness\n- Swelling in legs, ankles, or feet\n\n**Schedule Medical Evaluation for:**\n- Persistent fatigue\n- Shortness of breath with mild exertion\n- Chest discomfort with activity\n- Dizziness or lightheadedness\n- Palpitations or irregular heartbeat\n\n## Conclusion\n\nHeart health is largely within your control. By understanding your cardiovascular system, recognizing risk factors, and implementing heart-healthy lifestyle changes, you can significantly reduce your risk of heart disease and improve your overall quality of life.\n\nRemember that small, consistent changes often lead to the most sustainable improvements. Start with one or two modifications and gradually build upon your success. Regular communication with your healthcare provider is essential for monitoring your progress and adjusting your prevention strategy as needed.\n\nYour heart works tirelessly for you every day – invest in its health, and it will serve you well throughout your life.\n\n*This educational content is for informational purposes only and should not replace professional medical advice. Always consult with your healthcare provider for personalized medical guidance.*",
+        "modules": [
+          {
+            "title": "Heart Anatomy Basics",
+            "duration": "15 min",
+            "type": "video"
+          },
+          {
+            "title": "Common Heart Conditions",
+            "duration": "20 min",
+            "type": "interactive"
+          },
+          {
+            "title": "Risk Assessment",
+            "duration": "10 min",
+            "type": "quiz"
+          }
+        ],
+        "resources": [
+          {
+            "title": "Heart Anatomy Interactive Video",
+            "type": "video",
+            "url": "https://www.youtube.com/watch?v=CWFyxn0qDEU",
+            "description": "3D visualization of heart anatomy and function",
+            "duration": "12 min",
+            "external": true
+          },
+          {
+            "title": "Heart-Healthy Recipes Collection",
+            "type": "article",
+            "url": "https://www.heart.org/en/healthy-living/healthy-eating/recipes",
+            "description": "American Heart Association's collection of heart-healthy recipes",
+            "external": true
+          },
+          {
+            "title": "Heart Health Checklist",
+            "type": "pdf",
+            "url": "/resources/heart-checklist.pdf",
+            "description": "Downloadable checklist for monitoring heart health",
+            "external": false
+          },
+          {
+            "title": "Blood Pressure Tracking App",
+            "type": "link",
+            "url": "https://www.heart.org/en/health-tools/calculators/blood-pressure-log",
+            "description": "Online tool for tracking blood pressure readings",
+            "external": true
+          },
+          {
+            "title": "Cardiology Research Papers",
+            "type": "article",
+            "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6616540/",
+            "description": "Latest research on cardiovascular disease prevention",
+            "external": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "mental-health-fundamentals",
+      "title": "Mental Health Fundamentals",
+      "description": "Essential knowledge about mental wellness and stress management techniques",
+      "detailedDescription": "Explore the foundations of mental health and well-being. This course covers stress management, anxiety reduction techniques, depression awareness, and building resilience. Learn practical strategies for maintaining good mental health in daily life.",
+      "instructor": "Dr. Michael Chen",
+      "instructorBio": "Dr. Michael Chen is a licensed psychiatrist and mental health advocate with expertise in stress management and cognitive behavioral therapy.",
+      "instructorImage": "/mental-health-brain-wellness.png",
+      "duration": "3h 15m",
+      "lessons": 18,
+      "rating": 4.8,
+      "students": 1923,
+      "category": "psychology",
+      "tags": ["mental health", "stress", "anxiety", "wellness"],
+      "image": "/mental-health-brain-wellness.png",
+      "progress": 0,
+      "level": "Intermediate",
+      "type": "course",
+      "language": ["English", "French"],
+      "source": "CDC",
+      "verified": true,
+      "lastUpdated": "2024-01-10",
+      "popularity": 88,
+      "content": {
+        "overview": "Comprehensive guide to mental health and emotional well-being",
+        "objectives": [
+          "Understand mental health basics",
+          "Learn stress management techniques",
+          "Recognize signs of mental health issues",
+          "Develop coping strategies"
+        ],
+        "fullContent": "# Mental Health Fundamentals: A Comprehensive Guide to Emotional Well-being\n\n## Introduction\n\nMental health is just as important as physical health, yet it's often overlooked or stigmatized. According to the World Health Organization, one in four people will be affected by mental or neurological disorders at some point in their lives. Understanding mental health fundamentals empowers you to maintain emotional well-being, recognize when help is needed, and support others in their mental health journey.\n\n## Chapter 1: Understanding Mental Health\n\n### What is Mental Health?\n\nMental health encompasses our emotional, psychological, and social well-being. It affects how we think, feel, and act. It also helps determine how we handle stress, relate to others, and make choices. Mental health is important at every stage of life, from childhood and adolescence through adulthood.\n\n**Components of Mental Health:**\n- **Emotional Well-being**: The ability to manage emotions effectively\n- **Psychological Well-being**: Having a sense of purpose and personal growth\n- **Social Well-being**: Maintaining healthy relationships and social connections\n\n### The Mental Health Continuum\n\nMental health exists on a continuum, ranging from optimal mental health to severe mental illness. Most people experience fluctuations along this continuum throughout their lives.\n\n**Levels of Mental Health:**\n1. **Thriving**: Optimal mental health with high levels of well-being\n2. **Surviving**: Adequate mental health with some challenges\n3. **Struggling**: Noticeable decline in mental health and functioning\n4. **Crisis**: Severe mental health problems requiring immediate intervention\n\n### Common Mental Health Conditions\n\n**Anxiety Disorders**\nAnxiety disorders are the most common mental health conditions, affecting 40 million adults in the United States annually.\n\n*Types of Anxiety Disorders:*\n- Generalized Anxiety Disorder (GAD)\n- Panic Disorder\n- Social Anxiety Disorder\n- Specific Phobias\n- Obsessive-Compulsive Disorder (OCD)\n- Post-Traumatic Stress Disorder (PTSD)\n\n*Common Symptoms:*\n- Excessive worry or fear\n- Restlessness or feeling on edge\n- Difficulty concentrating\n- Sleep disturbances\n- Physical symptoms (rapid heartbeat, sweating, trembling)\n- Avoidance of certain situations\n\n**Depression**\nDepression is a serious mood disorder that affects how you feel, think, and handle daily activities.\n\n*Types of Depression:*\n- Major Depressive Disorder\n- Persistent Depressive Disorder (Dysthymia)\n- Bipolar Disorder\n- Seasonal Affective Disorder (SAD)\n- Postpartum Depression\n\n*Common Symptoms:*\n- Persistent sad, anxious, or empty mood\n- Loss of interest in activities once enjoyed\n- Significant weight loss or gain\n- Sleep disturbances\n- Fatigue or loss of energy\n- Feelings of worthlessness or guilt\n- Difficulty concentrating\n- Thoughts of death or suicide\n\n**Stress-Related Disorders**\nChronic stress can lead to various mental and physical health problems.\n\n*Effects of Chronic Stress:*\n- Weakened immune system\n- Cardiovascular problems\n- Digestive issues\n- Sleep disorders\n- Memory and concentration problems\n- Mood disorders\n\n## Chapter 2: The Science of Stress\n\n### Understanding the Stress Response\n\nStress is your body's natural response to challenges or threats. When you perceive danger, your body activates the \"fight-or-flight\" response, releasing hormones like adrenaline and cortisol.\n\n**The Stress Response System:**\n1. **Alarm Stage**: Initial reaction to stressor\n2. **Resistance Stage**: Body attempts to adapt to stressor\n3. **Exhaustion Stage**: Body's resources become depleted\n\n### Types of Stress\n\n**Acute Stress**\n- Short-term stress response to immediate challenges\n- Can be beneficial in small doses\n- Examples: Job interview, public speaking, emergency situations\n\n**Chronic Stress**\n- Long-term stress that persists over weeks, months, or years\n- Can be harmful to physical and mental health\n- Examples: Work pressure, financial problems, relationship issues\n\n**Eustress vs. Distress**\n- **Eustress**: Positive stress that motivates and energizes\n- **Distress**: Negative stress that overwhelms and harms\n\n### Common Stress Triggers\n\n**Life Events:**\n- Death of a loved one\n- Divorce or relationship problems\n- Job loss or career changes\n- Moving to a new home\n- Financial difficulties\n- Health problems\n\n**Daily Hassles:**\n- Traffic congestion\n- Work deadlines\n- Technology problems\n- Household chores\n- Time management issues\n\n**Internal Stressors:**\n- Perfectionism\n- Negative self-talk\n- Unrealistic expectations\n- Lack of control\n- Uncertainty about the future\n\n## Chapter 3: Stress Management Techniques\n\n### Cognitive Strategies\n\n**Cognitive Behavioral Techniques**\nCognitive Behavioral Therapy (CBT) principles can help you identify and change negative thought patterns.\n\n*Common Cognitive Distortions:*\n- All-or-nothing thinking\n- Catastrophizing\n- Mind reading\n- Fortune telling\n- Personalization\n- Should statements\n\n*Cognitive Restructuring Steps:*\n1. Identify the negative thought\n2. Examine the evidence\n3. Consider alternative perspectives\n4. Develop balanced thoughts\n5. Test the new thought\n\n**Mindfulness and Meditation**\nMindfulness involves paying attention to the present moment without judgment.\n\n*Benefits of Mindfulness:*\n- Reduced anxiety and depression\n- Improved emotional regulation\n- Enhanced focus and concentration\n- Better sleep quality\n- Increased self-awareness\n\n*Simple Mindfulness Exercises:*\n- **Breathing Meditation**: Focus on your breath for 5-10 minutes\n- **Body Scan**: Systematically notice sensations throughout your body\n- **Mindful Walking**: Pay attention to each step and your surroundings\n- **Loving-Kindness Meditation**: Send positive thoughts to yourself and others\n\n### Physical Stress Management\n\n**Exercise and Physical Activity**\nRegular exercise is one of the most effective stress management tools.\n\n*Benefits of Exercise for Mental Health:*\n- Releases endorphins (natural mood elevators)\n- Reduces stress hormones\n- Improves sleep quality\n- Boosts self-esteem\n- Provides social interaction opportunities\n\n*Recommended Activities:*\n- Aerobic exercise: 150 minutes moderate or 75 minutes vigorous weekly\n- Strength training: 2-3 times per week\n- Flexibility exercises: Daily stretching or yoga\n- Mind-body exercises: Tai chi, qigong, yoga\n\n**Relaxation Techniques**\n\n*Progressive Muscle Relaxation:*\n1. Tense muscle groups for 5-10 seconds\n2. Release tension and notice the relaxation\n3. Work through all major muscle groups\n4. End with whole-body relaxation\n\n*Deep Breathing Exercises:*\n- **4-7-8 Breathing**: Inhale for 4, hold for 7, exhale for 8\n- **Box Breathing**: Inhale for 4, hold for 4, exhale for 4, hold for 4\n- **Diaphragmatic Breathing**: Breathe deeply into your belly\n\n### Lifestyle Modifications\n\n**Sleep Hygiene**\nQuality sleep is essential for mental health and stress management.\n\n*Sleep Hygiene Tips:*\n- Maintain consistent sleep schedule\n- Create relaxing bedtime routine\n- Keep bedroom cool, dark, and quiet\n- Limit screen time before bed\n- Avoid caffeine and alcohol before sleep\n- Use comfortable mattress and pillows\n\n**Nutrition and Mental Health**\nWhat you eat affects how you feel and think.\n\n*Brain-Healthy Foods:*\n- Omega-3 fatty acids (fish, walnuts, flaxseeds)\n- Complex carbohydrates (whole grains, vegetables)\n- Lean proteins (chicken, beans, tofu)\n- Antioxidant-rich foods (berries, dark chocolate)\n- Probiotics (yogurt, kefir, fermented foods)\n\n*Foods to Limit:*\n- Processed and sugary foods\n- Excessive caffeine\n- Alcohol\n- Trans fats\n- High-sodium foods\n\n**Time Management**\nEffective time management reduces stress and increases productivity.\n\n*Time Management Strategies:*\n- Prioritize tasks using the Eisenhower Matrix\n- Break large projects into smaller steps\n- Use calendars and planning tools\n- Learn to say no to non-essential commitments\n- Delegate when possible\n- Take regular breaks\n\n## Chapter 4: Building Resilience\n\n### What is Resilience?\n\nResilience is the ability to adapt and bounce back from adversity, trauma, tragedy, threats, or significant sources of stress. It's not about avoiding difficulties but learning to cope with them effectively.\n\n**Characteristics of Resilient People:**\n- Emotional awareness and regulation\n- Optimistic outlook\n- Problem-solving skills\n- Strong social connections\n- Sense of purpose and meaning\n- Adaptability and flexibility\n- Self-compassion\n\n### Building Resilience Skills\n\n**Emotional Intelligence**\nEmotional intelligence involves understanding and managing your emotions and those of others.\n\n*Components of Emotional Intelligence:*\n1. **Self-Awareness**: Recognizing your emotions and their effects\n2. **Self-Regulation**: Managing disruptive emotions and impulses\n3. **Motivation**: Being driven to achieve for the sake of achievement\n4. **Empathy**: Understanding others' emotions\n5. **Social Skills**: Managing relationships and building networks\n\n**Developing Emotional Intelligence:**\n- Practice mindfulness and self-reflection\n- Keep an emotion journal\n- Learn to pause before reacting\n- Develop empathy through active listening\n- Practice assertive communication\n\n**Problem-Solving Skills**\nEffective problem-solving reduces stress and builds confidence.\n\n*Problem-Solving Steps:*\n1. Define the problem clearly\n2. Generate multiple solutions\n3. Evaluate pros and cons of each option\n4. Choose the best solution\n5. Implement the solution\n6. Evaluate the results\n\n**Optimism and Positive Thinking**\nOptimism doesn't mean ignoring problems but approaching them with hope and confidence.\n\n*Developing Optimism:*\n- Practice gratitude daily\n- Challenge negative thoughts\n- Focus on what you can control\n- Celebrate small victories\n- Surround yourself with positive people\n- Learn from setbacks\n\n## Chapter 5: Social Support and Relationships\n\n### The Importance of Social Connections\n\nStrong social relationships are crucial for mental health and well-being. People with good social support have:\n- Lower rates of anxiety and depression\n- Higher self-esteem\n- Greater empathy\n- Better immune function\n- Longer life expectancy\n\n### Types of Social Support\n\n**Emotional Support**\n- Empathy, caring, and concern\n- Love and trust\n- Listening and understanding\n\n**Instrumental Support**\n- Practical help and assistance\n- Financial aid\n- Services and resources\n\n**Informational Support**\n- Advice and guidance\n- Information and knowledge\n- Feedback and suggestions\n\n**Appraisal Support**\n- Feedback for self-evaluation\n- Affirmation and encouragement\n- Constructive feedback\n\n### Building and Maintaining Relationships\n\n**Communication Skills**\n- Active listening\n- Expressing emotions clearly\n- Using \"I\" statements\n- Showing empathy\n- Asking open-ended questions\n\n**Conflict Resolution**\n- Address issues early\n- Focus on the problem, not the person\n- Listen to understand, not to win\n- Find common ground\n- Compromise when appropriate\n- Seek professional help if needed\n\n**Setting Boundaries**\n- Identify your limits\n- Communicate boundaries clearly\n- Be consistent in enforcing boundaries\n- Respect others' boundaries\n- Adjust boundaries as needed\n\n## Chapter 6: Recognizing When to Seek Help\n\n### Warning Signs\n\n**When to Consider Professional Help:**\n- Persistent sadness or hopelessness\n- Excessive worry or anxiety\n- Significant changes in sleep or appetite\n- Difficulty functioning at work or school\n- Substance abuse\n- Thoughts of self-harm or suicide\n- Relationship problems\n- Trauma or major life changes\n\n### Types of Mental Health Professionals\n\n**Psychiatrists**\n- Medical doctors specializing in mental health\n- Can prescribe medications\n- Treat severe mental health conditions\n\n**Psychologists**\n- Doctoral-level mental health professionals\n- Provide therapy and psychological testing\n- Cannot prescribe medications (in most states)\n\n**Licensed Clinical Social Workers (LCSW)**\n- Master's-level professionals\n- Provide therapy and case management\n- Focus on social and environmental factors\n\n**Licensed Professional Counselors (LPC)**\n- Master's-level professionals\n- Provide individual, group, and family therapy\n- Specialize in various therapeutic approaches\n\n**Marriage and Family Therapists (MFT)**\n- Specialize in relationship and family issues\n- Provide couples and family therapy\n- Focus on systemic approaches\n\n### Types of Therapy\n\n**Cognitive Behavioral Therapy (CBT)**\n- Focuses on changing negative thought patterns\n- Evidence-based approach\n- Effective for anxiety and depression\n\n**Dialectical Behavior Therapy (DBT)**\n- Combines CBT with mindfulness techniques\n- Effective for emotional regulation\n- Originally developed for borderline personality disorder\n\n**Acceptance and Commitment Therapy (ACT)**\n- Focuses on accepting difficult thoughts and feelings\n- Emphasizes values-based action\n- Uses mindfulness and behavioral strategies\n\n**Eye Movement Desensitization and Reprocessing (EMDR)**\n- Specifically designed for trauma\n- Uses bilateral stimulation\n- Helps process traumatic memories\n\n## Conclusion\n\nMental health is a journey, not a destination. Understanding the fundamentals of mental health empowers you to take proactive steps toward emotional well-being, recognize when help is needed, and support others in their mental health journey.\n\nRemember that seeking help is a sign of strength, not weakness. Mental health conditions are treatable, and recovery is possible. By implementing the strategies outlined in this guide and building a strong support network, you can develop the resilience and skills needed to navigate life's challenges while maintaining good mental health.\n\nTake care of your mental health with the same attention you give to your physical health. Both are essential components of overall well-being and quality of life.\n\n*This educational content is for informational purposes only and should not replace professional mental health treatment. Always consult with qualified mental health professionals for personalized care and treatment.*",
+        "modules": [
+          {
+            "title": "Understanding Mental Health",
+            "duration": "25 min",
+            "type": "video"
+          },
+          {
+            "title": "Stress Management Techniques",
+            "duration": "30 min",
+            "type": "interactive"
+          }
+        ],
+        "resources": [
+          {
+            "title": "Mindfulness Meditation Guide",
+            "type": "video",
+            "url": "https://www.youtube.com/watch?v=ZToicYcHIOU",
+            "description": "10-minute guided mindfulness meditation for beginners",
+            "duration": "10 min",
+            "external": true
+          },
+          {
+            "title": "Mental Health First Aid",
+            "type": "article",
+            "url": "https://www.mentalhealthfirstaid.org/",
+            "description": "Learn how to help someone experiencing a mental health crisis",
+            "external": true
+          },
+          {
+            "title": "Stress Management Workbook",
+            "type": "pdf",
+            "url": "/resources/stress-management-workbook.pdf",
+            "description": "Downloadable workbook with exercises and techniques",
+            "external": false
+          },
+          {
+            "title": "Crisis Text Line",
+            "type": "link",
+            "url": "https://www.crisistextline.org/",
+            "description": "24/7 crisis support via text message",
+            "external": true
+          },
+          {
+            "title": "Anxiety and Depression Research",
+            "type": "article",
+            "url": "https://www.nimh.nih.gov/health/topics/anxiety-disorders",
+            "description": "Latest research from National Institute of Mental Health",
+            "external": true
+          }
+        ]
+      }
+    }
+  ],
+  "categories": [
+    { "id": "all", "name": "All Topics", "count": 8 },
+    { "id": "cardiology", "name": "Cardiology", "count": 1 },
+    { "id": "psychology", "name": "Psychology", "count": 1 },
+    { "id": "nutrition", "name": "Nutrition", "count": 1 },
+    { "id": "prevention", "name": "Prevention", "count": 1 },
+    { "id": "hygiene", "name": "Hygiene", "count": 1 },
+    { "id": "emergency", "name": "Emergency", "count": 2 },
+    { "id": "endocrinology", "name": "Endocrinology", "count": 1 }
+  ],
+  "filters": {
+    "levels": ["Beginner", "Intermediate", "Advanced"],
+    "types": ["course", "video", "interactive", "article", "quiz"],
+    "sources": ["WHO", "CDC", "MoHFW", "Local"],
+    "languages": ["English", "Hindi", "Spanish", "French", "Arabic"]
+  }
+}

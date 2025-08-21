@@ -1,0 +1,97 @@
+[
+  {
+    "id": "DOC045",
+    "name": "Dr. S. Mukherjee",
+    "specialization": "Pediatrics",
+    "hospital_affiliation": "Fortis Hospital, Kolkata",
+    "location": "Kolkata, WB",
+    "ratings": {
+      "hospitality": 5,
+      "service_quality": 4,
+      "treatment_speed": 4,
+      "pricing": 3,
+      "overall": 4
+    },
+    "review_text": "Explains well and very friendly with kids.",
+    "reviewer": "User567",
+    "referral_count": 8,
+    "escalation": false,
+    "timestamp": "2025-08-18T14:30:00Z"
+  },
+  {
+    "id": "DOC046",
+    "name": "Dr. Priya Sharma",
+    "specialization": "Cardiology",
+    "hospital_affiliation": "Apollo Hospital, Kolkata",
+    "location": "Kolkata, WB",
+    "ratings": {
+      "hospitality": 4,
+      "service_quality": 5,
+      "treatment_speed": 4,
+      "pricing": 4,
+      "overall": 4
+    },
+    "review_text": "Very thorough examination and clear treatment plan.",
+    "reviewer": "User890",
+    "referral_count": 15,
+    "escalation": false,
+    "timestamp": "2025-08-16T11:20:00Z"
+  },
+  {
+    "id": "DOC047",
+    "name": "Dr. Rajesh Kumar",
+    "specialization": "Orthopedics",
+    "hospital_affiliation": "AMRI Hospital, Kolkata",
+    "location": "Kolkata, WB",
+    "ratings": {
+      "hospitality": 3,
+      "service_quality": 5,
+      "treatment_speed": 4,
+      "pricing": 4,
+      "overall": 4
+    },
+    "review_text": "Excellent surgeon, successful knee replacement. Highly skilled.",
+    "reviewer": "User303",
+    "referral_count": 20,
+    "escalation": false,
+    "timestamp": "2025-08-14T09:15:00Z"
+  },
+  {
+    "id": "DOC048",
+    "name": "Dr. Anita Das",
+    "specialization": "Gynecology",
+    "hospital_affiliation": "Ruby General Hospital, Kolkata",
+    "location": "Kolkata, WB",
+    "ratings": {
+      "hospitality": 5,
+      "service_quality": 4,
+      "treatment_speed": 3,
+      "pricing": 5,
+      "overall": 4
+    },
+    "review_text": "Very compassionate and understanding. Takes time to listen.",
+    "reviewer": "User404",
+    "referral_count": 12,
+    "escalation": false,
+    "timestamp": "2025-08-13T15:30:00Z"
+  },
+  {
+    "id": "DOC049",
+    "name": "Dr. Vikram Singh",
+    "specialization": "Neurology",
+    "hospital_affiliation": "Medica Superspecialty Hospital, Kolkata",
+    "location": "Kolkata, WB",
+    "ratings": {
+      "hospitality": 4,
+      "service_quality": 5,
+      "treatment_speed": 5,
+      "pricing": 2,
+      "overall": 4
+    },
+    "review_text": "Top neurologist but consultation fees are very high.",
+    "reviewer": "User505",
+    "referral_count": 18,
+    "escalation": false,
+    "timestamp": "2025-08-12T10:45:00Z"
+  }
+]

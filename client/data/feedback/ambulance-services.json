@@ -1,0 +1,34 @@
+[
+  {
+    "id": "AMB003",
+    "service_name": "QuickRescue Ambulance",
+    "location": "Kolkata Metro Area",
+    "ratings": {
+      "response_time": 4,
+      "service_quality": 3,
+      "pricing": 3,
+      "overall": 3
+    },
+    "review_text": "Arrived in 15 minutes, but the vehicle condition was poor.",
+    "reviewer": "User321",
+    "referral_count": 2,
+    "escalation": true,
+    "timestamp": "2025-08-14T07:55:00Z"
+  },
+  {
+    "id": "AMB004",
+    "service_name": "LifeLine Ambulance",
+    "location": "Kolkata Metro Area",
+    "ratings": {
+      "response_time": 5,
+      "service_quality": 4,
+      "pricing": 4,
+      "overall": 4
+    },
+    "review_text": "Very quick response and well-equipped ambulance.",
+    "reviewer": "User654",
+    "referral_count": 11,
+    "escalation": false,
+    "timestamp": "2025-08-13T19:30:00Z"
+  }
+]

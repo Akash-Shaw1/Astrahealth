@@ -1,0 +1,92 @@
+[
+  {
+    "id": "HOSP001",
+    "name": "Apollo Hospital",
+    "location": "Kolkata, WB",
+    "services": ["Cardiology", "Emergency", "Orthopedics"],
+    "ratings": {
+      "hospitality": 4,
+      "service_quality": 5,
+      "treatment_speed": 3,
+      "pricing": 4,
+      "overall": 4
+    },
+    "review_text": "Good doctors but waiting time was long.",
+    "reviewer": "User123",
+    "referral_count": 12,
+    "escalation": false,
+    "timestamp": "2025-08-19T10:15:00Z"
+  },
+  {
+    "id": "HOSP002",
+    "name": "Fortis Hospital",
+    "location": "Salt Lake, Kolkata",
+    "services": ["Neurology", "Oncology", "Pediatrics"],
+    "ratings": {
+      "hospitality": 5,
+      "service_quality": 4,
+      "treatment_speed": 4,
+      "pricing": 3,
+      "overall": 4
+    },
+    "review_text": "Excellent care and very professional staff. Highly recommended.",
+    "reviewer": "User456",
+    "referral_count": 18,
+    "escalation": false,
+    "timestamp": "2025-08-18T14:30:00Z"
+  },
+  {
+    "id": "HOSP003",
+    "name": "AMRI Hospital",
+    "location": "Dhakuria, Kolkata",
+    "services": ["Emergency", "ICU", "Surgery"],
+    "ratings": {
+      "hospitality": 3,
+      "service_quality": 4,
+      "treatment_speed": 5,
+      "pricing": 4,
+      "overall": 4
+    },
+    "review_text": "Quick emergency response but could improve patient comfort.",
+    "reviewer": "User789",
+    "referral_count": 8,
+    "escalation": true,
+    "timestamp": "2025-08-17T09:45:00Z"
+  },
+  {
+    "id": "HOSP004",
+    "name": "Ruby General Hospital",
+    "location": "Kasba, Kolkata",
+    "services": ["Maternity", "General Medicine", "Pathology"],
+    "ratings": {
+      "hospitality": 4,
+      "service_quality": 4,
+      "treatment_speed": 3,
+      "pricing": 5,
+      "overall": 4
+    },
+    "review_text": "Affordable healthcare with good quality services. Staff is caring.",
+    "reviewer": "User101",
+    "referral_count": 14,
+    "escalation": false,
+    "timestamp": "2025-08-16T12:20:00Z"
+  },
+  {
+    "id": "HOSP005",
+    "name": "Medica Superspecialty Hospital",
+    "location": "Mukundapur, Kolkata",
+    "services": ["Cardiology", "Neurosurgery", "Transplant"],
+    "ratings": {
+      "hospitality": 5,
+      "service_quality": 5,
+      "treatment_speed": 4,
+      "pricing": 2,
+      "overall": 4
+    },
+    "review_text": "World-class facilities and expert doctors, but very expensive.",
+    "reviewer": "User202",
+    "referral_count": 22,
+    "escalation": false,
+    "timestamp": "2025-08-15T16:45:00Z"
+  }
+]

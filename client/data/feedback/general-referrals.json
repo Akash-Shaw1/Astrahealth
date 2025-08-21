@@ -1,0 +1,26 @@
+[
+  {
+    "id": "REF001",
+    "entity_type": "Hospital",
+    "entity_id": "HOSP001",
+    "referrer": "User111",
+    "reason": "Excellent cardiology department, recommended to friends.",
+    "escalation": {
+      "status": false,
+      "reason": ""
+    },
+    "timestamp": "2025-08-16T16:00:00Z"
+  },
+  {
+    "id": "REF002",
+    "entity_type": "Doctor",
+    "entity_id": "DOC045",
+    "referrer": "User222",
+    "reason": "Great with children, very patient and understanding.",
+    "escalation": {
+      "status": false,
+      "reason": ""
+    },
+    "timestamp": "2025-08-15T12:45:00Z"
+  }
+]

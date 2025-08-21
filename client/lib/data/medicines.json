@@ -1,0 +1,223 @@
+{
+  "currentMedicines": [
+    {
+      "id": "med_001",
+      "name": "Lisinopril",
+      "genericName": "Lisinopril",
+      "brand": "Prinivil",
+      "strength": "10mg",
+      "form": "tablet",
+      "purpose": "Blood pressure control",
+      "dosageInstructions": "Take 1 tablet once daily",
+      "frequency": "once daily",
+      "timing": "morning",
+      "mealTiming": "with or without food",
+      "startDate": "2024-01-15",
+      "endDate": "2025-01-15",
+      "remainingDoses": 45,
+      "totalDoses": 365,
+      "reminderEnabled": true,
+      "reminderTimes": ["08:00"],
+      "precautions": [
+        "Monitor blood pressure regularly",
+        "Avoid potassium supplements",
+        "Rise slowly from sitting/lying position"
+      ],
+      "sideEffects": ["Dizziness", "Dry cough", "Headache", "Fatigue"],
+      "contraindications": ["Pregnancy", "Angioedema history", "Bilateral renal artery stenosis"],
+      "missedDoseInstructions": "Take as soon as you remember, unless it's almost time for your next dose",
+      "practicalTips": ["Take at the same time each day", "Don't stop suddenly without consulting doctor"],
+      "addedDate": "2024-01-15T10:30:00Z",
+      "addedBy": "prescription_scan",
+      "prescriptionImageRef": "prescription_001.jpg",
+      "isActive": true
+    },
+    {
+      "id": "med_002",
+      "name": "Metformin",
+      "genericName": "Metformin HCl",
+      "brand": "Glucophage",
+      "strength": "500mg",
+      "form": "tablet",
+      "purpose": "Type 2 diabetes management",
+      "dosageInstructions": "Take 1 tablet twice daily with meals",
+      "frequency": "twice daily",
+      "timing": "morning and evening",
+      "mealTiming": "with food",
+      "startDate": "2024-02-01",
+      "endDate": "2025-02-01",
+      "remainingDoses": 120,
+      "totalDoses": 730,
+      "reminderEnabled": true,
+      "reminderTimes": ["08:00", "18:00"],
+      "precautions": [
+        "Monitor blood sugar levels",
+        "Stay hydrated",
+        "Inform doctor before any surgery or X-rays with contrast"
+      ],
+      "sideEffects": ["Nausea", "Diarrhea", "Stomach upset", "Metallic taste"],
+      "contraindications": ["Severe kidney disease", "Liver disease", "Heart failure"],
+      "missedDoseInstructions": "Take with your next meal, don't double dose",
+      "practicalTips": ["Take with food to reduce stomach upset", "Regular blood tests needed"],
+      "addedDate": "2024-02-01T14:20:00Z",
+      "addedBy": "manual_entry",
+      "isActive": true
+    },
+    {
+      "id": "med_003",
+      "name": "Atorvastatin",
+      "genericName": "Atorvastatin Calcium",
+      "brand": "Lipitor",
+      "strength": "20mg",
+      "form": "tablet",
+      "purpose": "Cholesterol management",
+      "dosageInstructions": "Take 1 tablet once daily in the evening",
+      "frequency": "once daily",
+      "timing": "evening",
+      "mealTiming": "with or without food",
+      "startDate": "2024-03-10",
+      "endDate": "2025-03-10",
+      "remainingDoses": 180,
+      "totalDoses": 365,
+      "reminderEnabled": true,
+      "reminderTimes": ["20:00"],
+      "precautions": ["Avoid grapefruit juice", "Regular liver function tests", "Report muscle pain immediately"],
+      "sideEffects": ["Muscle pain", "Headache", "Nausea", "Diarrhea"],
+      "contraindications": ["Active liver disease", "Pregnancy", "Breastfeeding"],
+      "missedDoseInstructions": "Take as soon as you remember, skip if almost time for next dose",
+      "practicalTips": ["Take at bedtime for best effect", "Avoid grapefruit products"],
+      "addedDate": "2024-03-10T16:45:00Z",
+      "addedBy": "pill_identifier",
+      "pillImageRef": "pill_003.jpg",
+      "isActive": true
+    },
+    {
+      "id": "med_004",
+      "name": "Omeprazole",
+      "genericName": "Omeprazole",
+      "brand": "Prilosec",
+      "strength": "20mg",
+      "form": "capsule",
+      "purpose": "Acid reflux and GERD treatment",
+      "dosageInstructions": "Take 1 capsule once daily before breakfast",
+      "frequency": "once daily",
+      "timing": "morning",
+      "mealTiming": "30 minutes before food",
+      "startDate": "2024-04-05",
+      "endDate": "2024-10-05",
+      "remainingDoses": 25,
+      "totalDoses": 180,
+      "reminderEnabled": true,
+      "reminderTimes": ["07:30"],
+      "precautions": [
+        "Don't crush or chew capsules",
+        "May affect absorption of other medications",
+        "Long-term use may affect bone health"
+      ],
+      "sideEffects": ["Headache", "Nausea", "Diarrhea", "Stomach pain"],
+      "contraindications": ["Allergy to proton pump inhibitors"],
+      "missedDoseInstructions": "Take as soon as you remember, but not if it's almost time for your next dose",
+      "practicalTips": ["Take on empty stomach for best effect", "Swallow whole, don't chew"],
+      "addedDate": "2024-04-05T09:15:00Z",
+      "addedBy": "prescription_scan",
+      "prescriptionImageRef": "prescription_004.jpg",
+      "isActive": true
+    },
+    {
+      "id": "med_005",
+      "name": "Vitamin D3",
+      "genericName": "Cholecalciferol",
+      "brand": "Nature Made",
+      "strength": "2000 IU",
+      "form": "softgel",
+      "purpose": "Vitamin D deficiency prevention",
+      "dosageInstructions": "Take 1 softgel once daily with food",
+      "frequency": "once daily",
+      "timing": "morning",
+      "mealTiming": "with food",
+      "startDate": "2024-05-01",
+      "endDate": "2025-05-01",
+      "remainingDoses": 200,
+      "totalDoses": 365,
+      "reminderEnabled": false,
+      "reminderTimes": ["09:00"],
+      "precautions": ["Regular blood tests to monitor vitamin D levels", "Don't exceed recommended dose"],
+      "sideEffects": ["Rare: nausea, vomiting if overdosed"],
+      "contraindications": ["Hypercalcemia", "Kidney stones"],
+      "missedDoseInstructions": "Take as soon as you remember, or skip if close to next dose",
+      "practicalTips": ["Take with fatty food for better absorption", "Store in cool, dry place"],
+      "addedDate": "2024-05-01T11:00:00Z",
+      "addedBy": "manual_entry",
+      "isActive": true
+    }
+  ],
+  "pastRecords": [
+    {
+      "id": "record_001",
+      "type": "prescription_scan",
+      "date": "2024-01-15T10:30:00Z",
+      "description": "Imported prescription from Dr. Smith",
+      "imageRef": "prescription_001.jpg",
+      "extractedMedicines": [
+        {
+          "name": "Lisinopril 10mg",
+          "confidence": 0.95,
+          "added": true
+        }
+      ],
+      "changes": [
+        {
+          "action": "added",
+          "medicine": "Lisinopril 10mg",
+          "timestamp": "2024-01-15T10:35:00Z"
+        }
+      ]
+    },
+    {
+      "id": "record_002",
+      "type": "pill_identification",
+      "date": "2024-03-10T16:45:00Z",
+      "description": "Identified white oval pill",
+      "imageRef": "pill_003.jpg",
+      "identifiedMedicine": {
+        "name": "Atorvastatin 20mg",
+        "confidence": 0.88,
+        "added": true
+      },
+      "changes": [
+        {
+          "action": "added",
+          "medicine": "Atorvastatin 20mg",
+          "timestamp": "2024-03-10T16:50:00Z"
+        }
+      ]
+    },
+    {
+      "id": "record_003",
+      "type": "medicine_completed",
+      "date": "2024-07-20T14:20:00Z",
+      "description": "Completed Ibuprofen course",
+      "completedMedicine": {
+        "id": "med_old_001",
+        "name": "Ibuprofen 400mg",
+        "reason": "Course completed"
+      }
+    },
+    {
+      "id": "record_004",
+      "type": "dosage_update",
+      "date": "2024-06-15T10:15:00Z",
+      "description": "Updated Metformin dosage",
+      "changes": [
+        {
+          "action": "updated",
+          "medicine": "Metformin",
+          "field": "dosage",
+          "oldValue": "500mg once daily",
+          "newValue": "500mg twice daily",
+          "timestamp": "2024-06-15T10:15:00Z"
+        }
+      ]
+    }
+  ]
+}

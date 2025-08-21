@@ -1,0 +1,107 @@
+{
+  "campaigns": [
+    {
+      "id": "1",
+      "type": "IMD",
+      "title": "COVID-19 Booster Drive",
+      "description": "Third dose vaccination campaign for eligible adults and high-risk individuals",
+      "organiser": "Chennai Health Department",
+      "location": "Government General Hospital, Park Town",
+      "startDate": "2024-08-25",
+      "endDate": "2024-09-15",
+      "capacity": 500,
+      "registeredUsers": 342,
+      "registrationRequired": true,
+      "vaccines": ["Covishield", "Covaxin", "Sputnik V"],
+      "contactInfo": {
+        "phone": "+91-44-2819-3000",
+        "email": "covid.vaccination@chennaihealth.gov.in"
+      }
+    },
+    {
+      "id": "2",
+      "type": "FHC",
+      "title": "Annual Health Checkup Camp",
+      "description": "Comprehensive health screening including blood tests, ECG, and general consultation",
+      "organiser": "Apollo Hospitals",
+      "location": "Community Center, T. Nagar",
+      "startDate": "2024-09-01",
+      "endDate": "2024-09-03",
+      "capacity": 200,
+      "registeredUsers": 156,
+      "registrationRequired": true,
+      "contactInfo": {
+        "phone": "+91-44-2829-3333",
+        "email": "healthcamp@apollohospitals.com"
+      }
+    },
+    {
+      "id": "3",
+      "type": "MHC",
+      "title": "Mental Wellness Workshop",
+      "description": "Stress management and mental health awareness session with counseling services",
+      "organiser": "NIMHANS Outreach Program",
+      "location": "Anna University Auditorium",
+      "startDate": "2024-08-30",
+      "endDate": "2024-08-30",
+      "registeredUsers": 89,
+      "registrationRequired": false,
+      "contactInfo": {
+        "phone": "+91-80-2699-5000",
+        "email": "outreach@nimhans.ac.in"
+      }
+    },
+    {
+      "id": "4",
+      "type": "BDC",
+      "title": "Emergency Blood Donation Drive",
+      "description": "Urgent blood collection drive to support thalassemia patients and emergency cases",
+      "organiser": "Indian Red Cross Society",
+      "location": "Express Avenue Mall, Royapettah",
+      "startDate": "2024-08-28",
+      "endDate": "2024-08-29",
+      "capacity": 150,
+      "registeredUsers": 67,
+      "registrationRequired": true,
+      "contactInfo": {
+        "phone": "+91-44-2434-4000",
+        "email": "blooddrive@redcrosschennai.org"
+      }
+    },
+    {
+      "id": "5",
+      "type": "WPC",
+      "title": "Diabetes Prevention Program",
+      "description": "Educational workshop on diabetes prevention, nutrition counseling, and lifestyle modifications",
+      "organiser": "Madras Diabetes Research Foundation",
+      "location": "MDRF Center, Gopalapuram",
+      "startDate": "2024-09-05",
+      "endDate": "2024-09-07",
+      "capacity": 100,
+      "registeredUsers": 78,
+      "registrationRequired": true,
+      "contactInfo": {
+        "phone": "+91-44-2835-9048",
+        "email": "prevention@mdrf.in"
+      }
+    },
+    {
+      "id": "6",
+      "type": "IMD",
+      "title": "Hepatitis B Vaccination Camp",
+      "description": "Free Hepatitis B vaccination for healthcare workers and high-risk groups",
+      "organiser": "Tamil Nadu Medical Services Corporation",
+      "location": "Primary Health Center, Adyar",
+      "startDate": "2024-09-10",
+      "endDate": "2024-09-12",
+      "capacity": 300,
+      "registeredUsers": 198,
+      "registrationRequired": true,
+      "vaccines": ["Hepatitis B Vaccine"],
+      "contactInfo": {
+        "phone": "+91-44-2441-1411",
+        "email": "hepatitis.camp@tnmsc.gov.in"
+      }
+    }
+  ]
+}

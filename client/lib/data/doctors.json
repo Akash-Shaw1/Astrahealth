@@ -1,0 +1,116 @@
+[
+  {
+    "id": "doc-001",
+    "name": "Dr. Sarah Johnson",
+    "specialty": "Cardiologist",
+    "avatar": "/female-doctor.png",
+    "rating": 4.9,
+    "experience": 12,
+    "education": "MD from Harvard Medical School",
+    "languages": ["English", "Spanish"],
+    "availability": {
+      "monday": ["09:00", "10:00", "11:00", "14:00", "15:00", "16:00"],
+      "tuesday": ["09:00", "10:00", "11:00", "14:00", "15:00"],
+      "wednesday": ["09:00", "10:00", "14:00", "15:00", "16:00"],
+      "thursday": ["09:00", "10:00", "11:00", "14:00", "15:00", "16:00"],
+      "friday": ["09:00", "10:00", "11:00", "14:00", "15:00"]
+    },
+    "consultationFee": 150,
+    "bio": "Experienced cardiologist specializing in preventive cardiology and heart disease management."
+  },
+  {
+    "id": "doc-002",
+    "name": "Dr. Michael Chen",
+    "specialty": "General Practitioner",
+    "avatar": "/male-doctor.png",
+    "rating": 4.8,
+    "experience": 8,
+    "education": "MD from Johns Hopkins University",
+    "languages": ["English", "Mandarin"],
+    "availability": {
+      "monday": ["08:00", "09:00", "10:00", "11:00", "13:00", "14:00", "15:00"],
+      "tuesday": ["08:00", "09:00", "10:00", "11:00", "13:00", "14:00"],
+      "wednesday": ["08:00", "09:00", "10:00", "13:00", "14:00", "15:00"],
+      "thursday": ["08:00", "09:00", "10:00", "11:00", "13:00", "14:00", "15:00"],
+      "friday": ["08:00", "09:00", "10:00", "11:00", "13:00", "14:00"]
+    },
+    "consultationFee": 120,
+    "bio": "General practitioner with expertise in family medicine and preventive healthcare."
+  },
+  {
+    "id": "doc-003",
+    "name": "Dr. Emily Rodriguez",
+    "specialty": "Dermatologist",
+    "avatar": "/emma-hayes-doctor.png",
+    "rating": 4.9,
+    "experience": 10,
+    "education": "MD from Stanford University",
+    "languages": ["English", "Spanish", "Portuguese"],
+    "availability": {
+      "monday": ["10:00", "11:00", "14:00", "15:00", "16:00"],
+      "tuesday": ["10:00", "11:00", "14:00", "15:00", "16:00"],
+      "wednesday": ["10:00", "11:00", "14:00", "15:00"],
+      "thursday": ["10:00", "11:00", "14:00", "15:00", "16:00"],
+      "friday": ["10:00", "11:00", "14:00", "15:00"]
+    },
+    "consultationFee": 180,
+    "bio": "Board-certified dermatologist specializing in medical and cosmetic dermatology."
+  },
+  {
+    "id": "doc-004",
+    "name": "Dr. James Wilson",
+    "specialty": "Orthopedist",
+    "avatar": "/male-doctor-glasses.png",
+    "rating": 4.7,
+    "experience": 15,
+    "education": "MD from Mayo Clinic College of Medicine",
+    "languages": ["English"],
+    "availability": {
+      "monday": ["09:00", "10:00", "11:00", "15:00", "16:00"],
+      "tuesday": ["09:00", "10:00", "11:00", "15:00", "16:00"],
+      "wednesday": ["09:00", "10:00", "15:00", "16:00"],
+      "thursday": ["09:00", "10:00", "11:00", "15:00", "16:00"],
+      "friday": ["09:00", "10:00", "11:00", "15:00"]
+    },
+    "consultationFee": 200,
+    "bio": "Orthopedic surgeon with specialization in sports medicine and joint replacement."
+  },
+  {
+    "id": "doc-005",
+    "name": "Dr. Lisa Park",
+    "specialty": "Endocrinologist",
+    "avatar": "/female-doctor.png",
+    "rating": 4.8,
+    "experience": 9,
+    "education": "MD from University of California, San Francisco",
+    "languages": ["English", "Korean"],
+    "availability": {
+      "monday": ["08:00", "09:00", "10:00", "14:00", "15:00"],
+      "tuesday": ["08:00", "09:00", "10:00", "14:00", "15:00"],
+      "wednesday": ["08:00", "09:00", "14:00", "15:00"],
+      "thursday": ["08:00", "09:00", "10:00", "14:00", "15:00"],
+      "friday": ["08:00", "09:00", "10:00", "14:00"]
+    },
+    "consultationFee": 170,
+    "bio": "Endocrinologist specializing in diabetes management and hormonal disorders."
+  },
+  {
+    "id": "doc-006",
+    "name": "Dr. Robert Taylor",
+    "specialty": "Psychiatrist",
+    "avatar": "/male-doctor.png",
+    "rating": 4.6,
+    "experience": 11,
+    "education": "MD from Columbia University",
+    "languages": ["English", "French"],
+    "availability": {
+      "monday": ["10:00", "11:00", "14:00", "15:00", "16:00", "17:00"],
+      "tuesday": ["10:00", "11:00", "14:00", "15:00", "16:00"],
+      "wednesday": ["10:00", "11:00", "14:00", "15:00", "16:00", "17:00"],
+      "thursday": ["10:00", "11:00", "14:00", "15:00", "16:00"],
+      "friday": ["10:00", "11:00", "14:00", "15:00"]
+    },
+    "consultationFee": 160,
+    "bio": "Psychiatrist with expertise in anxiety disorders, depression, and cognitive behavioral therapy."
+  }
+]

@@ -1,0 +1,38 @@
+[
+  {
+    "id": "TST078",
+    "center_name": "DiagnoPlus Labs",
+    "location": "South Kolkata",
+    "services": ["Blood Test", "X-Ray", "MRI"],
+    "ratings": {
+      "hospitality": 3,
+      "service_quality": 4,
+      "treatment_speed": 5,
+      "pricing": 4,
+      "overall": 4
+    },
+    "review_text": "Quick blood test reports, reasonable pricing.",
+    "reviewer": "User789",
+    "referral_count": 6,
+    "escalation": false,
+    "timestamp": "2025-08-15T11:20:00Z"
+  },
+  {
+    "id": "TST079",
+    "center_name": "PathLab Diagnostics",
+    "location": "Ballygunge, Kolkata",
+    "services": ["Blood Test", "Urine Test", "ECG"],
+    "ratings": {
+      "hospitality": 4,
+      "service_quality": 5,
+      "treatment_speed": 4,
+      "pricing": 3,
+      "overall": 4
+    },
+    "review_text": "Accurate results and professional staff.",
+    "reviewer": "User456",
+    "referral_count": 9,
+    "escalation": false,
+    "timestamp": "2025-08-14T08:15:00Z"
+  }
+]
