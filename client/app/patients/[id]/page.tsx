@@ -29,76 +29,70 @@ import DashboardLayout from "@/components/dashboard-layout"
 // Mock patient data - in real app this would come from API
 const patientData = {
   id: 1,
-  name: "Olivia Carter",
-  age: 27,
-  dateOfBirth: "March 15, 1997",
-  gender: "Female",
-  diagnosis: "Mild Hypertension",
-  avatar: "/generic-hospital-patient.png",
-  phone: "+1 (555) 123-4567",
-  email: "olivia.carter@email.com",
-  address: "123 Main St, Apartment 4B, New York, NY 10001",
+  name: "Arindam Chatterjee",
+  age: 52,
+  dateOfBirth: "April 12, 1973",
+  gender: "Male",
+  diagnosis: "Hypertension",
+  avatar: "/patient-arindam.png",
+  phone: "+91 98301 23456",
+  email: "arindam.chatterjee@email.com",
+  address: "Flat 3B, Lake Gardens, Kolkata, WB 700045",
   emergencyContact: {
-    name: "John Carter",
-    relationship: "Father",
-    phone: "+1 (555) 987-6543",
+    name: "Madhumita Chatterjee",
+    relationship: "Wife",
+    phone: "+91 98740 56789",
   },
-  insurance: "Blue Cross Blue Shield",
-  allergies: ["Penicillin", "Shellfish"],
-  medications: ["Lisinopril 10mg", "Metformin 500mg"],
-  lastVisit: "December 19, 2024",
-  nextAppointment: "January 15, 2025",
+  insurance: "Star Health Insurance",
+  allergies: ["None"],
+  medications: ["Telmisartan 40mg", "Amlodipine 5mg"],
+  lastVisit: "July 28, 2025",
+  nextAppointment: "August 25, 2025",
   status: "Active",
 }
 
+// Father (Arindam) Vitals
 const vitalSigns = [
-  { date: "Dec 15", heartRate: 108, bloodPressure: 142, temperature: 98.6, weight: 135 },
-  { date: "Dec 16", heartRate: 112, bloodPressure: 145, temperature: 98.4, weight: 135 },
-  { date: "Dec 17", heartRate: 105, bloodPressure: 138, temperature: 98.7, weight: 134 },
-  { date: "Dec 18", heartRate: 110, bloodPressure: 140, temperature: 98.5, weight: 134 },
-  { date: "Dec 19", heartRate: 112, bloodPressure: 140, temperature: 98.6, weight: 135 },
+  { date: "Aug 20", heartRate: 88, bloodPressure: 142, temperature: 98.4, weight: 74 },
+  { date: "Aug 21", heartRate: 92, bloodPressure: 145, temperature: 98.5, weight: 74 },
+  { date: "Aug 22", heartRate: 86, bloodPressure: 140, temperature: 98.6, weight: 73 },
+  { date: "Aug 23", heartRate: 90, bloodPressure: 144, temperature: 98.5, weight: 73 },
+  { date: "Aug 24", heartRate: 87, bloodPressure: 141, temperature: 98.6, weight: 73 },
 ]
 
+// Father (Arindam) BP Logs
 const bloodPressureData = [
-  { date: "Dec 15", systolic: 142, diastolic: 90 },
-  { date: "Dec 16", systolic: 145, diastolic: 92 },
-  { date: "Dec 17", systolic: 138, diastolic: 88 },
-  { date: "Dec 18", systolic: 140, diastolic: 90 },
-  { date: "Dec 19", systolic: 140, diastolic: 90 },
+  { date: "Aug 20", systolic: 142, diastolic: 92 },
+  { date: "Aug 21", systolic: 145, diastolic: 94 },
+  { date: "Aug 22", systolic: 140, diastolic: 90 },
+  { date: "Aug 23", systolic: 144, diastolic: 91 },
+  { date: "Aug 24", systolic: 141, diastolic: 89 },
 ]
+
 
 const medicalHistory = [
   {
     id: 1,
-    date: "Dec 19, 2024",
-    type: "Consultation",
-    doctor: "Dr. Ethan Carter",
+    date: "Jul 28, 2025",
+    type: "Follow-up",
+    doctor: "Dr. Anirban Dutta",
     specialty: "Cardiologist",
-    diagnosis: "Hypertension monitoring",
-    notes: "Blood pressure stable, continue current medication",
-    documents: ["Blood_Test_Results.pdf", "ECG_Report.pdf"],
+    diagnosis: "Hypertension stable",
+    notes: "Continue Telmisartan, added Amlodipine for better control",
+    documents: ["BP_Monitoring.pdf", "Blood_Test_Results.pdf"],
   },
   {
     id: 2,
-    date: "Nov 15, 2024",
-    type: "Follow-up",
-    doctor: "Dr. Sarah Johnson",
-    specialty: "General Practitioner",
-    diagnosis: "Routine checkup",
-    notes: "Overall health good, recommended lifestyle changes",
-    documents: ["General_Checkup.pdf"],
-  },
-  {
-    id: 3,
-    date: "Oct 10, 2024",
-    type: "Initial Consultation",
-    doctor: "Dr. Ethan Carter",
+    date: "Jun 12, 2025",
+    type: "Consultation",
+    doctor: "Dr. Anirban Dutta",
     specialty: "Cardiologist",
-    diagnosis: "Mild Hypertension diagnosis",
-    notes: "Started on Lisinopril 10mg daily",
-    documents: ["Initial_Assessment.pdf", "Treatment_Plan.pdf"],
+    diagnosis: "Elevated blood pressure",
+    notes: "Increased Telmisartan dosage, advised lifestyle changes",
+    documents: ["ECG_Report.pdf"],
   },
 ]
+
 
 export default function PatientDetailsPage({ params }: { params: { id: string } }) {
   const [activeTab, setActiveTab] = useState("overview")

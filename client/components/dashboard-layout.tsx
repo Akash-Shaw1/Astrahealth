@@ -22,6 +22,7 @@ import {
   Menu,
   X,
   Activity,
+  Hospital,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -54,6 +55,12 @@ const navigationItems = [
     icon: Video,
     href: "/consultations",
     label: "E-Consultations",
+    category: "health",
+  },
+  {
+    icon: Hospital,
+    href: "/hospitals",
+    label: "Hospitals",
     category: "health",
   },
   {

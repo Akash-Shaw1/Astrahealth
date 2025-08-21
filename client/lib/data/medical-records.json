@@ -1,119 +1,168 @@
 [
   {
     "id": "record-001",
-    "consultationId": "cons-002",
-    "doctorId": "doc-002",
-    "patientName": "John Doe",
-    "date": "2024-12-20",
-    "type": "Consultation Report",
-    "title": "Annual Health Checkup - December 2024",
-    "summary": "Comprehensive health assessment showing overall good health with recommendations for lifestyle improvements.",
+    "consultationId": "cons-011",
+    "doctorId": "doc-001",
+    "patientName": "Rohit Sharma",
+    "date": "2025-08-12",
+    "type": "Cardiology Report",
+    "title": "Routine Cardiac Checkup - August 2025",
+    "summary": "Follow-up consultation showed stable blood pressure and good response to lifestyle changes.",
     "details": {
       "vitals": {
-        "bloodPressure": "120/80",
-        "heartRate": "72 bpm",
-        "temperature": "98.6°F",
-        "weight": "175 lbs",
-        "height": "5'10\""
+        "bloodPressure": "128/84",
+        "heartRate": "76 bpm",
+        "weight": "78 kg"
       },
       "findings": [
-        "Blood pressure within normal range",
-        "Heart rate regular and strong",
-        "No abnormal findings on physical examination",
-        "BMI within healthy range"
+        "Blood pressure slightly elevated but controlled",
+        "Heart sounds normal, no murmurs",
+        "ECG normal sinus rhythm"
       ],
       "recommendations": [
-        "Continue regular exercise routine",
-        "Maintain balanced diet",
-        "Annual follow-up recommended",
-        "Consider vitamin D supplementation"
+        "Reduce salt intake",
+        "Continue regular morning walks",
+        "Follow-up in 6 months"
       ]
     },
     "prescription": {
       "medications": [
         {
-          "name": "Vitamin D3",
-          "dosage": "1000 IU daily",
-          "duration": "3 months",
-          "instructions": "Take with food"
+          "name": "Telmisartan",
+          "dosage": "40mg once daily",
+          "duration": "Ongoing",
+          "instructions": "Take in the morning after breakfast"
         }
       ]
     },
-    "attachments": ["blood_test_results.pdf", "chest_xray.jpg"],
-    "createdAt": "2024-12-20T10:30:00Z"
+    "attachments": ["ecg_aug2025.pdf"],
+    "createdAt": "2025-08-12T10:15:00Z"
   },
   {
     "id": "record-002",
-    "consultationId": "cons-003",
-    "doctorId": "doc-003",
-    "patientName": "John Doe",
-    "date": "2024-12-18",
-    "type": "Dermatology Report",
-    "title": "Skin Condition Assessment - Eczema Treatment",
-    "summary": "Diagnosed with mild eczema on arms. Prescribed topical corticosteroid treatment.",
+    "consultationId": "cons-012",
+    "doctorId": "doc-009",
+    "patientName": "Rohit Sharma",
+    "date": "2025-07-30",
+    "type": "Gynecology Report",
+    "title": "Family Planning Consultation",
+    "summary": "Consultation regarding family planning and fertility check. Routine tests advised.",
     "details": {
-      "diagnosis": "Atopic Dermatitis (Eczema)",
-      "severity": "Mild to Moderate",
-      "affectedAreas": ["Both arms", "Inner elbows"],
-      "symptoms": ["Redness and inflammation", "Itching and irritation", "Dry, scaly patches"],
-      "treatment": ["Topical corticosteroid application", "Moisturizing routine", "Avoid known triggers"]
+      "diagnosis": "General fertility evaluation",
+      "testsRecommended": ["Ultrasound pelvis", "Hormone profile", "Semen analysis (spouse)"],
+      "observations": [
+        "Patient in good health",
+        "No gynecological issues identified during physical exam"
+      ],
+      "recommendations": [
+        "Balanced diet with iron supplements",
+        "Routine hormone testing",
+        "Follow-up after test results"
+      ]
     },
     "prescription": {
       "medications": [
         {
-          "name": "Hydrocortisone Cream 1%",
-          "dosage": "Apply thin layer",
-          "duration": "2 weeks",
-          "instructions": "Apply twice daily to affected areas"
-        },
-        {
-          "name": "Cetaphil Moisturizer",
-          "dosage": "As needed",
-          "duration": "Ongoing",
-          "instructions": "Apply after bathing and throughout the day"
+          "name": "Folic Acid",
+          "dosage": "5mg daily",
+          "duration": "3 months",
+          "instructions": "Take after dinner"
         }
       ]
     },
-    "attachments": ["skin_photos.jpg"],
-    "followUp": "2024-12-32",
-    "createdAt": "2024-12-18T16:45:00Z"
+    "attachments": ["ultrasound_requisition.pdf"],
+    "createdAt": "2025-07-30T11:45:00Z"
   },
   {
     "id": "record-003",
-    "consultationId": "cons-001",
-    "doctorId": "doc-001",
-    "patientName": "John Doe",
-    "date": "2024-11-15",
-    "type": "Cardiology Report",
-    "title": "Hypertension Management - Initial Assessment",
-    "summary": "Initial diagnosis of mild hypertension. Started on ACE inhibitor therapy with lifestyle modifications.",
+    "consultationId": "cons-013",
+    "doctorId": "doc-003",
+    "patientName": "Rohit Sharma",
+    "date": "2025-07-15",
+    "type": "Dermatology Report",
+    "title": "Skin Allergy Assessment",
+    "summary": "Patient reported itchy rashes on forearm after monsoon exposure. Mild fungal infection diagnosed.",
     "details": {
-      "diagnosis": "Essential Hypertension (Stage 1)",
-      "vitals": {
-        "bloodPressure": "145/92",
-        "heartRate": "78 bpm",
-        "weight": "178 lbs"
-      },
-      "riskFactors": ["Family history of hypertension", "Sedentary lifestyle", "High sodium diet"],
-      "treatment": [
-        "ACE inhibitor medication",
-        "Dietary modifications",
-        "Regular exercise program",
-        "Stress management techniques"
-      ]
+      "diagnosis": "Tinea Corporis (Fungal skin infection)",
+      "affectedAreas": ["Right forearm"],
+      "symptoms": ["Red circular rash", "Itching", "Mild scaling"],
+      "treatment": ["Topical antifungal cream", "Keep area dry", "Avoid sharing towels"]
     },
     "prescription": {
       "medications": [
         {
-          "name": "Lisinopril",
+          "name": "Clotrimazole Cream",
+          "dosage": "Apply thin layer",
+          "duration": "3 weeks",
+          "instructions": "Apply twice daily"
+        },
+        {
+          "name": "Cetirizine",
           "dosage": "10mg",
-          "duration": "Ongoing",
-          "instructions": "Take once daily in the morning"
+          "duration": "7 days",
+          "instructions": "Take once at night for itching"
         }
       ]
     },
-    "attachments": ["ecg_report.pdf", "blood_pressure_log.pdf"],
-    "followUp": "2024-12-22",
-    "createdAt": "2024-11-15T14:30:00Z"
+    "attachments": ["skin_photo_july2025.jpg"],
+    "followUp": "2025-08-05",
+    "createdAt": "2025-07-15T16:10:00Z"
+  },
+  {
+    "id": "record-004",
+    "consultationId": "cons-014",
+    "doctorId": "doc-007",
+    "patientName": "Rohit Sharma",
+    "date": "2025-06-25",
+    "type": "Pediatric Report",
+    "title": "Child Health Review - Immunization",
+    "summary": "Routine pediatric check-up for child immunization. Vaccines administered as per schedule.",
+    "details": {
+      "diagnosis": "Normal child growth and development",
+      "vitals": {
+        "weight": "12 kg",
+        "height": "86 cm",
+        "temperature": "98.4°F"
+      },
+      "vaccinesGiven": ["DPT booster", "Polio drops"],
+      "recommendations": [
+        "Next vaccine due in December 2025",
+        "Maintain balanced diet for child"
+      ]
+    },
+    "prescription": {
+      "medications": []
+    },
+    "attachments": ["vaccination_card_update.pdf"],
+    "createdAt": "2025-06-25T09:00:00Z"
+  },
+  {
+    "id": "record-005",
+    "consultationId": "cons-015",
+    "doctorId": "doc-008",
+    "patientName": "Rohit Sharma",
+    "date": "2025-05-20",
+    "type": "Neurology Report",
+    "title": "Migraine Evaluation",
+    "summary": "Patient complained of recurring headaches with light sensitivity. Diagnosed with migraine without aura.",
+    "details": {
+      "diagnosis": "Migraine (without aura)",
+      "symptoms": ["Headache lasting 6-8 hours", "Light sensitivity", "Mild nausea"],
+      "triggers": ["Stress", "Lack of sleep", "Skipping meals"],
+      "treatment": ["Lifestyle changes", "Abortive medication for acute attacks"]
+    },
+    "prescription": {
+      "medications": [
+        {
+          "name": "Sumatriptan",
+          "dosage": "50mg as needed",
+          "duration": "As required",
+          "instructions": "Take at onset of migraine; max 2 tablets/day"
+        }
+      ]
+    },
+    "attachments": ["ct_scan_report.pdf"],
+    "followUp": "2025-06-10",
+    "createdAt": "2025-05-20T15:20:00Z"
   }
 ]

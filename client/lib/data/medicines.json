@@ -12,9 +12,9 @@
       "frequency": "once daily",
       "timing": "morning",
       "mealTiming": "with or without food",
-      "startDate": "2024-01-15",
-      "endDate": "2025-01-15",
-      "remainingDoses": 45,
+      "startDate": "2025-02-01",
+      "endDate": "2026-02-01",
+      "remainingDoses": 340,
       "totalDoses": 365,
       "reminderEnabled": true,
       "reminderTimes": ["08:00"],
@@ -27,9 +27,9 @@
       "contraindications": ["Pregnancy", "Angioedema history", "Bilateral renal artery stenosis"],
       "missedDoseInstructions": "Take as soon as you remember, unless it's almost time for your next dose",
       "practicalTips": ["Take at the same time each day", "Don't stop suddenly without consulting doctor"],
-      "addedDate": "2024-01-15T10:30:00Z",
+      "addedDate": "2025-02-01T08:30:00+05:30",
       "addedBy": "prescription_scan",
-      "prescriptionImageRef": "prescription_001.jpg",
+      "prescriptionImageRef": "prescription_101.jpg",
       "isActive": true
     },
     {
@@ -44,9 +44,9 @@
       "frequency": "twice daily",
       "timing": "morning and evening",
       "mealTiming": "with food",
-      "startDate": "2024-02-01",
-      "endDate": "2025-02-01",
-      "remainingDoses": 120,
+      "startDate": "2025-02-10",
+      "endDate": "2026-02-10",
+      "remainingDoses": 700,
       "totalDoses": 730,
       "reminderEnabled": true,
       "reminderTimes": ["08:00", "18:00"],
@@ -59,7 +59,7 @@
       "contraindications": ["Severe kidney disease", "Liver disease", "Heart failure"],
       "missedDoseInstructions": "Take with your next meal, don't double dose",
       "practicalTips": ["Take with food to reduce stomach upset", "Regular blood tests needed"],
-      "addedDate": "2024-02-01T14:20:00Z",
+      "addedDate": "2025-02-10T09:10:00+05:30",
       "addedBy": "manual_entry",
       "isActive": true
     },
@@ -75,9 +75,9 @@
       "frequency": "once daily",
       "timing": "evening",
       "mealTiming": "with or without food",
-      "startDate": "2024-03-10",
-      "endDate": "2025-03-10",
-      "remainingDoses": 180,
+      "startDate": "2025-03-01",
+      "endDate": "2026-03-01",
+      "remainingDoses": 360,
       "totalDoses": 365,
       "reminderEnabled": true,
       "reminderTimes": ["20:00"],
@@ -86,9 +86,9 @@
       "contraindications": ["Active liver disease", "Pregnancy", "Breastfeeding"],
       "missedDoseInstructions": "Take as soon as you remember, skip if almost time for next dose",
       "practicalTips": ["Take at bedtime for best effect", "Avoid grapefruit products"],
-      "addedDate": "2024-03-10T16:45:00Z",
+      "addedDate": "2025-03-01T19:00:00+05:30",
       "addedBy": "pill_identifier",
-      "pillImageRef": "pill_003.jpg",
+      "pillImageRef": "pill_103.jpg",
       "isActive": true
     },
     {
@@ -103,9 +103,9 @@
       "frequency": "once daily",
       "timing": "morning",
       "mealTiming": "30 minutes before food",
-      "startDate": "2024-04-05",
-      "endDate": "2024-10-05",
-      "remainingDoses": 25,
+      "startDate": "2025-01-20",
+      "endDate": "2025-07-20",
+      "remainingDoses": 120,
       "totalDoses": 180,
       "reminderEnabled": true,
       "reminderTimes": ["07:30"],
@@ -118,9 +118,9 @@
       "contraindications": ["Allergy to proton pump inhibitors"],
       "missedDoseInstructions": "Take as soon as you remember, but not if it's almost time for your next dose",
       "practicalTips": ["Take on empty stomach for best effect", "Swallow whole, don't chew"],
-      "addedDate": "2024-04-05T09:15:00Z",
+      "addedDate": "2025-01-20T07:30:00+05:30",
       "addedBy": "prescription_scan",
-      "prescriptionImageRef": "prescription_004.jpg",
+      "prescriptionImageRef": "prescription_104.jpg",
       "isActive": true
     },
     {
@@ -135,9 +135,9 @@
       "frequency": "once daily",
       "timing": "morning",
       "mealTiming": "with food",
-      "startDate": "2024-05-01",
-      "endDate": "2025-05-01",
-      "remainingDoses": 200,
+      "startDate": "2025-02-15",
+      "endDate": "2026-02-15",
+      "remainingDoses": 350,
       "totalDoses": 365,
       "reminderEnabled": false,
       "reminderTimes": ["09:00"],
@@ -146,22 +146,22 @@
       "contraindications": ["Hypercalcemia", "Kidney stones"],
       "missedDoseInstructions": "Take as soon as you remember, or skip if close to next dose",
       "practicalTips": ["Take with fatty food for better absorption", "Store in cool, dry place"],
-      "addedDate": "2024-05-01T11:00:00Z",
+      "addedDate": "2025-02-15T11:00:00+05:30",
       "addedBy": "manual_entry",
       "isActive": true
     }
   ],
   "pastRecords": [
     {
-      "id": "record_001",
+      "id": "record_101",
       "type": "prescription_scan",
-      "date": "2024-01-15T10:30:00Z",
-      "description": "Imported prescription from Dr. Smith",
-      "imageRef": "prescription_001.jpg",
+      "date": "2025-02-01T08:30:00+05:30",
+      "description": "Imported prescription from Dr. Sen",
+      "imageRef": "prescription_101.jpg",
       "extractedMedicines": [
         {
           "name": "Lisinopril 10mg",
-          "confidence": 0.95,
+          "confidence": 0.96,
           "added": true
         }
       ],
@@ -169,44 +169,44 @@
         {
           "action": "added",
           "medicine": "Lisinopril 10mg",
-          "timestamp": "2024-01-15T10:35:00Z"
+          "timestamp": "2025-02-01T08:35:00+05:30"
         }
       ]
     },
     {
-      "id": "record_002",
+      "id": "record_102",
       "type": "pill_identification",
-      "date": "2024-03-10T16:45:00Z",
+      "date": "2025-03-01T19:00:00+05:30",
       "description": "Identified white oval pill",
-      "imageRef": "pill_003.jpg",
+      "imageRef": "pill_103.jpg",
       "identifiedMedicine": {
         "name": "Atorvastatin 20mg",
-        "confidence": 0.88,
+        "confidence": 0.89,
         "added": true
       },
       "changes": [
         {
           "action": "added",
           "medicine": "Atorvastatin 20mg",
-          "timestamp": "2024-03-10T16:50:00Z"
+          "timestamp": "2025-03-01T19:05:00+05:30"
         }
       ]
     },
     {
-      "id": "record_003",
+      "id": "record_103",
       "type": "medicine_completed",
-      "date": "2024-07-20T14:20:00Z",
-      "description": "Completed Ibuprofen course",
+      "date": "2025-01-10T14:20:00+05:30",
+      "description": "Completed Amoxicillin course",
       "completedMedicine": {
-        "id": "med_old_001",
-        "name": "Ibuprofen 400mg",
+        "id": "med_old_010",
+        "name": "Amoxicillin 500mg",
         "reason": "Course completed"
       }
     },
     {
-      "id": "record_004",
+      "id": "record_104",
       "type": "dosage_update",
-      "date": "2024-06-15T10:15:00Z",
+      "date": "2025-02-18T10:15:00+05:30",
       "description": "Updated Metformin dosage",
       "changes": [
         {
@@ -215,7 +215,7 @@
           "field": "dosage",
           "oldValue": "500mg once daily",
           "newValue": "500mg twice daily",
-          "timestamp": "2024-06-15T10:15:00Z"
+          "timestamp": "2025-02-18T10:15:00+05:30"
         }
       ]
     }

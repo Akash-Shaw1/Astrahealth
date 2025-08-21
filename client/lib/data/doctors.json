@@ -1,13 +1,13 @@
 [
   {
     "id": "doc-001",
-    "name": "Dr. Sarah Johnson",
+    "name": "Dr. Ananya Sen",
     "specialty": "Cardiologist",
     "avatar": "/female-doctor.png",
     "rating": 4.9,
-    "experience": 12,
-    "education": "MD from Harvard Medical School",
-    "languages": ["English", "Spanish"],
+    "experience": 14,
+    "education": "MD (Cardiology) from AIIMS, New Delhi",
+    "languages": ["Bengali", "English", "Hindi"],
     "availability": {
       "monday": ["09:00", "10:00", "11:00", "14:00", "15:00", "16:00"],
       "tuesday": ["09:00", "10:00", "11:00", "14:00", "15:00"],
@@ -15,18 +15,18 @@
       "thursday": ["09:00", "10:00", "11:00", "14:00", "15:00", "16:00"],
       "friday": ["09:00", "10:00", "11:00", "14:00", "15:00"]
     },
-    "consultationFee": 150,
-    "bio": "Experienced cardiologist specializing in preventive cardiology and heart disease management."
+    "consultationFee": 1500,
+    "bio": "Senior cardiologist specializing in preventive cardiology and heart disease management in Kolkata."
   },
   {
     "id": "doc-002",
-    "name": "Dr. Michael Chen",
+    "name": "Dr. Arindam Chatterjee",
     "specialty": "General Practitioner",
     "avatar": "/male-doctor.png",
     "rating": 4.8,
-    "experience": 8,
-    "education": "MD from Johns Hopkins University",
-    "languages": ["English", "Mandarin"],
+    "experience": 9,
+    "education": "MBBS from Calcutta National Medical College",
+    "languages": ["Bengali", "English", "Hindi"],
     "availability": {
       "monday": ["08:00", "09:00", "10:00", "11:00", "13:00", "14:00", "15:00"],
       "tuesday": ["08:00", "09:00", "10:00", "11:00", "13:00", "14:00"],
@@ -34,18 +34,18 @@
       "thursday": ["08:00", "09:00", "10:00", "11:00", "13:00", "14:00", "15:00"],
       "friday": ["08:00", "09:00", "10:00", "11:00", "13:00", "14:00"]
     },
-    "consultationFee": 120,
-    "bio": "General practitioner with expertise in family medicine and preventive healthcare."
+    "consultationFee": 800,
+    "bio": "General physician with expertise in family medicine and primary healthcare for urban and suburban patients."
   },
   {
     "id": "doc-003",
-    "name": "Dr. Emily Rodriguez",
+    "name": "Dr. Priya Mukherjee",
     "specialty": "Dermatologist",
     "avatar": "/emma-hayes-doctor.png",
     "rating": 4.9,
-    "experience": 10,
-    "education": "MD from Stanford University",
-    "languages": ["English", "Spanish", "Portuguese"],
+    "experience": 11,
+    "education": "MD (Dermatology) from IPGMER, Kolkata",
+    "languages": ["Bengali", "English", "Hindi"],
     "availability": {
       "monday": ["10:00", "11:00", "14:00", "15:00", "16:00"],
       "tuesday": ["10:00", "11:00", "14:00", "15:00", "16:00"],
@@ -53,18 +53,18 @@
       "thursday": ["10:00", "11:00", "14:00", "15:00", "16:00"],
       "friday": ["10:00", "11:00", "14:00", "15:00"]
     },
-    "consultationFee": 180,
-    "bio": "Board-certified dermatologist specializing in medical and cosmetic dermatology."
+    "consultationFee": 1200,
+    "bio": "Dermatologist specializing in skin diseases, cosmetic dermatology, and laser treatments in Kolkata."
   },
   {
     "id": "doc-004",
-    "name": "Dr. James Wilson",
+    "name": "Dr. Sandeep Roy",
     "specialty": "Orthopedist",
     "avatar": "/male-doctor-glasses.png",
     "rating": 4.7,
-    "experience": 15,
-    "education": "MD from Mayo Clinic College of Medicine",
-    "languages": ["English"],
+    "experience": 16,
+    "education": "MS (Orthopedics) from NRS Medical College, Kolkata",
+    "languages": ["Bengali", "English", "Hindi"],
     "availability": {
       "monday": ["09:00", "10:00", "11:00", "15:00", "16:00"],
       "tuesday": ["09:00", "10:00", "11:00", "15:00", "16:00"],
@@ -72,18 +72,18 @@
       "thursday": ["09:00", "10:00", "11:00", "15:00", "16:00"],
       "friday": ["09:00", "10:00", "11:00", "15:00"]
     },
-    "consultationFee": 200,
-    "bio": "Orthopedic surgeon with specialization in sports medicine and joint replacement."
+    "consultationFee": 1800,
+    "bio": "Orthopedic surgeon specializing in trauma care, joint replacement, and sports injuries."
   },
   {
     "id": "doc-005",
-    "name": "Dr. Lisa Park",
+    "name": "Dr. Rituparna Das",
     "specialty": "Endocrinologist",
     "avatar": "/female-doctor.png",
     "rating": 4.8,
-    "experience": 9,
-    "education": "MD from University of California, San Francisco",
-    "languages": ["English", "Korean"],
+    "experience": 10,
+    "education": "DM (Endocrinology) from PGIMER, Chandigarh",
+    "languages": ["Bengali", "English", "Hindi"],
     "availability": {
       "monday": ["08:00", "09:00", "10:00", "14:00", "15:00"],
       "tuesday": ["08:00", "09:00", "10:00", "14:00", "15:00"],
@@ -91,18 +91,18 @@
       "thursday": ["08:00", "09:00", "10:00", "14:00", "15:00"],
       "friday": ["08:00", "09:00", "10:00", "14:00"]
     },
-    "consultationFee": 170,
-    "bio": "Endocrinologist specializing in diabetes management and hormonal disorders."
+    "consultationFee": 1300,
+    "bio": "Endocrinologist specializing in diabetes, thyroid, and metabolic disorders."
   },
   {
     "id": "doc-006",
-    "name": "Dr. Robert Taylor",
+    "name": "Dr. Abhishek Banerjee",
     "specialty": "Psychiatrist",
     "avatar": "/male-doctor.png",
     "rating": 4.6,
-    "experience": 11,
-    "education": "MD from Columbia University",
-    "languages": ["English", "French"],
+    "experience": 12,
+    "education": "MD (Psychiatry) from R. G. Kar Medical College, Kolkata",
+    "languages": ["Bengali", "English", "Hindi"],
     "availability": {
       "monday": ["10:00", "11:00", "14:00", "15:00", "16:00", "17:00"],
       "tuesday": ["10:00", "11:00", "14:00", "15:00", "16:00"],
@@ -110,7 +110,121 @@
       "thursday": ["10:00", "11:00", "14:00", "15:00", "16:00"],
       "friday": ["10:00", "11:00", "14:00", "15:00"]
     },
-    "consultationFee": 160,
-    "bio": "Psychiatrist with expertise in anxiety disorders, depression, and cognitive behavioral therapy."
+    "consultationFee": 1000,
+    "bio": "Psychiatrist with expertise in anxiety, depression, and counseling therapies."
+  },
+  {
+    "id": "doc-007",
+    "name": "Dr. Meera Kapoor",
+    "specialty": "Pediatrician",
+    "avatar": "/female-doctor.png",
+    "rating": 4.8,
+    "experience": 13,
+    "education": "MD (Pediatrics) from Lady Hardinge Medical College, New Delhi",
+    "languages": ["Hindi", "English", "Bengali"],
+    "availability": {
+      "monday": ["09:00", "10:00", "11:00", "13:00", "14:00"],
+      "tuesday": ["09:00", "10:00", "11:00", "13:00"],
+      "wednesday": ["09:00", "10:00", "11:00", "13:00", "14:00"],
+      "thursday": ["09:00", "10:00", "11:00", "13:00", "14:00"],
+      "friday": ["09:00", "10:00", "11:00", "13:00"]
+    },
+    "consultationFee": 900,
+    "bio": "Pediatrician specializing in child development, vaccinations, and adolescent care."
+  },
+  {
+    "id": "doc-008",
+    "name": "Dr. Sourav Ghosh",
+    "specialty": "Neurologist",
+    "avatar": "/male-doctor.png",
+    "rating": 4.7,
+    "experience": 15,
+    "education": "DM (Neurology) from Christian Medical College, Vellore",
+    "languages": ["Bengali", "English", "Hindi"],
+    "availability": {
+      "monday": ["10:00", "11:00", "15:00", "16:00"],
+      "tuesday": ["10:00", "11:00", "15:00", "16:00"],
+      "wednesday": ["10:00", "11:00", "15:00"],
+      "thursday": ["10:00", "11:00", "15:00", "16:00"],
+      "friday": ["10:00", "11:00", "15:00"]
+    },
+    "consultationFee": 2000,
+    "bio": "Neurologist with specialization in epilepsy, stroke, and movement disorders."
+  },
+  {
+    "id": "doc-009",
+    "name": "Dr. Nisha Agarwal",
+    "specialty": "Gynecologist",
+    "avatar": "/female-doctor.png",
+    "rating": 4.9,
+    "experience": 18,
+    "education": "MD (Gynecology & Obstetrics) from Calcutta Medical College",
+    "languages": ["Hindi", "Bengali", "English"],
+    "availability": {
+      "monday": ["09:00", "10:00", "11:00", "15:00"],
+      "tuesday": ["09:00", "10:00", "11:00", "15:00"],
+      "wednesday": ["09:00", "10:00", "11:00", "15:00"],
+      "thursday": ["09:00", "10:00", "11:00", "15:00"],
+      "friday": ["09:00", "10:00", "11:00", "15:00"]
+    },
+    "consultationFee": 1400,
+    "bio": "Gynecologist specializing in women’s health, pregnancy care, and fertility management."
+  },
+  {
+    "id": "doc-010",
+    "name": "Dr. Rajat Sinha",
+    "specialty": "ENT Specialist",
+    "avatar": "/male-doctor.png",
+    "rating": 4.6,
+    "experience": 8,
+    "education": "MS (ENT) from Jawaharlal Nehru Medical College, Belgaum",
+    "languages": ["Bengali", "English", "Hindi"],
+    "availability": {
+      "monday": ["08:00", "09:00", "11:00", "13:00"],
+      "tuesday": ["08:00", "09:00", "11:00", "13:00"],
+      "wednesday": ["08:00", "09:00", "11:00", "13:00"],
+      "thursday": ["08:00", "09:00", "11:00", "13:00"],
+      "friday": ["08:00", "09:00", "11:00", "13:00"]
+    },
+    "consultationFee": 700,
+    "bio": "ENT specialist treating ear, nose, and throat disorders with a focus on sinus and hearing problems."
+  },
+  {
+    "id": "doc-011",
+    "name": "Dr. Aparna Ghoshal",
+    "specialty": "Ophthalmologist",
+    "avatar": "/female-doctor.png",
+    "rating": 4.8,
+    "experience": 12,
+    "education": "MS (Ophthalmology) from Sankara Nethralaya, Chennai",
+    "languages": ["Bengali", "English", "Hindi"],
+    "availability": {
+      "monday": ["10:00", "11:00", "14:00", "15:00"],
+      "tuesday": ["10:00", "11:00", "14:00", "15:00"],
+      "wednesday": ["10:00", "11:00", "14:00", "15:00"],
+      "thursday": ["10:00", "11:00", "14:00", "15:00"],
+      "friday": ["10:00", "11:00", "14:00", "15:00"]
+    },
+    "consultationFee": 1100,
+    "bio": "Eye specialist with experience in cataract surgery, glaucoma treatment, and pediatric ophthalmology."
+  },
+  {
+    "id": "doc-012",
+    "name": "Dr. Vivek Chakraborty",
+    "specialty": "Oncologist",
+    "avatar": "/male-doctor.png",
+    "rating": 4.7,
+    "experience": 20,
+    "education": "DM (Oncology) from Tata Memorial Hospital, Mumbai",
+    "languages": ["Bengali", "English", "Hindi"],
+    "availability": {
+      "monday": ["09:00", "10:00", "11:00", "14:00"],
+      "tuesday": ["09:00", "10:00", "11:00", "14:00"],
+      "wednesday": ["09:00", "10:00", "11:00", "14:00"],
+      "thursday": ["09:00", "10:00", "11:00", "14:00"],
+      "friday": ["09:00", "10:00", "11:00", "14:00"]
+    },
+    "consultationFee": 2500,
+    "bio": "Oncologist specializing in cancer diagnosis, chemotherapy, and palliative care."
   }
 ]
