@@ -22,7 +22,6 @@ import {
   CheckCircle2,
   AlertTriangle,
   Info,
-  WaypointsIcon as Directions,
 } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -166,6 +165,13 @@ const quickStats = [
   { label: "Avg Wait Time", value: "18 min", icon: Clock, color: "green" },
 ]
 
+const colorClasses: Record<string, { bg: string; icon: string }> = {
+  blue: { bg: "bg-blue-100", icon: "text-blue-600" },
+  red: { bg: "bg-red-100", icon: "text-red-600" },
+  purple: { bg: "bg-purple-100", icon: "text-purple-600" },
+  green: { bg: "bg-green-100", icon: "text-green-600" },
+}
+
 export default function HospitalFinder() {
   const [selectedType, setSelectedType] = useState("all")
   const [searchQuery, setSearchQuery] = useState("")
@@ -215,12 +221,13 @@ export default function HospitalFinder() {
         <div className="grid grid-cols-4 gap-6 mb-8">
           {quickStats.map((stat, index) => {
             const Icon = stat.icon
+            const cls = colorClasses[stat.color] || colorClasses.blue
             return (
               <Card key={index} className="bg-white/60 backdrop-blur-sm border-white/20">
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between mb-4">
-                    <div className={`p-2 rounded-lg bg-${stat.color}-100`}>
-                      <Icon className={`w-5 h-5 text-${stat.color}-600`} />
+                    <div className={`${cls.bg} p-2 rounded-lg`}>
+                      <Icon className={`w-5 h-5 ${cls.icon}`} />
                     </div>
                   </div>
                   <div className="text-2xl font-bold text-gray-900 mb-1">{stat.value}</div>
@@ -273,195 +280,196 @@ export default function HospitalFinder() {
         <div className="grid grid-cols-4 gap-6">
           {/* Main Content */}
           <div className="col-span-3">
+            {/* *** FIX: TabsContent must be children of Tabs. Put TabsList + TabsContent inside same Tabs root. *** */}
             <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-6">
               <TabsList className="bg-white/60 backdrop-blur-sm">
                 <TabsTrigger value="hospitals">Hospitals ({filteredHospitals.length})</TabsTrigger>
                 <TabsTrigger value="emergency">Emergency Services (8)</TabsTrigger>
                 <TabsTrigger value="map">Map View</TabsTrigger>
               </TabsList>
-            </Tabs>
 
-            <TabsContent value="hospitals">
-              <div className="space-y-6">
-                {filteredHospitals.map((hospital) => (
-                  <Card key={hospital.id} className="bg-white/60 backdrop-blur-sm border-white/20 overflow-hidden">
-                    <CardContent className="p-6">
-                      <div className="flex gap-6">
-                        {/* Hospital Image */}
-                        <div className="w-32 h-32 bg-gradient-to-br from-blue-100 to-cyan-100 rounded-lg overflow-hidden">
-                          <img
-                            src={hospital.image || "/placeholder.svg"}
-                            alt={hospital.name}
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-
-                        {/* Hospital Info */}
-                        <div className="flex-1">
-                          <div className="flex items-start justify-between mb-4">
-                            <div>
-                              <h3 className="text-xl font-bold text-gray-900 mb-1">{hospital.name}</h3>
-                              <p className="text-blue-600 font-medium mb-2">{hospital.type}</p>
-                              <div className="flex items-center gap-4 mb-2">
-                                <div className="flex items-center gap-1">
-                                  <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                                  <span className="font-medium">{hospital.rating}</span>
-                                  <span className="text-gray-500">({hospital.reviews} reviews)</span>
-                                </div>
-                                <div className="flex items-center gap-1 text-gray-500">
-                                  <MapPin className="w-4 h-4" />
-                                  {hospital.distance}
-                                </div>
-                                <div className="flex items-center gap-1 text-gray-500">
-                                  <Bed className="w-4 h-4" />
-                                  {hospital.beds} beds
-                                </div>
-                              </div>
-                              <p className="text-gray-600 text-sm mb-3">{hospital.address}</p>
-                            </div>
-                            <div className="text-right">
-                              <div className={`font-medium mb-2 ${getStatusColor(hospital.status)}`}>
-                                {hospital.status}
-                              </div>
-                              {hospital.emergencyRoom && (
-                                <div className="flex gap-2 mb-2">
-                                  <Badge className="bg-red-100 text-red-800">
-                                    <Ambulance className="w-3 h-3 mr-1" />
-                                    Emergency Room
-                                  </Badge>
-                                  {hospital.trauma && (
-                                    <Badge className="bg-orange-100 text-orange-800">{hospital.trauma} Trauma</Badge>
-                                  )}
-                                </div>
-                              )}
-                              {hospital.waitTime !== "N/A" && (
-                                <div className="text-sm text-gray-500">
-                                  <Clock className="w-4 h-4 inline mr-1" />
-                                  Wait: {hospital.waitTime}
-                                </div>
-                              )}
-                            </div>
+              <TabsContent value="hospitals">
+                <div className="space-y-6">
+                  {filteredHospitals.map((hospital) => (
+                    <Card key={hospital.id} className="bg-white/60 backdrop-blur-sm border-white/20 overflow-hidden">
+                      <CardContent className="p-6">
+                        <div className="flex gap-6">
+                          {/* Hospital Image */}
+                          <div className="w-32 h-32 bg-gradient-to-br from-blue-100 to-cyan-100 rounded-lg overflow-hidden">
+                            <img
+                              src={hospital.image || "/placeholder.svg"}
+                              alt={hospital.name}
+                              className="w-full h-full object-cover"
+                            />
                           </div>
 
-                          <p className="text-sm text-gray-600 mb-4">{hospital.description}</p>
-
-                          {/* Specialties */}
-                          <div className="mb-4">
-                            <h4 className="text-sm font-medium text-gray-900 mb-2">Specialties</h4>
-                            <div className="flex flex-wrap gap-2">
-                              {hospital.specialties.slice(0, 4).map((specialty, index) => (
-                                <Badge key={index} variant="outline" className="text-xs">
-                                  {specialty}
-                                </Badge>
-                              ))}
-                              {hospital.specialties.length > 4 && (
-                                <Badge variant="outline" className="text-xs">
-                                  +{hospital.specialties.length - 4} more
-                                </Badge>
-                              )}
-                            </div>
-                          </div>
-
-                          {/* Amenities */}
-                          <div className="mb-4">
-                            <h4 className="text-sm font-medium text-gray-900 mb-2">Amenities</h4>
-                            <div className="flex gap-4 text-xs text-gray-500">
-                              {hospital.amenities.includes("Parking") && (
-                                <div className="flex items-center gap-1">
-                                  <Car className="w-3 h-3" />
-                                  Parking
+                          {/* Hospital Info */}
+                          <div className="flex-1">
+                            <div className="flex items-start justify-between mb-4">
+                              <div>
+                                <h3 className="text-xl font-bold text-gray-900 mb-1">{hospital.name}</h3>
+                                <p className="text-blue-600 font-medium mb-2">{hospital.type}</p>
+                                <div className="flex items-center gap-4 mb-2">
+                                  <div className="flex items-center gap-1">
+                                    <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                                    <span className="font-medium">{hospital.rating}</span>
+                                    <span className="text-gray-500">({hospital.reviews} reviews)</span>
+                                  </div>
+                                  <div className="flex items-center gap-1 text-gray-500">
+                                    <MapPin className="w-4 h-4" />
+                                    {hospital.distance}
+                                  </div>
+                                  <div className="flex items-center gap-1 text-gray-500">
+                                    <Bed className="w-4 h-4" />
+                                    {hospital.beds} beds
+                                  </div>
                                 </div>
-                              )}
-                              {hospital.amenities.includes("WiFi") && (
-                                <div className="flex items-center gap-1">
-                                  <Wifi className="w-3 h-3" />
-                                  WiFi
-                                </div>
-                              )}
-                              {hospital.amenities.includes("Cafeteria") && (
-                                <div className="flex items-center gap-1">
-                                  <Coffee className="w-3 h-3" />
-                                  Cafeteria
-                                </div>
-                              )}
-                            </div>
-                          </div>
-
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-4 text-sm">
-                              <div className="flex items-center gap-1 text-gray-500">
-                                <Phone className="w-4 h-4" />
-                                {hospital.phone}
+                                <p className="text-gray-600 text-sm mb-3">{hospital.address}</p>
                               </div>
-                              <div className="flex items-center gap-1">
-                                {hospital.accreditation.map((acc, index) => (
-                                  <Badge key={index} className="bg-green-100 text-green-800 text-xs">
-                                    <Award className="w-3 h-3 mr-1" />
-                                    {acc}
+                              <div className="text-right">
+                                <div className={`font-medium mb-2 ${getStatusColor(hospital.status)}`}>
+                                  {hospital.status}
+                                </div>
+                                {hospital.emergencyRoom && (
+                                  <div className="flex gap-2 mb-2">
+                                    <Badge className="bg-red-100 text-red-800">
+                                      <Ambulance className="w-3 h-3 mr-1" />
+                                      Emergency Room
+                                    </Badge>
+                                    {hospital.trauma && (
+                                      <Badge className="bg-orange-100 text-orange-800">{hospital.trauma} Trauma</Badge>
+                                    )}
+                                  </div>
+                                )}
+                                {hospital.waitTime !== "N/A" && (
+                                  <div className="text-sm text-gray-500">
+                                    <Clock className="w-4 h-4 inline mr-1" />
+                                    Wait: {hospital.waitTime}
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+
+                            <p className="text-sm text-gray-600 mb-4">{hospital.description}</p>
+
+                            {/* Specialties */}
+                            <div className="mb-4">
+                              <h4 className="text-sm font-medium text-gray-900 mb-2">Specialties</h4>
+                              <div className="flex flex-wrap gap-2">
+                                {hospital.specialties.slice(0, 4).map((specialty, index) => (
+                                  <Badge key={index} variant="outline" className="text-xs">
+                                    {specialty}
                                   </Badge>
                                 ))}
+                                {hospital.specialties.length > 4 && (
+                                  <Badge variant="outline" className="text-xs">
+                                    +{hospital.specialties.length - 4} more
+                                  </Badge>
+                                )}
                               </div>
                             </div>
-                            <div className="flex gap-2">
-                              <Button variant="outline" size="sm" onClick={() => setSelectedHospital(hospital)}>
-                                <Info className="w-4 h-4 mr-2" />
-                                Details
-                              </Button>
-                              <Button size="sm" className="bg-blue-500 hover:bg-blue-600 text-white">
-                                <Directions className="w-4 h-4 mr-2" />
-                                Get Directions
-                              </Button>
+
+                            {/* Amenities */}
+                            <div className="mb-4">
+                              <h4 className="text-sm font-medium text-gray-900 mb-2">Amenities</h4>
+                              <div className="flex gap-4 text-xs text-gray-500">
+                                {hospital.amenities.includes("Parking") && (
+                                  <div className="flex items-center gap-1">
+                                    <Car className="w-3 h-3" />
+                                    Parking
+                                  </div>
+                                )}
+                                {hospital.amenities.includes("WiFi") && (
+                                  <div className="flex items-center gap-1">
+                                    <Wifi className="w-3 h-3" />
+                                    WiFi
+                                  </div>
+                                )}
+                                {hospital.amenities.includes("Cafeteria") && (
+                                  <div className="flex items-center gap-1">
+                                    <Coffee className="w-3 h-3" />
+                                    Cafeteria
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-4 text-sm">
+                                <div className="flex items-center gap-1 text-gray-500">
+                                  <Phone className="w-4 h-4" />
+                                  {hospital.phone}
+                                </div>
+                                <div className="flex items-center gap-1">
+                                  {hospital.accreditation.map((acc, index) => (
+                                    <Badge key={index} className="bg-green-100 text-green-800 text-xs">
+                                      <Award className="w-3 h-3 mr-1" />
+                                      {acc}
+                                    </Badge>
+                                  ))}
+                                </div>
+                              </div>
+                              <div className="flex gap-2">
+                                <Button variant="outline" size="sm" onClick={() => setSelectedHospital(hospital)}>
+                                  <Info className="w-4 h-4 mr-2" />
+                                  Details
+                                </Button>
+                                <Button size="sm" className="bg-blue-500 hover:bg-blue-600 text-white">
+                                  <Navigation className="w-4 h-4 mr-2" />
+                                  Get Directions
+                                </Button>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </TabsContent>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </TabsContent>
 
-            <TabsContent value="emergency">
-              <div className="space-y-4">
-                {emergencyServices.map((service) => (
-                  <Card key={service.id} className="bg-white/60 backdrop-blur-sm border-white/20">
-                    <CardContent className="p-4">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-4">
-                          <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
-                            <Ambulance className="w-6 h-6 text-red-600" />
+              <TabsContent value="emergency">
+                <div className="space-y-4">
+                  {emergencyServices.map((service) => (
+                    <Card key={service.id} className="bg-white/60 backdrop-blur-sm border-white/20">
+                      <CardContent className="p-4">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-4">
+                            <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+                              <Ambulance className="w-6 h-6 text-red-600" />
+                            </div>
+                            <div>
+                              <h3 className="font-semibold">{service.name}</h3>
+                              <p className="text-sm text-gray-500">
+                                {service.distance} • {service.severity}
+                              </p>
+                            </div>
                           </div>
-                          <div>
-                            <h3 className="font-semibold">{service.name}</h3>
-                            <p className="text-sm text-gray-500">
-                              {service.distance} • {service.severity}
-                            </p>
+                          <div className="text-right">
+                            <div className="text-green-600 font-medium">{service.status}</div>
+                            <div className="text-sm text-gray-500">Wait: {service.waitTime}</div>
                           </div>
+                          <Button size="sm" className="bg-red-500 hover:bg-red-600 text-white">
+                            <Phone className="w-4 h-4 mr-2" />
+                            Call Now
+                          </Button>
                         </div>
-                        <div className="text-right">
-                          <div className="text-green-600 font-medium">{service.status}</div>
-                          <div className="text-sm text-gray-500">Wait: {service.waitTime}</div>
-                        </div>
-                        <Button size="sm" className="bg-red-500 hover:bg-red-600 text-white">
-                          <Phone className="w-4 h-4 mr-2" />
-                          Call Now
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </TabsContent>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </TabsContent>
 
-            <TabsContent value="map">
-              <Card className="bg-white/60 backdrop-blur-sm border-white/20">
-                <CardContent className="p-8 text-center">
-                  <MapPin className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Interactive Map</h3>
-                  <p className="text-gray-600">View hospitals and medical facilities on an interactive map</p>
-                </CardContent>
-              </Card>
-            </TabsContent>
+              <TabsContent value="map">
+                <Card className="bg-white/60 backdrop-blur-sm border-white/20">
+                  <CardContent className="p-8 text-center">
+                    <MapPin className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Interactive Map</h3>
+                    <p className="text-gray-600">View hospitals and medical facilities on an interactive map</p>
+                  </CardContent>
+                </Card>
+              </TabsContent>
+            </Tabs>
           </div>
 
           {/* Sidebar */}
@@ -639,7 +647,7 @@ export default function HospitalFinder() {
                 </div>
                 <div className="flex gap-3 pt-6 border-t mt-6">
                   <Button className="flex-1 bg-blue-500 hover:bg-blue-600 text-white">
-                    <Directions className="w-4 h-4 mr-2" />
+                    <Navigation className="w-4 h-4 mr-2" />
                     Get Directions
                   </Button>
                   <Button variant="outline">

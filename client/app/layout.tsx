@@ -1,7 +1,7 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { GeistSans } from "geist/font/sans"
 import { GeistMono } from "geist/font/mono"
+import { Figtree } from "next/font/google"
 import "./globals.css"
 
 export const metadata: Metadata = {
@@ -9,6 +9,13 @@ export const metadata: Metadata = {
   description: "Modern healthcare dashboard with glassmorphic design",
   generator: "v0.app",
 }
+
+const figtree = Figtree({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "700"],
+  variable: "--font-sans",
+  display: "swap",
+})
 
 export default function RootLayout({
   children,
@@ -20,8 +27,8 @@ export default function RootLayout({
       <head>
         <style>{`
 html {
-  font-family: ${GeistSans.style.fontFamily};
-  --font-sans: ${GeistSans.variable};
+  font-family: ${figtree.style.fontFamily};
+  --font-sans: ${figtree.variable};
   --font-mono: ${GeistMono.variable};
 }
         `}</style>
