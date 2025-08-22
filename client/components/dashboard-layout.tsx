@@ -165,16 +165,13 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               <DropdownMenuTrigger asChild>
                 <button className="flex items-center gap-2 sm:gap-3 rounded-xl bg-white/80 ring-1 ring-slate-200/50 px-2 sm:px-4 h-10 sm:h-12 hover:bg-white hover:ring-slate-300/50 transition-all duration-200 shadow-sm">
                   <img
-                    src="/emma-hayes-doctor.png"
+                    src="/human-placeholder.png"
                     className="h-6 w-6 sm:h-8 sm:w-8 rounded-full object-cover ring-2 ring-white"
                     alt="Emma Hayes"
                   />
                   <div className="text-left hidden sm:block">
                     <div className="text-sm font-semibold text-slate-800">
-                      Dr. Emma Hayes
-                    </div>
-                    <div className="text-xs text-slate-500 -mt-0.5">
-                      General Practitioner
+                      Anirban Mukherjee
                     </div>
                   </div>
                   <svg

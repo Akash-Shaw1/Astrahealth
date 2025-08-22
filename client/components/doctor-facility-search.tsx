@@ -106,7 +106,7 @@ const doctors: Doctor[] = [
     phone: "+91-9876543213",
     availability: "offline",
     consultationFee: 600,
-    image: "/emma-hayes-doctor.png",
+    image: "/doctor-placeholder.jpg",
     source: "Local Directory",
     isLoading: true,
     reviewHighlights: ["child friendly", "gentle approach", "experienced pediatrician"],
