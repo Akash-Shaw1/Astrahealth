@@ -38,7 +38,7 @@ import { useState } from "react";
 import Image from "next/image";
 
 const navigationItems = [
-  { icon: Home, href: "/", label: "Dashboard", category: "main" },
+  { icon: Home, href: "/dashboard", label: "Dashboard", category: "main" },
   {
     icon: Flame,
     href: "/health-streak",
