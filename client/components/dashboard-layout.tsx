@@ -36,6 +36,9 @@ import {
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import Image from "next/image";
+import { UserButton } from "@clerk/nextjs";
+import TranslateButton from "./TranslateButton";
+import GoogleTranslateProvider from "@/utils/GoogleTranslateProvider";
 
 const navigationItems = [
   { icon: Home, href: "/dashboard", label: "Dashboard", category: "main" },
@@ -161,65 +164,10 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 className="pl-12 pr-24 w-80 xl:w-96 bg-slate-50/80 border-slate-200/50 focus:bg-white focus:border-blue-300 transition-all duration-200"
               />
             </div>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <button className="flex items-center gap-2 sm:gap-3 rounded-xl bg-white/80 ring-1 ring-slate-200/50 px-2 sm:px-4 h-10 sm:h-12 hover:bg-white hover:ring-slate-300/50 transition-all duration-200 shadow-sm">
-                  <img
-                    src="/human-placeholder.png"
-                    className="h-6 w-6 sm:h-8 sm:w-8 rounded-full object-cover ring-2 ring-white"
-                    alt="Emma Hayes"
-                  />
-                  <div className="text-left hidden sm:block">
-                    <div className="text-sm font-semibold text-slate-800">
-                      Anirban Mukherjee
-                    </div>
-                  </div>
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    className="text-slate-400 hidden sm:block"
-                  >
-                    <path
-                      d="M6 9l6 6 6-6"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      fill="none"
-                    />
-                  </svg>
-                </button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent
-                align="end"
-                className="w-56 bg-white/95 backdrop-blur-md border-slate-200/50"
-              >
-                <DropdownMenuItem className="hover:bg-slate-50">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                      <Users className="w-4 h-4 text-blue-600" />
-                    </div>
-                    Profile Settings
-                  </div>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild className="hover:bg-slate-50">
-                  <Link href="/settings" className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-slate-100 rounded-full flex items-center justify-center">
-                      <Settings className="w-4 h-4 text-slate-600" />
-                    </div>
-                    Preferences
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem className="hover:bg-red-50 text-red-600">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
-                      <ArrowUpRight className="w-4 h-4 text-red-600" />
-                    </div>
-                    Sign Out
-                  </div>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-            <Button className="h-10 sm:h-12 px-3 sm:px-6 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-300 shadow-lg hover:shadow-xl">
+            <div className="px-3">
+              <UserButton />
+            </div>
+            <Button className="h-10 sm:h-10 px-3 sm:px-6 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-300 shadow-lg hover:shadow-xl">
               <MessageCircle className="w-4 h-4 mr-1 sm:mr-2" />
               <Link href="/health-bot" className="flex items-center">
                 <span className="hidden sm:inline">Need Help?</span>
@@ -227,6 +175,14 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 <ArrowUpRight className="w-4 h-4 ml-1 sm:ml-2" />
               </Link>
             </Button>
+            <GoogleTranslateProvider />
+
+            {/* Custom Translate Buttons */}
+            <div className="flex gap-2">
+              <TranslateButton lang="en" />
+              <TranslateButton lang="hi" />
+              <TranslateButton lang="bn" />
+            </div>
           </div>
         </div>
       </header>
