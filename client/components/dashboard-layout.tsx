@@ -39,6 +39,7 @@ import Image from "next/image";
 import { UserButton } from "@clerk/nextjs";
 import TranslateButton from "./TranslateButton";
 import GoogleTranslateProvider from "@/utils/GoogleTranslateProvider";
+import LanguageDropdown from "./LanguageDropdown";
 
 const navigationItems = [
   { icon: Home, href: "/dashboard", label: "Dashboard", category: "main" },
@@ -175,14 +176,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 <ArrowUpRight className="w-4 h-4 ml-1 sm:ml-2" />
               </Link>
             </Button>
-            <GoogleTranslateProvider />
-
-            {/* Custom Translate Buttons */}
-            <div className="flex gap-2">
-              <TranslateButton lang="en" />
-              <TranslateButton lang="hi" />
-              <TranslateButton lang="bn" />
-            </div>
+            <LanguageDropdown/>
           </div>
         </div>
       </header>
