@@ -1,3 +1,4 @@
+// app/layout.tsx
 import type React from "react";
 import type { Metadata } from "next";
 import { Figtree } from "next/font/google";
@@ -6,6 +7,7 @@ import { Instrument_Serif } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 import Script from "next/script";
+import GoogleTranslateScript from "@/components/GoogleTranslateScript";
 
 const figtree = Figtree({
   subsets: ["latin"],
@@ -25,7 +27,6 @@ const instrumentSerif = Instrument_Serif({
 export const metadata: Metadata = {
   title: "Healthcare Dashboard",
   description: "Modern healthcare dashboard with glassmorphic design",
-  generator: "v0.app",
 };
 
 export default function RootLayout({
@@ -54,6 +55,7 @@ export default function RootLayout({
     `,
             }}
           />
+          {/* define the init function before external script runs */}
           <Script
             id="gt-init"
             strategy="beforeInteractive"
@@ -68,14 +70,15 @@ export default function RootLayout({
                   el.style.display = 'none';
                   document.body.appendChild(el);
                 }
-                new google.translate.TranslateElement(
-                  {
+                try {
+                  new google.translate.TranslateElement({
                     pageLanguage: 'en',
-                    includedLanguages: 'en,hi,fr,de,es,zh-CN',
+                    includedLanguages: 'en,hi,fr,de,es,zh-CN,bn,ta,te,gu,mr',
                     autoDisplay: false
-                  },
-                  containerId
-                );
+                  }, containerId);
+                } catch (e) {
+                  // google object might not exist yet
+                }
               };
             `,
             }}
@@ -83,12 +86,11 @@ export default function RootLayout({
         </head>
         <body className={`${figtree.variable} ${instrumentSerif.variable}`}>
           <div id="google_translate_element" style={{ display: "none" }} />
+
+          {/* Use the client component to load the external script (it can have onError handlers) */}
+          <GoogleTranslateScript />
+
           {children}
-          <Script
-            id="gt-script"
-            src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
-            strategy="afterInteractive"
-          />
         </body>
       </html>
     </ClerkProvider>
