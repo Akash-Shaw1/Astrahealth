@@ -29,6 +29,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Slider } from "@/components/ui/slider"
 import { Switch } from "@/components/ui/switch"
 import DashboardLayout from "@/components/dashboard-layout"
+import { useRouter } from "next/navigation"
 
 interface Message {
   role: "user" | "assistant" | "system"
@@ -78,6 +79,8 @@ export default function ChatPage() {
   const mediaRecorderRef = useRef<MediaRecorder | null>(null)
   const audioChunksRef = useRef<Blob[]>([])
   const speechSynthesisRef = useRef<SpeechSynthesisUtterance | null>(null)
+
+  const router = useRouter();
 
   // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
@@ -331,6 +334,12 @@ export default function ChatPage() {
     return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
   }
 
+  // --- NEW: Open audio chat in new tab (Astra Voice)
+  const openAudioChat = () => {
+    // open in new tab with security flags
+    window.open("https://astra-voice.vercel.app/", "_blank", "noopener,noreferrer")
+  }
+
   return (
     <DashboardLayout>
       <div className="p-6 h-full flex flex-col">
@@ -341,91 +350,106 @@ export default function ChatPage() {
             <p className="text-gray-600">Get personalized health guidance and medical information</p>
           </div>
 
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="outline" size="sm" className="bg-white/60 backdrop-blur-sm border-white/20">
-                <Settings className="w-4 h-4 mr-2" />
-                Settings
-              </Button>
-            </SheetTrigger>
-            <SheetContent>
-              <SheetHeader>
-                <SheetTitle>Chat Settings</SheetTitle>
-              </SheetHeader>
-              <div className="space-y-6 mt-6">
-                <div>
-                  <Label htmlFor="model">Model</Label>
-                  <Select
-                    value={settings.model}
-                    onValueChange={(value) => setSettings((prev) => ({ ...prev, model: value }))}
-                  >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="gpt-4o-mini">GPT-4o Mini</SelectItem>
-                      <SelectItem value="gpt-4o">GPT-4o</SelectItem>
-                      <SelectItem value="gpt-3.5-turbo">GPT-3.5 Turbo</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
+          <div className="flex items-center gap-3">
+            {/* NEW: Audio Chat button — noticeable, consistent with blue accents used in the app */}
+            <Button
+              type="button"
+              onClick={openAudioChat}
+              size="sm"
+              className="bg-blue-600 text-white hover:bg-blue-700 border-transparent flex items-center gap-2"
+              title="Open audio chat (Astra Voice) in a new tab"
+              aria-label="Open audio chat"
+            >
+              <Mic className="w-4 h-4" />
+              Audio Chat
+            </Button>
 
-                <div>
-                  <Label htmlFor="temperature">Temperature: {settings.temperature}</Label>
-                  <Slider
-                    value={[settings.temperature]}
-                    onValueChange={([value]) => setSettings((prev) => ({ ...prev, temperature: value }))}
-                    max={1}
-                    min={0}
-                    step={0.1}
-                    className="mt-2"
-                  />
-                </div>
-
-                <div className="flex items-center space-x-2">
-                  <Switch
-                    id="custom-prompt"
-                    checked={settings.useCustomPrompt}
-                    onCheckedChange={(checked) => setSettings((prev) => ({ ...prev, useCustomPrompt: checked }))}
-                  />
-                  <Label htmlFor="custom-prompt">Use Healthcare System Prompt</Label>
-                </div>
-
-                <div className="space-y-4 border-t pt-4">
-                  <h4 className="font-medium">Voice Settings</h4>
-                  <div className="flex items-center space-x-2">
-                    <Switch
-                      id="voice-enabled"
-                      checked={settings.voiceEnabled}
-                      onCheckedChange={(checked) => setSettings((prev) => ({ ...prev, voiceEnabled: checked }))}
-                    />
-                    <Label htmlFor="voice-enabled">Enable Voice Mode</Label>
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="outline" size="sm" className="bg-white/60 backdrop-blur-sm border-white/20">
+                  <Settings className="w-4 h-4 mr-2" />
+                  Settings
+                </Button>
+              </SheetTrigger>
+              <SheetContent>
+                <SheetHeader>
+                  <SheetTitle>Chat Settings</SheetTitle>
+                </SheetHeader>
+                <div className="space-y-6 mt-6">
+                  <div>
+                    <Label htmlFor="model">Model</Label>
+                    <Select
+                      value={settings.model}
+                      onValueChange={(value) => setSettings((prev) => ({ ...prev, model: value }))}
+                    >
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="gpt-4o-mini">GPT-4o Mini</SelectItem>
+                        <SelectItem value="gpt-4o">GPT-4o</SelectItem>
+                        <SelectItem value="gpt-3.5-turbo">GPT-3.5 Turbo</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
 
-                  {settings.voiceEnabled && (
+                  <div>
+                    <Label htmlFor="temperature">Temperature: {settings.temperature}</Label>
+                    <Slider
+                      value={[settings.temperature]}
+                      onValueChange={([value]) => setSettings((prev) => ({ ...prev, temperature: value }))}
+                      max={1}
+                      min={0}
+                      step={0.1}
+                      className="mt-2"
+                    />
+                  </div>
+
+                  <div className="flex items-center space-x-2">
+                    <Switch
+                      id="custom-prompt"
+                      checked={settings.useCustomPrompt}
+                      onCheckedChange={(checked) => setSettings((prev) => ({ ...prev, useCustomPrompt: checked }))}
+                    />
+                    <Label htmlFor="custom-prompt">Use Healthcare System Prompt</Label>
+                  </div>
+
+                  <div className="space-y-4 border-t pt-4">
+                    <h4 className="font-medium">Voice Settings</h4>
                     <div className="flex items-center space-x-2">
                       <Switch
-                        id="auto-speak"
-                        checked={settings.autoSpeak}
-                        onCheckedChange={(checked) => setSettings((prev) => ({ ...prev, autoSpeak: checked }))}
+                        id="voice-enabled"
+                        checked={settings.voiceEnabled}
+                        onCheckedChange={(checked) => setSettings((prev) => ({ ...prev, voiceEnabled: checked }))}
                       />
-                      <Label htmlFor="auto-speak">Auto-speak Responses</Label>
+                      <Label htmlFor="voice-enabled">Enable Voice Mode</Label>
+                    </div>
+
+                    {settings.voiceEnabled && (
+                      <div className="flex items-center space-x-2">
+                        <Switch
+                          id="auto-speak"
+                          checked={settings.autoSpeak}
+                          onCheckedChange={(checked) => setSettings((prev) => ({ ...prev, autoSpeak: checked }))}
+                        />
+                        <Label htmlFor="auto-speak">Auto-speak Responses</Label>
+                      </div>
+                    )}
+                  </div>
+
+                  {settings.useCustomPrompt && (
+                    <div className="p-3 bg-gray-50 rounded-lg">
+                      <Label className="text-sm font-medium">Active System Prompt:</Label>
+                      <p className="text-xs text-gray-600 mt-1">
+                        "You are a helpful healthcare AI assistant. Provide accurate medical information while emphasizing
+                        that users should consult healthcare professionals for diagnosis and treatment."
+                      </p>
                     </div>
                   )}
                 </div>
-
-                {settings.useCustomPrompt && (
-                  <div className="p-3 bg-gray-50 rounded-lg">
-                    <Label className="text-sm font-medium">Active System Prompt:</Label>
-                    <p className="text-xs text-gray-600 mt-1">
-                      "You are a helpful healthcare AI assistant. Provide accurate medical information while emphasizing
-                      that users should consult healthcare professionals for diagnosis and treatment."
-                    </p>
-                  </div>
-                )}
-              </div>
-            </SheetContent>
-          </Sheet>
+              </SheetContent>
+            </Sheet>
+          </div>
         </div>
 
         {/* Chat Container */}
