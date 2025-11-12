@@ -99,7 +99,7 @@ export default function Dashboard() {
                 Track your health journey in Kolkata • Manage appointments and wellness goals
               </p>
             </div>
-            <DropdownMenu>
+            {/* <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" className="bg-white/60 backdrop-blur-sm">
                   {selectedPeriod} <ChevronDown className="w-4 h-4 ml-2" />
@@ -110,7 +110,15 @@ export default function Dashboard() {
                 <DropdownMenuItem onClick={() => setSelectedPeriod("Last 6 months")}>Last 6 months</DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setSelectedPeriod("Last year")}>Last year</DropdownMenuItem>
               </DropdownMenuContent>
-            </DropdownMenu>
+            </DropdownMenu> */}
+            <Button
+            variant="outline"
+            className="bg-white/60 backdrop-blur-sm"
+            onClick={() => window.open("http://localhost:8502/", "_blank")}
+            >
+              Visit Site
+            </Button>
+
           </div>
 
           {/* Key Metrics */}

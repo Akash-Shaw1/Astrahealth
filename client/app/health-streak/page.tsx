@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
+import { useState, useEffect } from "react";
 import {
   Trophy,
   Target,
@@ -17,20 +17,51 @@ import {
   Edit,
   Trash2,
   MoreHorizontal,
-} from "lucide-react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Progress } from "@/components/ui/progress"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { toast } from "@/hooks/use-toast"
-import { XAxis, YAxis, ResponsiveContainer, Tooltip, AreaChart, Area } from "recharts"
-import DashboardLayout from "@/components/dashboard-layout"
-import { type HealthGoal, initialHealthGoals, STORAGE_KEYS, loadFromStorage, saveToStorage } from "@/lib/data"
+  Thermometer,
+} from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { toast } from "@/hooks/use-toast";
+import {
+  XAxis,
+  YAxis,
+  ResponsiveContainer,
+  Tooltip,
+  AreaChart,
+  Area,
+} from "recharts";
+import DashboardLayout from "@/components/dashboard-layout";
+import {
+  type HealthGoal,
+  initialHealthGoals,
+  STORAGE_KEYS,
+  loadFromStorage,
+  saveToStorage,
+} from "@/lib/data";
 
 const streakData = [
   { day: "Mon", steps: 8500, water: 6, sleep: 7.5, exercise: 45 },
@@ -40,7 +71,7 @@ const streakData = [
   { day: "Fri", steps: 9500, water: 7, sleep: 7, exercise: 50 },
   { day: "Sat", steps: 15000, water: 10, sleep: 9, exercise: 90 },
   { day: "Sun", steps: 11000, water: 8, sleep: 8, exercise: 65 },
-]
+];
 
 const achievements = [
   {
@@ -75,22 +106,22 @@ const achievements = [
     earned: false,
     progress: 60,
   },
-]
+];
 
 const iconMap = {
   Activity,
   Droplets,
   Moon,
   Heart,
-}
+};
 
 export default function HealthStreakTracker() {
-  const [healthGoals, setHealthGoals] = useState<HealthGoal[]>([])
-  const [currentStreak, setCurrentStreak] = useState(12)
-  const [longestStreak, setLongestStreak] = useState(28)
-  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
-  const [editingGoal, setEditingGoal] = useState<HealthGoal | null>(null)
+  const [healthGoals, setHealthGoals] = useState<HealthGoal[]>([]);
+  const [currentStreak, setCurrentStreak] = useState(12);
+  const [longestStreak, setLongestStreak] = useState(28);
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [editingGoal, setEditingGoal] = useState<HealthGoal | null>(null);
   const [formData, setFormData] = useState({
     title: "",
     target: "",
@@ -98,21 +129,51 @@ export default function HealthStreakTracker() {
     unit: "",
     icon: "Activity",
     color: "blue",
-  })
+  });
+
+  const [sensorData, setSensorData] = useState({
+    bpm: 0,
+    avgBpm: 0,
+    spO2: 0,
+    temp: 0,
+    fingerDetected: false,
+  });
 
   useEffect(() => {
-    const storedGoals = loadFromStorage(STORAGE_KEYS.HEALTH_GOALS, initialHealthGoals)
-    setHealthGoals(storedGoals)
-  }, [])
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://10.34.228.45/data"); // <-- your ESP32 IP
+        const data = await response.json();
+        setSensorData(data);
+      } catch (err) {
+        console.error("Failed to fetch sensor data", err);
+      }
+    };
+
+    fetchData();
+    const interval = setInterval(fetchData, 1000); // fetch every second
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    const storedGoals = loadFromStorage(
+      STORAGE_KEYS.HEALTH_GOALS,
+      initialHealthGoals
+    );
+    setHealthGoals(storedGoals);
+  }, []);
 
   useEffect(() => {
     if (healthGoals.length > 0) {
-      saveToStorage(STORAGE_KEYS.HEALTH_GOALS, healthGoals)
+      saveToStorage(STORAGE_KEYS.HEALTH_GOALS, healthGoals);
     }
-  }, [healthGoals])
+  }, [healthGoals]);
 
   const totalProgress =
-    healthGoals.reduce((acc, goal) => acc + (goal.current / goal.target) * 100, 0) / healthGoals.length
+    healthGoals.reduce(
+      (acc, goal) => acc + (goal.current / goal.target) * 100,
+      0
+    ) / healthGoals.length;
 
   const handleAddGoal = () => {
     if (!formData.title || !formData.target || !formData.unit) {
@@ -120,8 +181,8 @@ export default function HealthStreakTracker() {
         title: "Error",
         description: "Please fill in all required fields",
         variant: "destructive",
-      })
-      return
+      });
+      return;
     }
 
     const newGoal: HealthGoal = {
@@ -133,16 +194,16 @@ export default function HealthStreakTracker() {
       icon: formData.icon,
       color: formData.color,
       streak: 0,
-    }
+    };
 
-    setHealthGoals([...healthGoals, newGoal])
-    setIsAddDialogOpen(false)
-    resetForm()
+    setHealthGoals([...healthGoals, newGoal]);
+    setIsAddDialogOpen(false);
+    resetForm();
     toast({
       title: "Success",
       description: "Goal added successfully",
-    })
-  }
+    });
+  };
 
   const handleUpdateGoal = () => {
     if (!editingGoal || !formData.title || !formData.target || !formData.unit) {
@@ -150,8 +211,8 @@ export default function HealthStreakTracker() {
         title: "Error",
         description: "Please fill in all required fields",
         variant: "destructive",
-      })
-      return
+      });
+      return;
     }
 
     const updatedGoal: HealthGoal = {
@@ -162,28 +223,30 @@ export default function HealthStreakTracker() {
       unit: formData.unit,
       icon: formData.icon,
       color: formData.color,
-    }
+    };
 
-    setHealthGoals(healthGoals.map((g) => (g.id === editingGoal.id ? updatedGoal : g)))
-    setIsEditDialogOpen(false)
-    setEditingGoal(null)
-    resetForm()
+    setHealthGoals(
+      healthGoals.map((g) => (g.id === editingGoal.id ? updatedGoal : g))
+    );
+    setIsEditDialogOpen(false);
+    setEditingGoal(null);
+    resetForm();
     toast({
       title: "Success",
       description: "Goal updated successfully",
-    })
-  }
+    });
+  };
 
   const handleDeleteGoal = (goalId: number) => {
-    setHealthGoals(healthGoals.filter((g) => g.id !== goalId))
+    setHealthGoals(healthGoals.filter((g) => g.id !== goalId));
     toast({
       title: "Success",
       description: "Goal deleted successfully",
-    })
-  }
+    });
+  };
 
   const handleEditGoal = (goal: HealthGoal) => {
-    setEditingGoal(goal)
+    setEditingGoal(goal);
     setFormData({
       title: goal.title,
       target: goal.target.toString(),
@@ -191,9 +254,9 @@ export default function HealthStreakTracker() {
       unit: goal.unit,
       icon: goal.icon,
       color: goal.color,
-    })
-    setIsEditDialogOpen(true)
-  }
+    });
+    setIsEditDialogOpen(true);
+  };
 
   const resetForm = () => {
     setFormData({
@@ -203,8 +266,8 @@ export default function HealthStreakTracker() {
       unit: "",
       icon: "Activity",
       color: "blue",
-    })
-  }
+    });
+  };
 
   return (
     <DashboardLayout>
@@ -213,8 +276,12 @@ export default function HealthStreakTracker() {
         <div className="mb-8">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">Health Streak Tracker</h1>
-              <p className="text-gray-600">Track your daily health habits and build lasting streaks</p>
+              <h1 className="text-3xl font-bold text-gray-900 mb-2">
+                Health Streak Tracker
+              </h1>
+              <p className="text-gray-600">
+                Track your daily health habits and build lasting streaks
+              </p>
             </div>
             <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
               <DialogTrigger asChild>
@@ -233,7 +300,9 @@ export default function HealthStreakTracker() {
                     <Input
                       id="title"
                       value={formData.title}
-                      onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, title: e.target.value })
+                      }
                       placeholder="e.g., Daily Steps"
                     />
                   </div>
@@ -243,7 +312,9 @@ export default function HealthStreakTracker() {
                       id="target"
                       type="number"
                       value={formData.target}
-                      onChange={(e) => setFormData({ ...formData, target: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, target: e.target.value })
+                      }
                       placeholder="e.g., 10000"
                     />
                   </div>
@@ -253,7 +324,9 @@ export default function HealthStreakTracker() {
                       id="current"
                       type="number"
                       value={formData.current}
-                      onChange={(e) => setFormData({ ...formData, current: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, current: e.target.value })
+                      }
                       placeholder="e.g., 8750"
                     />
                   </div>
@@ -262,13 +335,20 @@ export default function HealthStreakTracker() {
                     <Input
                       id="unit"
                       value={formData.unit}
-                      onChange={(e) => setFormData({ ...formData, unit: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, unit: e.target.value })
+                      }
                       placeholder="e.g., steps, glasses, hours"
                     />
                   </div>
                   <div>
                     <Label htmlFor="icon">Icon</Label>
-                    <Select value={formData.icon} onValueChange={(value) => setFormData({ ...formData, icon: value })}>
+                    <Select
+                      value={formData.icon}
+                      onValueChange={(value) =>
+                        setFormData({ ...formData, icon: value })
+                      }
+                    >
                       <SelectTrigger>
                         <SelectValue />
                       </SelectTrigger>
@@ -284,7 +364,9 @@ export default function HealthStreakTracker() {
                     <Label htmlFor="color">Color</Label>
                     <Select
                       value={formData.color}
-                      onValueChange={(value) => setFormData({ ...formData, color: value })}
+                      onValueChange={(value) =>
+                        setFormData({ ...formData, color: value })
+                      }
                     >
                       <SelectTrigger>
                         <SelectValue />
@@ -303,7 +385,11 @@ export default function HealthStreakTracker() {
                     <Button onClick={handleAddGoal} className="flex-1">
                       Add Goal
                     </Button>
-                    <Button variant="outline" onClick={() => setIsAddDialogOpen(false)} className="flex-1">
+                    <Button
+                      variant="outline"
+                      onClick={() => setIsAddDialogOpen(false)}
+                      className="flex-1"
+                    >
                       Cancel
                     </Button>
                   </div>
@@ -324,7 +410,9 @@ export default function HealthStreakTracker() {
                 <Input
                   id="edit-title"
                   value={formData.title}
-                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, title: e.target.value })
+                  }
                   placeholder="e.g., Daily Steps"
                 />
               </div>
@@ -334,7 +422,9 @@ export default function HealthStreakTracker() {
                   id="edit-target"
                   type="number"
                   value={formData.target}
-                  onChange={(e) => setFormData({ ...formData, target: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, target: e.target.value })
+                  }
                   placeholder="e.g., 10000"
                 />
               </div>
@@ -344,7 +434,9 @@ export default function HealthStreakTracker() {
                   id="edit-current"
                   type="number"
                   value={formData.current}
-                  onChange={(e) => setFormData({ ...formData, current: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, current: e.target.value })
+                  }
                   placeholder="e.g., 8750"
                 />
               </div>
@@ -353,7 +445,9 @@ export default function HealthStreakTracker() {
                 <Input
                   id="edit-unit"
                   value={formData.unit}
-                  onChange={(e) => setFormData({ ...formData, unit: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, unit: e.target.value })
+                  }
                   placeholder="e.g., steps, glasses, hours"
                 />
               </div>
@@ -361,7 +455,11 @@ export default function HealthStreakTracker() {
                 <Button onClick={handleUpdateGoal} className="flex-1">
                   Update Goal
                 </Button>
-                <Button variant="outline" onClick={() => setIsEditDialogOpen(false)} className="flex-1">
+                <Button
+                  variant="outline"
+                  onClick={() => setIsEditDialogOpen(false)}
+                  className="flex-1"
+                >
                   Cancel
                 </Button>
               </div>
@@ -370,7 +468,7 @@ export default function HealthStreakTracker() {
         </Dialog>
 
         {/* Streak Overview Cards */}
-        <div className="grid grid-cols-4 gap-6 mb-8">
+        {/* <div className="grid grid-cols-4 gap-6 mb-8">
           <Card className="bg-gradient-to-br from-orange-500 to-red-500 text-white border-0">
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-4">
@@ -414,6 +512,70 @@ export default function HealthStreakTracker() {
               <div className="text-blue-100">Achievements</div>
             </CardContent>
           </Card>
+        </div> */}
+
+        <div className="grid grid-cols-4 gap-6 mb-8">
+          {/* Heartbeat Status */}
+          <Card className="bg-gradient-to-br from-red-500 to-pink-500 text-white border-0">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between mb-4">
+                <Heart className="w-8 h-8" />
+                <Badge className="bg-white/20 text-white">
+                  {sensorData.fingerDetected ? "Active" : "No Finger"}
+                </Badge>
+              </div>
+              <div className="text-3xl font-bold mb-1">{sensorData.avgBpm}</div>
+              <div className="text-pink-100">BPM</div>
+            </CardContent>
+          </Card>
+
+          {/* Oxygen Level */}
+          <Card className="bg-gradient-to-br from-blue-500 to-cyan-500 text-white border-0">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between mb-4">
+                <Droplets className="w-8 h-8" />
+                <Badge className="bg-white/20 text-white">Oxygen</Badge>
+              </div>
+              <div className="text-3xl font-bold mb-1">{sensorData.spO2}%</div>
+              <div className="text-blue-100">SpO₂ Level</div>
+            </CardContent>
+          </Card>
+
+          {/* Temperature */}
+          <Card className="bg-gradient-to-br from-green-500 to-emerald-500 text-white border-0">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between mb-4">
+                <Thermometer className="w-8 h-8" />
+                <Badge className="bg-white/20 text-white">Body Temp</Badge>
+              </div>
+              <div className="text-3xl font-bold mb-1">{sensorData.temp}°C</div>
+              <div className="text-green-100">Temperature</div>
+            </CardContent>
+          </Card>
+
+          {/* Heart Risk */}
+          <Card
+            className={`${
+              sensorData.fingerDetected
+                ? "bg-gradient-to-br from-red-600 to-orange-600"
+                : "bg-gradient-to-br from-gray-500 to-gray-700"
+            } text-white border-0`}
+          >
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between mb-4">
+                <Activity className="w-8 h-8" />
+                <Badge className="bg-white/20 text-white">Heart Risk</Badge>
+              </div>
+              <div className="text-[17px] font-bold mb-1">
+                {sensorData.fingerDetected
+                  ? "Unusual Activity Detected"
+                  : "No Unusual Activity Detected"}
+              </div>
+              <div className="text-yellow-100">
+                {sensorData.fingerDetected ? "⚠️ At Risk" : "✅ Normal"}
+              </div>
+            </CardContent>
+          </Card>
         </div>
 
         <div className="grid grid-cols-3 gap-6">
@@ -428,16 +590,21 @@ export default function HealthStreakTracker() {
             <CardContent>
               <div className="space-y-6">
                 {healthGoals.map((goal) => {
-                  const IconComponent = iconMap[goal.icon as keyof typeof iconMap] || Activity
-                  const progress = (goal.current / goal.target) * 100
-                  const isComplete = progress >= 100
+                  const IconComponent =
+                    iconMap[goal.icon as keyof typeof iconMap] || Activity;
+                  const progress = (goal.current / goal.target) * 100;
+                  const isComplete = progress >= 100;
 
                   return (
                     <div key={goal.id} className="space-y-3">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
-                          <div className={`p-2 rounded-lg bg-${goal.color}-100`}>
-                            <IconComponent className={`w-5 h-5 text-${goal.color}-600`} />
+                          <div
+                            className={`p-2 rounded-lg bg-${goal.color}-100`}
+                          >
+                            <IconComponent
+                              className={`w-5 h-5 text-${goal.color}-600`}
+                            />
                           </div>
                           <div>
                             <div className="font-medium">{goal.title}</div>
@@ -447,7 +614,10 @@ export default function HealthStreakTracker() {
                           </div>
                         </div>
                         <div className="flex items-center gap-2">
-                          <Badge variant={isComplete ? "default" : "secondary"} className="flex items-center gap-1">
+                          <Badge
+                            variant={isComplete ? "default" : "secondary"}
+                            className="flex items-center gap-1"
+                          >
                             <Flame className="w-3 h-3" />
                             {goal.streak}
                           </Badge>
@@ -458,16 +628,25 @@ export default function HealthStreakTracker() {
                           )}
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="icon" className="h-8 w-8">
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-8 w-8"
+                              >
                                 <MoreHorizontal className="w-4 h-4" />
                               </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent>
-                              <DropdownMenuItem onClick={() => handleEditGoal(goal)}>
+                              <DropdownMenuItem
+                                onClick={() => handleEditGoal(goal)}
+                              >
                                 <Edit className="w-4 h-4 mr-2" />
                                 Edit Goal
                               </DropdownMenuItem>
-                              <DropdownMenuItem onClick={() => handleDeleteGoal(goal.id)} className="text-red-600">
+                              <DropdownMenuItem
+                                onClick={() => handleDeleteGoal(goal.id)}
+                                className="text-red-600"
+                              >
                                 <Trash2 className="w-4 h-4 mr-2" />
                                 Delete Goal
                               </DropdownMenuItem>
@@ -477,7 +656,7 @@ export default function HealthStreakTracker() {
                       </div>
                       <Progress value={progress} className="h-2" />
                     </div>
-                  )
+                  );
                 })}
               </div>
             </CardContent>
@@ -494,7 +673,7 @@ export default function HealthStreakTracker() {
             <CardContent>
               <div className="space-y-4">
                 {achievements.map((achievement) => {
-                  const Icon = achievement.icon
+                  const Icon = achievement.icon;
                   return (
                     <div
                       key={achievement.id}
@@ -505,24 +684,45 @@ export default function HealthStreakTracker() {
                       }`}
                     >
                       <div className="flex items-start gap-3">
-                        <div className={`p-2 rounded-lg ${achievement.earned ? "bg-yellow-100" : "bg-gray-100"}`}>
-                          <Icon className={`w-4 h-4 ${achievement.earned ? "text-yellow-600" : "text-gray-400"}`} />
+                        <div
+                          className={`p-2 rounded-lg ${
+                            achievement.earned ? "bg-yellow-100" : "bg-gray-100"
+                          }`}
+                        >
+                          <Icon
+                            className={`w-4 h-4 ${
+                              achievement.earned
+                                ? "text-yellow-600"
+                                : "text-gray-400"
+                            }`}
+                          />
                         </div>
                         <div className="flex-1">
-                          <div className="font-medium text-sm">{achievement.title}</div>
-                          <div className="text-xs text-gray-500 mb-2">{achievement.description}</div>
+                          <div className="font-medium text-sm">
+                            {achievement.title}
+                          </div>
+                          <div className="text-xs text-gray-500 mb-2">
+                            {achievement.description}
+                          </div>
                           {achievement.earned ? (
-                            <Badge className="bg-yellow-100 text-yellow-800 text-xs">Earned {achievement.date}</Badge>
+                            <Badge className="bg-yellow-100 text-yellow-800 text-xs">
+                              Earned {achievement.date}
+                            </Badge>
                           ) : (
                             <div className="space-y-1">
-                              <Progress value={achievement.progress} className="h-1" />
-                              <div className="text-xs text-gray-500">{achievement.progress}% complete</div>
+                              <Progress
+                                value={achievement.progress}
+                                className="h-1"
+                              />
+                              <div className="text-xs text-gray-500">
+                                {achievement.progress}% complete
+                              </div>
                             </div>
                           )}
                         </div>
                       </div>
                     </div>
-                  )
+                  );
                 })}
               </div>
             </CardContent>
@@ -550,19 +750,44 @@ export default function HealthStreakTracker() {
                           <div className="bg-white p-3 rounded-lg shadow-lg border">
                             <p className="font-medium">{label}</p>
                             {payload.map((entry, index) => (
-                              <p key={index} className="text-sm" style={{ color: entry.color }}>
+                              <p
+                                key={index}
+                                className="text-sm"
+                                style={{ color: entry.color }}
+                              >
                                 {entry.name}: {entry.value}
                               </p>
                             ))}
                           </div>
-                        )
+                        );
                       }
-                      return null
+                      return null;
                     }}
                   />
-                  <Area type="monotone" dataKey="steps" stackId="1" stroke="#3B82F6" fill="#3B82F6" fillOpacity={0.1} />
-                  <Area type="monotone" dataKey="water" stackId="2" stroke="#06B6D4" fill="#06B6D4" fillOpacity={0.1} />
-                  <Area type="monotone" dataKey="sleep" stackId="3" stroke="#8B5CF6" fill="#8B5CF6" fillOpacity={0.1} />
+                  <Area
+                    type="monotone"
+                    dataKey="steps"
+                    stackId="1"
+                    stroke="#3B82F6"
+                    fill="#3B82F6"
+                    fillOpacity={0.1}
+                  />
+                  <Area
+                    type="monotone"
+                    dataKey="water"
+                    stackId="2"
+                    stroke="#06B6D4"
+                    fill="#06B6D4"
+                    fillOpacity={0.1}
+                  />
+                  <Area
+                    type="monotone"
+                    dataKey="sleep"
+                    stackId="3"
+                    stroke="#8B5CF6"
+                    fill="#8B5CF6"
+                    fillOpacity={0.1}
+                  />
                   <Area
                     type="monotone"
                     dataKey="exercise"
@@ -578,5 +803,5 @@ export default function HealthStreakTracker() {
         </Card>
       </div>
     </DashboardLayout>
-  )
+  );
 }
