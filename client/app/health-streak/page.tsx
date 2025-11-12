@@ -155,6 +155,19 @@ export default function HealthStreakTracker() {
     return () => clearInterval(interval);
   }, []);
 
+  const [showData, setShowData] = useState(false)
+
+  useEffect(() => {
+    if (sensorData.fingerDetected) {
+      const timer = setTimeout(() => setShowData(true), 5000)
+      return () => clearTimeout(timer)
+    } else {
+      setShowData(false)
+    }
+  }, [sensorData.fingerDetected])
+
+  const isAtRisk = showData && (sensorData.avgBpm < 60 || sensorData.avgBpm > 100) && (sensorData.avgBpm!=0)
+
   useEffect(() => {
     const storedGoals = loadFromStorage(
       STORAGE_KEYS.HEALTH_GOALS,
@@ -514,69 +527,93 @@ export default function HealthStreakTracker() {
           </Card>
         </div> */}
 
-        <div className="grid grid-cols-4 gap-6 mb-8">
-          {/* Heartbeat Status */}
-          <Card className="bg-gradient-to-br from-red-500 to-pink-500 text-white border-0">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <Heart className="w-8 h-8" />
-                <Badge className="bg-white/20 text-white">
-                  {sensorData.fingerDetected ? "Active" : "No Finger"}
-                </Badge>
-              </div>
+       <div className="grid grid-cols-4 gap-6 mb-8">
+      {/* Heartbeat Status */}
+      <Card className="bg-gradient-to-br from-red-500 to-pink-500 text-white border-0">
+        <CardContent className="p-6">
+          <div className="flex items-center justify-between mb-4">
+            <Heart className="w-8 h-8" />
+            <Badge className="bg-white/20 text-white">
+              {sensorData.fingerDetected ? "Active" : "No Finger"}
+            </Badge>
+          </div>
+
+          {showData ? (
+            <>
               <div className="text-3xl font-bold mb-1">{sensorData.avgBpm}</div>
               <div className="text-pink-100">BPM</div>
-            </CardContent>
-          </Card>
+            </>
+          ) : (
+            <div className="text-gray-300 text-sm">Waiting for stable reading...</div>
+          )}
+        </CardContent>
+      </Card>
 
-          {/* Oxygen Level */}
-          <Card className="bg-gradient-to-br from-blue-500 to-cyan-500 text-white border-0">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <Droplets className="w-8 h-8" />
-                <Badge className="bg-white/20 text-white">Oxygen</Badge>
-              </div>
+      {/* Oxygen Level */}
+      <Card className="bg-gradient-to-br from-blue-500 to-cyan-500 text-white border-0">
+        <CardContent className="p-6">
+          <div className="flex items-center justify-between mb-4">
+            <Droplets className="w-8 h-8" />
+            <Badge className="bg-white/20 text-white">Oxygen</Badge>
+          </div>
+
+          {showData ? (
+            <>
               <div className="text-3xl font-bold mb-1">{sensorData.spO2}%</div>
               <div className="text-blue-100">SpO₂ Level</div>
-            </CardContent>
-          </Card>
+            </>
+          ) : null}
+        </CardContent>
+      </Card>
 
-          {/* Temperature */}
-          <Card className="bg-gradient-to-br from-green-500 to-emerald-500 text-white border-0">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <Thermometer className="w-8 h-8" />
-                <Badge className="bg-white/20 text-white">Body Temp</Badge>
-              </div>
+      {/* Temperature */}
+      <Card className="bg-gradient-to-br from-green-500 to-emerald-500 text-white border-0">
+        <CardContent className="p-6">
+          <div className="flex items-center justify-between mb-4">
+            <Thermometer className="w-8 h-8" />
+            <Badge className="bg-white/20 text-white">Body Temp</Badge>
+          </div>
+
+          {showData ? (
+            <>
               <div className="text-3xl font-bold mb-1">{sensorData.temp}°C</div>
               <div className="text-green-100">Temperature</div>
-            </CardContent>
-          </Card>
+            </>
+          ) : null}
+        </CardContent>
+      </Card>
 
-          {/* Heart Risk */}
-          <Card
-            className={`${
-              sensorData.fingerDetected
-                ? "bg-gradient-to-br from-red-600 to-orange-600"
-                : "bg-gradient-to-br from-gray-500 to-gray-700"
-            } text-white border-0`}
-          >
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <Activity className="w-8 h-8" />
-                <Badge className="bg-white/20 text-white">Heart Risk</Badge>
-              </div>
+      {/* Heart Risk */}
+      <Card
+        className={`${
+          showData
+            ? isAtRisk
+              ? "bg-gradient-to-br from-red-600 to-orange-600 animate-pulse"
+              : "bg-gradient-to-br from-gray-700 to-gray-900"
+            : "bg-gradient-to-br from-gray-500 to-gray-700"
+        } text-white border-0`}
+      >
+        <CardContent className="p-6">
+          <div className="flex items-center justify-between mb-4">
+            <Activity className="w-8 h-8" />
+            <Badge className="bg-white/20 text-white">Heart Risk</Badge>
+          </div>
+
+          {showData ? (
+            <>
               <div className="text-[17px] font-bold mb-1">
-                {sensorData.fingerDetected
-                  ? "Unusual Activity Detected"
-                  : "No Unusual Activity Detected"}
+                {isAtRisk
+                  ? "Unusual Heartbeat Detected"
+                  : "Heartbeat in Safe Range"}
               </div>
               <div className="text-yellow-100">
-                {sensorData.fingerDetected ? "⚠️ At Risk" : "✅ Normal"}
+                {isAtRisk ? "⚠️ At Risk" : "✅ Normal"}
               </div>
-            </CardContent>
-          </Card>
-        </div>
+            </>
+          ) : null}
+        </CardContent>
+      </Card>
+    </div>
 
         <div className="grid grid-cols-3 gap-6">
           {/* Daily Goals Progress */}
