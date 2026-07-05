@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
 import { cn } from "@/lib/utils"
 
-interface AnalyticsMetric {
+export interface AnalyticsMetric {
   label: string
   value: number
   target: number

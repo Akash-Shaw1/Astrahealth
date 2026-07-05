@@ -2,7 +2,9 @@
 
 import type React from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useDataSource } from "@/hooks/use-data-source";
+import { apiAdapter } from "@/lib/api-adapter";
 import {
   Search,
   Calendar,
@@ -34,7 +36,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { UserButton } from "@clerk/nextjs";
 import TranslateButton from "./TranslateButton";
@@ -118,8 +120,35 @@ interface DashboardLayoutProps {
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const pathname = usePathname();
+  const router = useRouter();
+  const { dataMode } = useDataSource();
   const [sidebarExpanded, setSidebarExpanded] = useState(false);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+
+  // Enforce Onboarding Guard
+  useEffect(() => {
+    if (pathname === "/onboarding") return;
+
+    const checkOnboarding = async () => {
+      try {
+        if (dataMode === "live") {
+          const profile = await apiAdapter.getProfile();
+          if (profile && !profile.onboardingComplete) {
+            router.push("/onboarding");
+          }
+        } else {
+          const complete = localStorage.getItem("astra_onboarding_complete") === "true";
+          if (!complete) {
+            router.push("/onboarding");
+          }
+        }
+      } catch (err) {
+        console.error("Onboarding check error:", err);
+      }
+    };
+
+    checkOnboarding();
+  }, [pathname, dataMode]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-slate-50">
@@ -176,6 +205,23 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 <ArrowUpRight className="w-4 h-4 ml-1 sm:ml-2" />
               </Link>
             </Button>
+            {/* Data Source Indicator */}
+            <div
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold cursor-pointer border border-slate-200 bg-white/50 select-none hover:bg-slate-50 transition-all duration-200"
+              onClick={() => router.push('/settings')}
+            >
+              {dataMode === 'live' ? (
+                <>
+                  <span className="h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse" />
+                  <span className="text-emerald-700 hidden sm:inline">Connected</span>
+                </>
+              ) : (
+                <>
+                  <span className="h-2.5 w-2.5 rounded-full bg-amber-500" />
+                  <span className="text-amber-700 hidden sm:inline">Demo Mode</span>
+                </>
+              )}
+            </div>
             <LanguageDropdown/>
           </div>
         </div>

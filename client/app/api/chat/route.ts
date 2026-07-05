@@ -74,7 +74,7 @@ function processMessageWithAttachments(message: any) {
 export async function POST(request: NextRequest) {
   try {
     // Rate limiting
-    const ip = request.ip || "unknown"
+    const ip = request.headers.get("x-forwarded-for") || (request as any).ip || "unknown"
     if (!checkRateLimit(ip)) {
       return NextResponse.json({ error: "Rate limit exceeded. Please try again later." }, { status: 429 })
     }
@@ -175,7 +175,7 @@ export async function POST(request: NextRequest) {
     console.error("Chat API error:", error)
 
     if (error instanceof z.ZodError) {
-      return NextResponse.json({ error: "Invalid request format", details: error.errors }, { status: 400 })
+      return NextResponse.json({ error: "Invalid request format", details: error.issues }, { status: 400 })
     }
 
     return NextResponse.json({ error: "Internal server error" }, { status: 500 })

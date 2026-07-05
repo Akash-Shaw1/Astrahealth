@@ -27,7 +27,7 @@ import {
   Clock,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { getMedicalRecords, getDoctorById, getConsultationById, type MedicalRecord } from "@/lib/data-service"
+import { getMedicalRecords, getDoctors, type MedicalRecord, type Doctor } from "@/lib/data-service"
 
 interface MedicalRecordsModalProps {
   open: boolean
@@ -39,6 +39,7 @@ export default function MedicalRecordsModal({ open, onOpenChange }: MedicalRecor
   const [selectedRecord, setSelectedRecord] = useState<MedicalRecord | null>(null)
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedTab, setSelectedTab] = useState("all")
+  const [doctors, setDoctors] = useState<Doctor[]>([])
 
   useEffect(() => {
     if (open) {
@@ -46,11 +47,17 @@ export default function MedicalRecordsModal({ open, onOpenChange }: MedicalRecor
     }
   }, [open])
 
-  const loadMedicalRecords = () => {
-    const medicalRecords = getMedicalRecords()
-    setRecords(medicalRecords)
-    if (medicalRecords.length > 0 && !selectedRecord) {
-      setSelectedRecord(medicalRecords[0])
+  const loadMedicalRecords = async () => {
+    try {
+      const medicalRecords = await getMedicalRecords()
+      setRecords(medicalRecords)
+      const docs = await getDoctors()
+      setDoctors(docs)
+      if (medicalRecords.length > 0 && !selectedRecord) {
+        setSelectedRecord(medicalRecords[0])
+      }
+    } catch (err) {
+      console.error("Failed to load medical records:", err)
     }
   }
 
@@ -405,7 +412,7 @@ export default function MedicalRecordsModal({ open, onOpenChange }: MedicalRecor
             <ScrollArea className="h-[calc(100%-120px)]">
               <div className="space-y-3">
                 {filteredRecords.map((record) => {
-                  const doctor = getDoctorById(record.doctorId)
+                  const doctor = doctors.find((d) => d.id === record.doctorId)
                   return (
                     <Card
                       key={record.id}

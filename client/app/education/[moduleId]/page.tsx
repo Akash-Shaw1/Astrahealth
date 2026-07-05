@@ -3,13 +3,14 @@ import ModuleDetailPage from "@/components/module-detail-page"
 import educationData from "@/data/education-modules.json"
 
 interface ModulePageProps {
-  params: {
+  params: Promise<{
     moduleId: string
-  }
+  }>
 }
 
-export default function ModulePage({ params }: ModulePageProps) {
-  const module = educationData.modules.find((m) => m.id === params.moduleId)
+export default async function ModulePage({ params }: ModulePageProps) {
+  const { moduleId } = await params
+  const module = educationData.modules.find((m) => m.id === moduleId)
 
   if (!module) {
     notFound()

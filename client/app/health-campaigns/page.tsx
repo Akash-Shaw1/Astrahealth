@@ -1,21 +1,17 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Calendar, MapPin, Users, Phone, Mail, Filter, Search, Plus, Edit, Trash2, MoreHorizontal } from "lucide-react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Calendar, MapPin, Users, Phone, Mail, Filter, Search, CheckCircle, Sparkles } from "lucide-react"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { toast } from "@/hooks/use-toast"
 import DashboardLayout from "@/components/dashboard-layout"
-import { type HealthCampaign, initialHealthCampaigns, STORAGE_KEYS, loadFromStorage, saveToStorage } from "@/lib/data"
+import { useDataSource } from "@/hooks/use-data-source"
+import { apiAdapter } from "@/lib/api-adapter"
 
-// Type labels for campaign types
 const typeLabels = {
   IMD: "Immunisation Drive",
   FHC: "Full Health Checkup",
@@ -24,7 +20,6 @@ const typeLabels = {
   WPC: "Wellness Program",
 }
 
-// Type colors for visual distinction
 const typeColors = {
   IMD: "bg-green-100 text-green-800 border-green-200",
   FHC: "bg-blue-100 text-blue-800 border-blue-200",
@@ -34,582 +29,335 @@ const typeColors = {
 }
 
 export default function HealthCampaignsPage() {
-  const [campaigns, setCampaigns] = useState<HealthCampaign[]>([])
+  const { dataMode } = useDataSource()
+  const [campaigns, setCampaigns] = useState<any[]>([])
+  const [myRegistrations, setMyRegistrations] = useState<any[]>([])
   const [searchTerm, setSearchTerm] = useState("")
   const [filterType, setFilterType] = useState<string>("all")
-  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
-  const [editingCampaign, setEditingCampaign] = useState<HealthCampaign | null>(null)
-  const [formData, setFormData] = useState({
-    type: "IMD" as keyof typeof typeLabels,
-    title: "",
-    description: "",
-    organiser: "",
-    location: "",
-    startDate: "",
-    endDate: "",
-    capacity: "",
-    registrationRequired: true,
-    vaccines: "",
-    phone: "",
-    email: "",
-  })
+  const [selectedFamilyMemberId, setSelectedFamilyMemberId] = useState("self")
+  const [familyMembers, setFamilyMembers] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+
+  // Load family members
+  useEffect(() => {
+    const fetchFamily = async () => {
+      try {
+        if (dataMode === "live") {
+          const list = await apiAdapter.getFamilyMembers()
+          setFamilyMembers(list)
+          if (list.length > 0) {
+            setSelectedFamilyMemberId(list[0].id)
+          }
+        } else {
+          setFamilyMembers([
+            { id: "self", name: "Arindam Chatterjee", relationship: "Self" },
+            { id: "spouse", name: "Madhumita Chatterjee", relationship: "Spouse" },
+          ])
+        }
+      } catch (err) {
+        console.error(err)
+      }
+    }
+    fetchFamily()
+  }, [dataMode])
+
+  const loadCampaignsData = async () => {
+    setLoading(true)
+    try {
+      if (dataMode === "live") {
+        const list = await apiAdapter.getCampaigns(
+          filterType === "all" ? undefined : filterType,
+          searchTerm || undefined
+        )
+        setCampaigns(list)
+
+        const regs = await apiAdapter.getMyCampaignRegistrations()
+        setMyRegistrations(regs)
+      } else {
+        // Fallback dummy campaigns
+        const dummyCampaigns = [
+          {
+            id: "camp-001",
+            type: "IMD",
+            title: "Kolkata Polio Immunisation Drive",
+            description: "Pulse polio immunization drive for children under 5 years.",
+            organiser: "Kolkata Municipal Corporation",
+            location: "Health Center 4, Salt Lake, Kolkata",
+            startDate: new Date(Date.now() + 3600000 * 24 * 3).toISOString(),
+            endDate: new Date(Date.now() + 3600000 * 24 * 5).toISOString(),
+            capacity: 300,
+            vaccines: ["Polio Vaccine"],
+            contactPhone: "+91 33 2286 1000",
+            contactEmail: "health@kmc.gov.in"
+          },
+          {
+            id: "camp-002",
+            type: "FHC",
+            title: "Community Free General Health Camp",
+            description: "Free general health consultation, BP monitoring, and blood sugar testing.",
+            organiser: "Apollo Outreach Program",
+            location: "Community Hall, Gariahat, Kolkata",
+            startDate: new Date(Date.now() + 3600000 * 24 * 10).toISOString(),
+            endDate: new Date(Date.now() + 3600000 * 24 * 11).toISOString(),
+            capacity: 150,
+            vaccines: [],
+            contactPhone: "+91 98300 98300",
+            contactEmail: "outreach@apollo.com"
+          }
+        ]
+
+        setCampaigns(
+          dummyCampaigns.filter((c) => {
+            const matchesSearch =
+              c.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+              c.description.toLowerCase().includes(searchTerm.toLowerCase())
+            const matchesType = filterType === "all" || c.type === filterType
+            return matchesSearch && matchesType
+          })
+        )
+      }
+    } catch (e) {
+      console.error(e)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   useEffect(() => {
-    const storedCampaigns = loadFromStorage(STORAGE_KEYS.HEALTH_CAMPAIGNS, initialHealthCampaigns)
-    setCampaigns(storedCampaigns)
-  }, [])
+    loadCampaignsData()
+  }, [searchTerm, filterType, dataMode])
 
-  useEffect(() => {
-    if (campaigns.length > 0) {
-      saveToStorage(STORAGE_KEYS.HEALTH_CAMPAIGNS, campaigns)
-    }
-  }, [campaigns])
+  const handleRegister = async (campaignId: string) => {
+    try {
+      if (dataMode === "live") {
+        await apiAdapter.registerForCampaign(campaignId, selectedFamilyMemberId)
+      } else {
+        const matchingCampaign = campaigns.find((c) => c.id === campaignId)
+        const dummyReg = {
+          id: `reg-${Date.now()}`,
+          campaignId,
+          campaign: matchingCampaign,
+          familyMemberId: selectedFamilyMemberId,
+        }
+        setMyRegistrations((prev) => [...prev, dummyReg])
+      }
 
-  // Filter campaigns based on search term and type
-  const filteredCampaigns = campaigns.filter((campaign) => {
-    const matchesSearch =
-      campaign.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      campaign.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      campaign.organiser.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesType = filterType === "all" || campaign.type === filterType
-    return matchesSearch && matchesType
-  })
-
-  const handleAddCampaign = () => {
-    if (!formData.title || !formData.organiser || !formData.location || !formData.startDate || !formData.endDate) {
       toast({
-        title: "Error",
-        description: "Please fill in all required fields",
+        title: "Registration Confirmed",
+        description: "You have successfully registered for the health campaign.",
+      })
+      loadCampaignsData()
+    } catch (err) {
+      console.error(err)
+      toast({
+        title: "Registration Failed",
+        description: "Already registered or error registering.",
         variant: "destructive",
       })
-      return
     }
-
-    const newCampaign: HealthCampaign = {
-      id: `HC${String(campaigns.length + 1).padStart(3, "0")}`,
-      type: formData.type,
-      title: formData.title,
-      description: formData.description,
-      organiser: formData.organiser,
-      location: formData.location,
-      startDate: formData.startDate,
-      endDate: formData.endDate,
-      capacity: formData.capacity ? Number.parseInt(formData.capacity) : undefined,
-      registeredUsers: 0,
-      registrationRequired: formData.registrationRequired,
-      vaccines: formData.vaccines ? formData.vaccines.split(",").map((v) => v.trim()) : undefined,
-      contactInfo: {
-        phone: formData.phone,
-        email: formData.email,
-      },
-    }
-
-    setCampaigns([...campaigns, newCampaign])
-    setIsAddDialogOpen(false)
-    resetForm()
-    toast({
-      title: "Success",
-      description: "Campaign added successfully",
-    })
   }
 
-  const handleUpdateCampaign = () => {
-    if (!editingCampaign || !formData.title || !formData.organiser || !formData.location) {
+  const handleCancelRegistration = async (campaignId: string) => {
+    try {
+      if (dataMode === "live") {
+        await apiAdapter.cancelCampaignRegistration(campaignId, selectedFamilyMemberId)
+      } else {
+        setMyRegistrations((prev) => prev.filter((r) => r.campaignId !== campaignId))
+      }
+
       toast({
-        title: "Error",
-        description: "Please fill in all required fields",
-        variant: "destructive",
+        title: "Registration Cancelled",
+        description: "Your campaign registration slot has been released.",
       })
-      return
+      loadCampaignsData()
+    } catch (err) {
+      console.error(err)
     }
-
-    const updatedCampaign: HealthCampaign = {
-      ...editingCampaign,
-      type: formData.type,
-      title: formData.title,
-      description: formData.description,
-      organiser: formData.organiser,
-      location: formData.location,
-      startDate: formData.startDate,
-      endDate: formData.endDate,
-      capacity: formData.capacity ? Number.parseInt(formData.capacity) : undefined,
-      registrationRequired: formData.registrationRequired,
-      vaccines: formData.vaccines ? formData.vaccines.split(",").map((v) => v.trim()) : undefined,
-      contactInfo: {
-        phone: formData.phone,
-        email: formData.email,
-      },
-    }
-
-    setCampaigns(campaigns.map((c) => (c.id === editingCampaign.id ? updatedCampaign : c)))
-    setIsEditDialogOpen(false)
-    setEditingCampaign(null)
-    resetForm()
-    toast({
-      title: "Success",
-      description: "Campaign updated successfully",
-    })
   }
 
-  const handleDeleteCampaign = (campaignId: string) => {
-    setCampaigns(campaigns.filter((c) => c.id !== campaignId))
-    toast({
-      title: "Success",
-      description: "Campaign deleted successfully",
-    })
-  }
-
-  const handleEditCampaign = (campaign: HealthCampaign) => {
-    setEditingCampaign(campaign)
-    setFormData({
-      type: campaign.type,
-      title: campaign.title,
-      description: campaign.description,
-      organiser: campaign.organiser,
-      location: campaign.location,
-      startDate: campaign.startDate,
-      endDate: campaign.endDate,
-      capacity: campaign.capacity?.toString() || "",
-      registrationRequired: campaign.registrationRequired,
-      vaccines: campaign.vaccines?.join(", ") || "",
-      phone: campaign.contactInfo.phone,
-      email: campaign.contactInfo.email,
-    })
-    setIsEditDialogOpen(true)
-  }
-
-  const resetForm = () => {
-    setFormData({
-      type: "IMD",
-      title: "",
-      description: "",
-      organiser: "",
-      location: "",
-      startDate: "",
-      endDate: "",
-      capacity: "",
-      registrationRequired: true,
-      vaccines: "",
-      phone: "",
-      email: "",
-    })
-  }
-
-  // Format date for display
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-IN", {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-    })
-  }
-
-  // Calculate capacity percentage
-  const getCapacityPercentage = (registered: number, capacity?: number) => {
-    if (!capacity) return null
-    return Math.round((registered / capacity) * 100)
+  const isRegistered = (campaignId: string) => {
+    return myRegistrations.some((r) => r.campaignId === campaignId)
   }
 
   return (
     <DashboardLayout>
-      <div className="p-4 sm:p-6 space-y-6">
-        {/* Header Section */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="p-6 max-w-7xl mx-auto space-y-8">
+        {/* Page Header */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Health Campaign Tracker</h1>
-            <p className="text-sm sm:text-base text-gray-600 mt-1">
-              Monitor and manage health programs, immunization drives, and wellness events
+            <h1 className="text-3xl font-extrabold text-slate-800 tracking-tight">Health Campaigns & Camps</h1>
+            <p className="text-slate-500 mt-1">
+              Discover and register for health camps, vaccination drives, and wellness programs in Kolkata.
             </p>
           </div>
-          <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
-            <DialogTrigger asChild>
-              <Button className="bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800">
-                <Plus className="w-4 h-4 mr-2" />
-                Add Campaign
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="max-w-md max-h-[80vh] overflow-y-auto">
-              <DialogHeader>
-                <DialogTitle>Add New Campaign</DialogTitle>
-              </DialogHeader>
-              <div className="space-y-4">
-                <div>
-                  <Label htmlFor="type">Campaign Type *</Label>
-                  <Select
-                    value={formData.type}
-                    onValueChange={(value: keyof typeof typeLabels) => setFormData({ ...formData, type: value })}
-                  >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {Object.entries(typeLabels).map(([key, label]) => (
-                        <SelectItem key={key} value={key}>
-                          {label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div>
-                  <Label htmlFor="title">Title *</Label>
-                  <Input
-                    id="title"
-                    value={formData.title}
-                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                    placeholder="Campaign title"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="description">Description</Label>
-                  <Textarea
-                    id="description"
-                    value={formData.description}
-                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                    placeholder="Campaign description"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="organiser">Organiser *</Label>
-                  <Input
-                    id="organiser"
-                    value={formData.organiser}
-                    onChange={(e) => setFormData({ ...formData, organiser: e.target.value })}
-                    placeholder="Organization name"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="location">Location *</Label>
-                  <Input
-                    id="location"
-                    value={formData.location}
-                    onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                    placeholder="Campaign location"
-                  />
-                </div>
-                <div className="grid grid-cols-2 gap-2">
-                  <div>
-                    <Label htmlFor="startDate">Start Date *</Label>
-                    <Input
-                      id="startDate"
-                      type="date"
-                      value={formData.startDate}
-                      onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="endDate">End Date *</Label>
-                    <Input
-                      id="endDate"
-                      type="date"
-                      value={formData.endDate}
-                      onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
-                    />
-                  </div>
-                </div>
-                <div>
-                  <Label htmlFor="capacity">Capacity</Label>
-                  <Input
-                    id="capacity"
-                    type="number"
-                    value={formData.capacity}
-                    onChange={(e) => setFormData({ ...formData, capacity: e.target.value })}
-                    placeholder="Maximum participants"
-                  />
-                </div>
-                <div className="grid grid-cols-2 gap-2">
-                  <div>
-                    <Label htmlFor="phone">Phone</Label>
-                    <Input
-                      id="phone"
-                      value={formData.phone}
-                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      placeholder="Contact phone"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="email">Email</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      placeholder="Contact email"
-                    />
-                  </div>
-                </div>
-                <div className="flex gap-2">
-                  <Button onClick={handleAddCampaign} className="flex-1">
-                    Add Campaign
-                  </Button>
-                  <Button variant="outline" onClick={() => setIsAddDialogOpen(false)} className="flex-1">
-                    Cancel
-                  </Button>
-                </div>
-              </div>
-            </DialogContent>
-          </Dialog>
+          <div className="flex items-center gap-3">
+            <Label htmlFor="fmSelect" className="font-bold text-slate-700 whitespace-nowrap">Register For:</Label>
+            <Select value={selectedFamilyMemberId} onValueChange={setSelectedFamilyMemberId}>
+              <SelectTrigger id="fmSelect" className="w-56 bg-white shadow-sm rounded-xl">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {familyMembers.map((m) => (
+                  <SelectItem key={m.id} value={m.id}>
+                    {m.name} ({m.relationship})
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
         </div>
 
-        <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-          <DialogContent className="max-w-md max-h-[80vh] overflow-y-auto">
-            <DialogHeader>
-              <DialogTitle>Edit Campaign</DialogTitle>
-            </DialogHeader>
-            <div className="space-y-4">
-              <div>
-                <Label htmlFor="edit-type">Campaign Type *</Label>
-                <Select
-                  value={formData.type}
-                  onValueChange={(value: keyof typeof typeLabels) => setFormData({ ...formData, type: value })}
-                >
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {Object.entries(typeLabels).map(([key, label]) => (
-                      <SelectItem key={key} value={key}>
-                        {label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              <div>
-                <Label htmlFor="edit-title">Title *</Label>
-                <Input
-                  id="edit-title"
-                  value={formData.title}
-                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  placeholder="Campaign title"
-                />
-              </div>
-              <div>
-                <Label htmlFor="edit-description">Description</Label>
-                <Textarea
-                  id="edit-description"
-                  value={formData.description}
-                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  placeholder="Campaign description"
-                />
-              </div>
-              <div>
-                <Label htmlFor="edit-organiser">Organiser *</Label>
-                <Input
-                  id="edit-organiser"
-                  value={formData.organiser}
-                  onChange={(e) => setFormData({ ...formData, organiser: e.target.value })}
-                  placeholder="Organization name"
-                />
-              </div>
-              <div>
-                <Label htmlFor="edit-location">Location *</Label>
-                <Input
-                  id="edit-location"
-                  value={formData.location}
-                  onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                  placeholder="Campaign location"
-                />
-              </div>
-              <div className="grid grid-cols-2 gap-2">
-                <div>
-                  <Label htmlFor="edit-startDate">Start Date *</Label>
-                  <Input
-                    id="edit-startDate"
-                    type="date"
-                    value={formData.startDate}
-                    onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="edit-endDate">End Date *</Label>
-                  <Input
-                    id="edit-endDate"
-                    type="date"
-                    value={formData.endDate}
-                    onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
-                  />
-                </div>
-              </div>
-              <div className="flex gap-2">
-                <Button onClick={handleUpdateCampaign} className="flex-1">
-                  Update Campaign
-                </Button>
-                <Button variant="outline" onClick={() => setIsEditDialogOpen(false)} className="flex-1">
-                  Cancel
-                </Button>
-              </div>
-            </div>
-          </DialogContent>
-        </Dialog>
-
-        {/* Filters and Search */}
-        <div className="flex flex-col sm:flex-row gap-4">
+        {/* Filters */}
+        <div className="flex flex-col sm:flex-row gap-4 bg-white/50 p-4 border border-slate-200/50 rounded-2xl shadow-sm">
           <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+            <Search className="absolute left-3.5 top-1/2 transform -translate-y-1/2 text-slate-400 w-4.5 h-4.5" />
             <Input
-              placeholder="Search campaigns, organizers, or locations..."
+              placeholder="Search campaigns by title, description, or organizer..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10"
+              className="pl-11 bg-white border-slate-200"
             />
           </div>
           <Select value={filterType} onValueChange={setFilterType}>
-            <SelectTrigger className="w-full sm:w-48">
-              <Filter className="w-4 h-4 mr-2" />
-              <SelectValue placeholder="Filter by type" />
+            <SelectTrigger className="w-full sm:w-60 bg-white border-slate-200">
+              <SelectValue placeholder="All Campaign Types" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Types</SelectItem>
-              <SelectItem value="IMD">Immunisation Drive</SelectItem>
-              <SelectItem value="FHC">Full Health Checkup</SelectItem>
-              <SelectItem value="MHC">Mental Health Camp</SelectItem>
-              <SelectItem value="BDC">Blood Donation Camp</SelectItem>
-              <SelectItem value="WPC">Wellness Program</SelectItem>
+              <SelectItem value="all">All Campaign Types</SelectItem>
+              {Object.entries(typeLabels).map(([key, label]) => (
+                <SelectItem key={key} value={key}>
+                  {label}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>
 
-        {/* Campaign Statistics */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-          {Object.entries(typeLabels).map(([type, label]) => {
-            const count = campaigns.filter((c) => c.type === type).length
-            return (
-              <Card key={type} className="bg-white/60 backdrop-blur-sm border-white/20">
-                <CardContent className="p-4">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm text-gray-600">{label}</p>
-                      <p className="text-2xl font-bold text-gray-900">{count}</p>
-                    </div>
-                    <Badge className={typeColors[type as keyof typeof typeColors]}>{type}</Badge>
-                  </div>
-                </CardContent>
-              </Card>
-            )
-          })}
-        </div>
-
-        {/* Campaign Cards */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {filteredCampaigns.map((campaign) => {
-            const capacityPercentage = getCapacityPercentage(campaign.registeredUsers, campaign.capacity)
-
-            return (
-              <Card
-                key={campaign.id}
-                className="bg-white/80 backdrop-blur-sm border-white/20 hover:shadow-lg transition-shadow"
-              >
-                <CardHeader className="pb-3">
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-2">
-                        <Badge className={typeColors[campaign.type]}>{campaign.type}</Badge>
-                        <span className="text-xs text-gray-500">{typeLabels[campaign.type]}</span>
-                      </div>
-                      <CardTitle className="text-lg font-semibold text-gray-900">{campaign.title}</CardTitle>
-                    </div>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon">
-                          <MoreHorizontal className="w-4 h-4" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent>
-                        <DropdownMenuItem onClick={() => handleEditCampaign(campaign)}>
-                          <Edit className="w-4 h-4 mr-2" />
-                          Edit Campaign
-                        </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => handleDeleteCampaign(campaign.id)} className="text-red-600">
-                          <Trash2 className="w-4 h-4 mr-2" />
-                          Delete Campaign
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </div>
-                </CardHeader>
-
-                <CardContent className="space-y-4">
-                  <p className="text-sm text-gray-600 leading-relaxed">{campaign.description}</p>
-
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-2 text-sm text-gray-600">
-                      <Calendar className="w-4 h-4" />
-                      <span>
-                        {formatDate(campaign.startDate)} - {formatDate(campaign.endDate)}
-                      </span>
-                    </div>
-
-                    <div className="flex items-center gap-2 text-sm text-gray-600">
-                      <MapPin className="w-4 h-4" />
-                      <span>{campaign.location}</span>
-                    </div>
-
-                    <div className="flex items-center gap-2 text-sm text-gray-600">
-                      <Users className="w-4 h-4" />
-                      <span>
-                        {campaign.registeredUsers} registered
-                        {campaign.capacity && ` / ${campaign.capacity} capacity`}
-                        {capacityPercentage && (
-                          <span
-                            className={`ml-2 font-medium ${
-                              capacityPercentage >= 90
-                                ? "text-red-600"
-                                : capacityPercentage >= 70
-                                  ? "text-orange-600"
-                                  : "text-green-600"
-                            }`}
-                          >
-                            ({capacityPercentage}%)
-                          </span>
-                        )}
-                      </span>
-                    </div>
-                  </div>
-
-                  {campaign.vaccines && (
-                    <div className="flex flex-wrap gap-1">
-                      {campaign.vaccines.map((vaccine, index) => (
-                        <Badge key={index} variant="secondary" className="text-xs">
-                          {vaccine}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Main Campaign Cards */}
+          <div className="lg:col-span-2 space-y-6">
+            <h2 className="text-xl font-bold text-slate-800">Available Campaigns</h2>
+            {loading ? (
+              <div className="p-8 text-center text-slate-400 italic">Loading health campaigns...</div>
+            ) : campaigns.length > 0 ? (
+              <div className="grid grid-cols-1 gap-6">
+                {campaigns.map((camp) => (
+                  <Card key={camp.id} className="bg-white border-slate-100 hover:shadow-md transition-all duration-200 rounded-2xl overflow-hidden">
+                    <CardHeader className="flex flex-row items-start justify-between p-6">
+                      <div className="space-y-1.5">
+                        <Badge className={`px-2.5 py-0.5 border font-semibold rounded-md ${typeColors[camp.type as keyof typeof typeColors] || 'bg-slate-100'}`}>
+                          {typeLabels[camp.type as keyof typeof typeLabels] || camp.type}
                         </Badge>
-                      ))}
-                    </div>
-                  )}
+                        <CardTitle className="text-lg font-bold text-slate-800">{camp.title}</CardTitle>
+                        <CardDescription className="text-slate-500">Organized by {camp.organiser}</CardDescription>
+                      </div>
+                      {isRegistered(camp.id) && (
+                        <Badge variant="secondary" className="bg-emerald-50 text-emerald-700 border-emerald-200">
+                          <CheckCircle className="w-3.5 h-3.5 mr-1" /> Registered
+                        </Badge>
+                      )}
+                    </CardHeader>
 
-                  <div className="pt-3 border-t border-gray-100">
-                    <p className="text-sm font-medium text-gray-700 mb-2">Organized by: {campaign.organiser}</p>
-                    <div className="flex flex-col sm:flex-row gap-2">
-                      <Button variant="outline" size="sm" className="flex-1 bg-transparent">
-                        <Phone className="w-3 h-3 mr-1" />
-                        {campaign.contactInfo.phone}
-                      </Button>
-                      <Button variant="outline" size="sm" className="flex-1 bg-transparent">
-                        <Mail className="w-3 h-3 mr-1" />
-                        Contact
-                      </Button>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            )
-          })}
-        </div>
+                    <CardContent className="px-6 pb-6 space-y-4">
+                      <p className="text-slate-600 text-sm">{camp.description}</p>
 
-        {filteredCampaigns.length === 0 && (
-          <div className="text-center py-12">
-            <div className="text-gray-400 mb-4">
-              <Calendar className="w-12 h-12 mx-auto" />
-            </div>
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No campaigns found</h3>
-            <p className="text-gray-600">
-              {searchTerm || filterType !== "all"
-                ? "Try adjusting your search or filter criteria"
-                : "No health campaigns are currently scheduled"}
-            </p>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 text-sm text-slate-500 border-t pt-4 border-slate-50">
+                        <div className="flex items-center gap-2">
+                          <Calendar className="w-4 h-4 text-slate-400" />
+                          <span>
+                            {new Date(camp.startDate).toLocaleDateString("en-US", { month: "short", day: "numeric" })} -{" "}
+                            {new Date(camp.endDate).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <MapPin className="w-4 h-4 text-slate-400" />
+                          <span className="truncate">{camp.location}</span>
+                        </div>
+                        {camp.contactPhone && (
+                          <div className="flex items-center gap-2">
+                            <Phone className="w-4 h-4 text-slate-400" />
+                            <span>{camp.contactPhone}</span>
+                          </div>
+                        )}
+                        {camp.capacity && (
+                          <div className="flex items-center gap-2">
+                            <Users className="w-4 h-4 text-slate-400" />
+                            <span>Capacity: {camp.capacity} maximum</span>
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="flex justify-end gap-3 pt-2">
+                        {isRegistered(camp.id) ? (
+                          <Button
+                            variant="outline"
+                            onClick={() => handleCancelRegistration(camp.id)}
+                            className="border-red-200 text-red-600 hover:bg-red-50"
+                          >
+                            Cancel Registration
+                          </Button>
+                        ) : (
+                          <Button
+                            onClick={() => handleRegister(camp.id)}
+                            className="bg-blue-600 hover:bg-blue-700 text-white rounded-xl"
+                          >
+                            Register Dependent
+                          </Button>
+                        )}
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            ) : (
+              <div className="p-8 text-center text-slate-400 border rounded-2xl bg-slate-50/50 italic">
+                No matching campaigns found.
+              </div>
+            )}
           </div>
-        )}
+
+          {/* Right Summary Sidebar (Registrations overview) */}
+          <div className="lg:col-span-1 space-y-6">
+            <Card className="bg-gradient-to-br from-indigo-50 to-blue-50 border-slate-200/50 shadow-sm rounded-2xl">
+              <CardHeader className="p-5">
+                <CardTitle className="text-lg font-bold text-slate-800">My Registrations ({myRegistrations.length})</CardTitle>
+                <CardDescription>All drives you or your family registered for</CardDescription>
+              </CardHeader>
+              <CardContent className="p-5 pt-0 space-y-4">
+                {myRegistrations.length > 0 ? (
+                  <div className="space-y-3">
+                    {myRegistrations.map((reg) => (
+                      <div key={reg.id} className="bg-white p-3 rounded-xl border border-slate-100 flex flex-col gap-1.5 shadow-sm">
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs font-bold text-slate-400 uppercase">
+                            REG ID: {reg.id.substring(0, 8)}
+                          </span>
+                          <span
+                            className="text-xs text-red-600 hover:underline cursor-pointer font-semibold"
+                            onClick={() => handleCancelRegistration(reg.campaignId)}
+                          >
+                            Cancel
+                          </span>
+                        </div>
+                        <h4 className="font-bold text-sm text-slate-800 line-clamp-1">
+                          {reg.campaign?.title || "Health Drive"}
+                        </h4>
+                        <div className="flex items-center gap-1.5 text-xs text-slate-500">
+                          <Calendar className="w-3.5 h-3.5" />
+                          <span>{reg.campaign ? new Date(reg.campaign.startDate).toLocaleDateString() : ""}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-slate-400 text-sm italic py-4 text-center">
+                    No active registrations. Register for a campaign on the left.
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </div>
+        </div>
       </div>
     </DashboardLayout>
   )

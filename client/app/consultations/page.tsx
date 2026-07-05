@@ -32,11 +32,11 @@ import MedicalRecordsModal from "@/components/medical-records-modal"
 import ConsultationDetailsModal from "@/components/consultation-details-modal"
 import {
   getConsultations,
-  getConsultationsByStatus,
   getUpcomingConsultations,
   getConsultationStats,
-  getDoctorById,
+  getDoctors,
   type Consultation,
+  type Doctor,
 } from "@/lib/data-service"
 
 export default function EConsultationTracker() {
@@ -49,6 +49,7 @@ export default function EConsultationTracker() {
   const [selectedConsultation, setSelectedConsultation] = useState<Consultation | null>(null)
   const [consultations, setConsultations] = useState<Consultation[]>([])
   const [upcomingAppointments, setUpcomingAppointments] = useState<Consultation[]>([])
+  const [doctors, setDoctors] = useState<Doctor[]>([])
   const [stats, setStats] = useState({
     total: 0,
     completed: 0,
@@ -58,10 +59,19 @@ export default function EConsultationTracker() {
     averageRating: 0,
   })
 
-  const loadData = () => {
-    setConsultations(getConsultations())
-    setUpcomingAppointments(getUpcomingConsultations())
-    setStats(getConsultationStats())
+  const loadData = async () => {
+    try {
+      const list = await getConsultations()
+      setConsultations(list)
+      const upcoming = await getUpcomingConsultations()
+      setUpcomingAppointments(upcoming)
+      const statsData = await getConsultationStats()
+      setStats(statsData)
+      const docs = await getDoctors()
+      setDoctors(docs)
+    } catch (err) {
+      console.error("Failed to load consultations:", err)
+    }
   }
 
   useEffect(() => {
@@ -125,9 +135,10 @@ export default function EConsultationTracker() {
     }
   }
 
-  const filteredConsultations = getConsultationsByStatus(selectedTab).filter((consultation) => {
+  const filteredConsultations = consultations.filter((consultation) => {
+    if (selectedTab !== "all" && consultation.status !== selectedTab) return false
     if (!searchQuery) return true
-    const doctor = getDoctorById(consultation.doctorId)
+    const doctor = doctors.find((d) => d.id === consultation.doctorId)
     return (
       doctor?.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       doctor?.specialty.toLowerCase().includes(searchQuery.toLowerCase()) ||

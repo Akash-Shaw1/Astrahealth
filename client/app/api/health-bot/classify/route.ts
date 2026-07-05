@@ -83,11 +83,11 @@ IMPORTANT: Always return valid JSON matching this exact structure:
     })
 
     return Response.json(result.object)
-  } catch (error) {
+  } catch (error: any) {
     console.error("[SERVER][v0] Classification error:", error)
-    if (error.message.includes("response did not match schema")) {
+    if (error.message && error.message.includes("response did not match schema")) {
       console.error("[SERVER][v0] Schema validation failed - AI response format issue")
     }
-    return Response.json({ error: "Classification failed", details: error.message }, { status: 500 })
+    return Response.json({ error: "Classification failed", details: error.message || "Unknown error" }, { status: 500 })
   }
 }

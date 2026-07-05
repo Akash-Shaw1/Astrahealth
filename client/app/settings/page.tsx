@@ -1,5 +1,7 @@
 "use client"
 
+import { useDataSource } from "@/hooks/use-data-source"
+
 import { Badge } from "@/components/ui/badge"
 
 import { useState } from "react"
@@ -33,12 +35,27 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import { Separator } from "@/components/ui/separator"
 import DashboardLayout from "@/components/dashboard-layout"
+import { useUser } from "@clerk/nextjs"
+import { apiAdapter } from "@/lib/api-adapter"
+import { useEffect } from "react"
+import { toast } from "@/hooks/use-toast"
 
 export default function SettingsPage() {
   const [activeTab, setActiveTab] = useState("profile")
   const [showPassword, setShowPassword] = useState(false)
+  const { dataMode, setDataMode, isConnected, checkingConnection, retryConnection } = useDataSource();
+  const { user } = useUser()
+  const [profile, setProfile] = useState({
+    phone: "",
+    dateOfBirth: "",
+    gender: "Unspecified",
+    address: "",
+    bloodGroup: "",
+    emergencyContactName: "",
+    emergencyContactPhone: "",
+    emergencyContactRelationship: "",
+  })
   const [notifications, setNotifications] = useState({
     appointments: true,
     reminders: true,
@@ -48,6 +65,71 @@ export default function SettingsPage() {
   const [theme, setTheme] = useState("system")
   const [language, setLanguage] = useState("en")
   const [timezone, setTimezone] = useState("UTC-5")
+
+  useEffect(() => {
+    if (dataMode === "live") {
+      apiAdapter.getProfile().then((res: any) => {
+        if (res) {
+          setProfile({
+            phone: res.phone || "",
+            dateOfBirth: res.dateOfBirth ? res.dateOfBirth.split("T")[0] : "",
+            gender: res.gender || "Unspecified",
+            address: res.address || "",
+            bloodGroup: res.bloodGroup || "",
+            emergencyContactName: res.emergencyContactName || "",
+            emergencyContactPhone: res.emergencyContactPhone || "",
+            emergencyContactRelationship: res.emergencyContactRelationship || "",
+          })
+          if (res.notificationPrefs) {
+            setNotifications(res.notificationPrefs)
+          }
+        }
+      }).catch(console.error)
+    } else {
+      const stored = localStorage.getItem("astra_onboarding_data")
+      if (stored) {
+        const data = JSON.parse(stored)
+        setProfile({
+          phone: data.phone || "",
+          dateOfBirth: data.dateOfBirth || "",
+          gender: data.gender || "Unspecified",
+          address: data.address || "",
+          bloodGroup: data.bloodGroup || "",
+          emergencyContactName: data.emergencyContactName || "",
+          emergencyContactPhone: data.emergencyContactPhone || "",
+          emergencyContactRelationship: data.emergencyContactRelationship || "",
+        })
+      }
+    }
+  }, [dataMode, user])
+
+  const handleSaveProfile = async () => {
+    try {
+      if (dataMode === "live") {
+        await apiAdapter.updateProfile({
+          ...profile,
+          notificationPrefs: notifications,
+        })
+      } else {
+        localStorage.setItem("astra_onboarding_data", JSON.stringify({
+          ...profile,
+          ...notifications,
+          onboardingComplete: true,
+        }))
+      }
+      toast({
+        title: "Settings Saved",
+        description: "Your profile preferences have been updated.",
+      })
+    } catch (e) {
+      console.error(e)
+      toast({
+        title: "Save Failed",
+        description: "Could not update settings.",
+        variant: "destructive",
+      })
+    }
+  }
 
   return (
     <DashboardLayout>
@@ -71,95 +153,143 @@ export default function SettingsPage() {
 
           {/* Profile Settings */}
           <TabsContent value="profile" className="space-y-6">
-            <Card className="bg-white/60 backdrop-blur-sm border-white/20">
+            <Card className="bg-white/60 backdrop-blur-sm border-white/20 shadow-sm rounded-2xl">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <User className="w-5 h-5" />
+                  <User className="w-5 h-5 text-blue-600" />
                   Profile Information
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="flex items-center gap-6">
                   <div className="relative">
-                    <Avatar className="w-24 h-24">
-                      <AvatarImage src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?q=80&w=96&h=96&fit=crop" />
-                      <AvatarFallback>EH</AvatarFallback>
+                    <Avatar className="w-20 h-20 shadow">
+                      <AvatarImage src={user?.imageUrl || "/patient-arindam.png"} />
+                      <AvatarFallback>{user?.firstName?.[0] || "U"}</AvatarFallback>
                     </Avatar>
-                    <Button
-                      size="sm"
-                      className="absolute -bottom-2 -right-2 rounded-full w-8 h-8 p-0 bg-transparent"
-                      variant="outline"
-                    >
-                      <Camera className="w-4 h-4" />
-                    </Button>
                   </div>
-                  <div className="space-y-2">
-                    <h3 className="text-lg font-semibold">Emma Hayes</h3>
-                    <p className="text-gray-600">General Practitioner</p>
-                    <div className="flex gap-2">
-                      <Button size="sm" variant="outline" className="bg-white/50">
-                        <Upload className="w-3 h-3 mr-1" />
-                        Upload Photo
-                      </Button>
-                      <Button size="sm" variant="outline" className="bg-white/50">
-                        <Trash2 className="w-3 h-3 mr-1" />
-                        Remove
-                      </Button>
-                    </div>
+                  <div className="space-y-1">
+                    <h3 className="text-xl font-bold text-slate-800">
+                      {user?.firstName} {user?.lastName}
+                    </h3>
+                    <p className="text-slate-500 text-sm">Patient Profile Account</p>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <Label htmlFor="firstName">First Name</Label>
-                    <Input id="firstName" defaultValue="Emma" className="bg-white/50" />
+                    <Input id="firstName" value={user?.firstName || ""} disabled className="bg-slate-50 border-slate-200" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="lastName">Last Name</Label>
-                    <Input id="lastName" defaultValue="Hayes" className="bg-white/50" />
+                    <Input id="lastName" value={user?.lastName || ""} disabled className="bg-slate-50 border-slate-200" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="email">Email Address</Label>
-                    <Input id="email" type="email" defaultValue="emma.hayes@hospital.com" className="bg-white/50" />
+                    <Input id="email" type="email" value={user?.emailAddresses?.[0]?.emailAddress || ""} disabled className="bg-slate-50 border-slate-200" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="phone">Phone Number</Label>
-                    <Input id="phone" type="tel" defaultValue="+1 (555) 123-4567" className="bg-white/50" />
+                    <Input
+                      id="phone"
+                      type="tel"
+                      value={profile.phone}
+                      onChange={(e) => setProfile((p) => ({ ...p, phone: e.target.value }))}
+                      className="bg-white/50 border-slate-200"
+                    />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="specialty">Medical Specialty</Label>
-                    <Select defaultValue="general">
-                      <SelectTrigger className="bg-white/50">
+                    <Label htmlFor="dateOfBirth">Date of Birth</Label>
+                    <Input
+                      id="dateOfBirth"
+                      type="date"
+                      value={profile.dateOfBirth}
+                      onChange={(e) => setProfile((p) => ({ ...p, dateOfBirth: e.target.value }))}
+                      className="bg-white/50 border-slate-200"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="gender">Gender</Label>
+                    <Select
+                      value={profile.gender}
+                      onValueChange={(val) => setProfile((p) => ({ ...p, gender: val }))}
+                    >
+                      <SelectTrigger className="bg-white/50 border-slate-200">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="general">General Practitioner</SelectItem>
-                        <SelectItem value="cardiology">Cardiology</SelectItem>
-                        <SelectItem value="neurology">Neurology</SelectItem>
-                        <SelectItem value="surgery">Surgery</SelectItem>
+                        <SelectItem value="Male">Male</SelectItem>
+                        <SelectItem value="Female">Female</SelectItem>
+                        <SelectItem value="Other">Other</SelectItem>
+                        <SelectItem value="Unspecified">Prefer not to say</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="license">Medical License</Label>
-                    <Input id="license" defaultValue="MD123456789" className="bg-white/50" />
+                    <Label htmlFor="bloodGroup">Blood Group</Label>
+                    <Select
+                      value={profile.bloodGroup}
+                      onValueChange={(val) => setProfile((p) => ({ ...p, bloodGroup: val }))}
+                    >
+                      <SelectTrigger className="bg-white/50 border-slate-200">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="A+">A+</SelectItem>
+                        <SelectItem value="A-">A-</SelectItem>
+                        <SelectItem value="B+">B+</SelectItem>
+                        <SelectItem value="B-">B-</SelectItem>
+                        <SelectItem value="AB+">AB+</SelectItem>
+                        <SelectItem value="AB-">AB-</SelectItem>
+                        <SelectItem value="O+">O+</SelectItem>
+                        <SelectItem value="O-">O-</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="ecName">Emergency Contact Name</Label>
+                    <Input
+                      id="ecName"
+                      value={profile.emergencyContactName}
+                      onChange={(e) => setProfile((p) => ({ ...p, emergencyContactName: e.target.value }))}
+                      className="bg-white/50 border-slate-200"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="ecPhone">Emergency Contact Phone</Label>
+                    <Input
+                      id="ecPhone"
+                      value={profile.emergencyContactPhone}
+                      onChange={(e) => setProfile((p) => ({ ...p, emergencyContactPhone: e.target.value }))}
+                      className="bg-white/50 border-slate-200"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="ecRel">Emergency Contact Relationship</Label>
+                    <Input
+                      id="ecRel"
+                      value={profile.emergencyContactRelationship}
+                      onChange={(e) => setProfile((p) => ({ ...p, emergencyContactRelationship: e.target.value }))}
+                      className="bg-white/50 border-slate-200"
+                    />
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="bio">Professional Bio</Label>
+                  <Label htmlFor="address">Residential Address</Label>
                   <Textarea
-                    id="bio"
-                    placeholder="Tell us about your medical background and expertise..."
-                    className="bg-white/50 min-h-[100px]"
-                    defaultValue="Experienced General Practitioner with over 10 years in family medicine. Specialized in preventive care and chronic disease management."
+                    id="address"
+                    value={profile.address}
+                    onChange={(e) => setProfile((p) => ({ ...p, address: e.target.value }))}
+                    className="bg-white/50 border-slate-200 min-h-[80px]"
                   />
                 </div>
 
-                <div className="flex justify-end">
-                  <Button className="bg-slate-800 hover:bg-slate-700">
+                <div className="flex justify-end pt-2">
+                  <Button onClick={handleSaveProfile} className="bg-slate-800 hover:bg-slate-700 text-white rounded-xl shadow">
                     <Save className="w-4 h-4 mr-2" />
-                    Save Changes
+                    Save Profile Changes
                   </Button>
                 </div>
               </CardContent>
@@ -579,6 +709,55 @@ export default function SettingsPage() {
                       <div className="flex items-center justify-between">
                         <Label>Enable crash reporting</Label>
                         <Switch defaultChecked />
+                      </div>
+                    </div>
+                  </div>
+
+                  <Separator />
+
+                  <div>
+                    <Label className="text-base font-medium">Developer & Data Source Connection</Label>
+                    <p className="text-sm text-gray-600 mb-3">Toggle between Local Demo Data and Live NestJS Server fetching.</p>
+                    <div className="space-y-4 mb-4">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <Label className="font-semibold">Live Database Server Mode</Label>
+                          <p className="text-xs text-gray-500 max-w-sm mt-0.5">
+                            {dataMode === 'live'
+                              ? 'Connected to local database via NestJS backend.'
+                              : 'Running in offline simulation mode. Local database requests are simulated.'}
+                          </p>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          {checkingConnection && <span className="text-xs text-slate-400">Verifying...</span>}
+                          <Switch
+                            checked={dataMode === 'live'}
+                            onCheckedChange={(checked) => setDataMode(checked ? 'live' : 'dummy')}
+                            disabled={checkingConnection}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="flex items-center justify-between bg-slate-50/50 p-3.5 rounded-xl border border-slate-200/50">
+                        <div>
+                          <Label className="text-xs font-bold text-slate-700">CONNECTION STATUS</Label>
+                          <div className="flex items-center gap-1.5 mt-1">
+                            <span className={`h-2.5 w-2.5 rounded-full ${isConnected ? 'bg-emerald-500' : 'bg-red-500'}`} />
+                            <span className="text-sm font-semibold text-slate-600">
+                              {isConnected ? 'NestJS Server Online' : 'NestJS Server Offline'}
+                            </span>
+                          </div>
+                        </div>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={retryConnection}
+                          disabled={checkingConnection}
+                          className="bg-white hover:bg-slate-50 transition-all duration-200"
+                        >
+                          <RefreshCw className={`w-3.5 h-3.5 mr-1.5 ${checkingConnection ? 'animate-spin' : ''}`} />
+                          Retry Health Check
+                        </Button>
                       </div>
                     </div>
                   </div>

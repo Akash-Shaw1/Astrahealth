@@ -51,8 +51,7 @@ export default function ScheduleConsultationModal({
   const [patientNotes, setPatientNotes] = useState("")
   const [attachments, setAttachments] = useState<File[]>([])
   const [isSubmitting, setIsSubmitting] = useState(false)
-
-  const doctors = getDoctors()
+  const [doctors, setDoctors] = useState<Doctor[]>([])
 
   // Reset form when modal closes
   useEffect(() => {
@@ -71,12 +70,20 @@ export default function ScheduleConsultationModal({
     }
   }, [open])
 
+  // Load doctors list
+  useEffect(() => {
+    if (open) {
+      getDoctors().then(setDoctors).catch(console.error)
+    }
+  }, [open])
+
   // Update available slots when doctor or date changes
   useEffect(() => {
     if (selectedDoctor && selectedDate) {
       const dateStr = format(selectedDate, "yyyy-MM-dd")
-      const slots = getDoctorAvailability(selectedDoctor.id, dateStr)
-      setAvailableSlots(slots)
+      getDoctorAvailability(selectedDoctor.id, dateStr)
+        .then(setAvailableSlots)
+        .catch(console.error)
       setSelectedTime("")
     }
   }, [selectedDoctor, selectedDate])
@@ -112,7 +119,7 @@ export default function ScheduleConsultationModal({
         attachments: attachments.map((file) => file.name),
       }
 
-      const newConsultation = createConsultation(consultationData)
+      const newConsultation = await createConsultation(consultationData)
       console.log("[v0] Created consultation:", newConsultation)
 
       onConsultationScheduled?.()
@@ -269,7 +276,7 @@ export default function ScheduleConsultationModal({
                   mode="single"
                   selected={selectedDate}
                   onSelect={setSelectedDate}
-                  disabled={(date) => date < new Date() || date < new Date(Date.now() - 86400000)}
+                  disabled={(date: Date) => date < new Date() || date < new Date(Date.now() - 86400000)}
                   className="rounded-md border"
                 />
               </div>

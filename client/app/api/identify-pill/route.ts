@@ -167,7 +167,7 @@ Analyze the pill image now:`,
       schema: PillIdentificationSchema,
       maxTokens: 3000,
       temperature: 0.1,
-    })
+    } as any)
 
     return NextResponse.json(result.object)
   } catch (error) {

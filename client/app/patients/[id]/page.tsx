@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { use, useState } from "react"
 import Link from "next/link"
 import {
   ArrowLeft,
@@ -94,7 +94,8 @@ const medicalHistory = [
 ]
 
 
-export default function PatientDetailsPage({ params }: { params: { id: string } }) {
+export default function PatientDetailsPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params)
   const [activeTab, setActiveTab] = useState("overview")
 
   return (

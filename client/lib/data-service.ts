@@ -1,6 +1,7 @@
 import doctorsData from "./data/doctors.json"
 import consultationsData from "./data/consultations.json"
 import medicalRecordsData from "./data/medical-records.json"
+import { apiAdapter } from "./api-adapter"
 
 export interface Doctor {
   id: string
@@ -27,8 +28,8 @@ export interface Consultation {
   duration: number
   type: string
   status: "upcoming" | "completed" | "cancelled" | "missed"
-  reason: string
   severity: "low" | "medium" | "high"
+  reason: string
   notes: string
   patientNotes: string
   prescription: string | null
@@ -50,11 +51,11 @@ export interface MedicalRecord {
   details: any
   prescription?: {
     medications: Array<{
-      name: string
-      dosage: string
-      duration: string
-      instructions: string
-    }>
+      name: string;
+      dosage: string;
+      duration: string;
+      instructions: string;
+    }>;
   }
   attachments: string[]
   followUp?: string
@@ -62,38 +63,68 @@ export interface MedicalRecord {
 }
 
 // In-memory storage (simulating persistent storage)
-const doctors: Doctor[] = [...doctorsData]
-const consultations: Consultation[] = [...consultationsData]
-const medicalRecords: MedicalRecord[] = [...medicalRecordsData]
+const doctors: Doctor[] = doctorsData as Doctor[]
+const consultations: Consultation[] = consultationsData as unknown as Consultation[]
+const medicalRecords: MedicalRecord[] = medicalRecordsData as MedicalRecord[]
+
+// Helper to determine if we are in Live Database Server mode
+function isLive(): boolean {
+  if (typeof window === "undefined") return false
+  return localStorage.getItem("astra_data_mode") === "live"
+}
 
 // Doctor operations
-export const getDoctors = (): Doctor[] => {
+export const getDoctors = async (): Promise<Doctor[]> => {
+  if (isLive()) {
+    return apiAdapter.getDoctors()
+  }
   return doctors
 }
 
-export const getDoctorById = (id: string): Doctor | undefined => {
+export const getDoctorById = async (id: string): Promise<Doctor | undefined> => {
+  if (isLive()) {
+    return apiAdapter.getDoctorById(id)
+  }
   return doctors.find((doctor) => doctor.id === id)
 }
 
-export const getDoctorsBySpecialty = (specialty: string): Doctor[] => {
+export const getDoctorsBySpecialty = async (specialty: string): Promise<Doctor[]> => {
+  if (isLive()) {
+    return apiAdapter.getDoctors(specialty)
+  }
   return doctors.filter((doctor) => doctor.specialty.toLowerCase().includes(specialty.toLowerCase()))
 }
 
 // Consultation operations
-export const getConsultations = (): Consultation[] => {
-  return consultations.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+export const getConsultations = async (): Promise<Consultation[]> => {
+  if (isLive()) {
+    const list = await apiAdapter.getConsultations()
+    return list as any[]
+  }
+  return [...consultations].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 }
 
-export const getConsultationById = (id: string): Consultation | undefined => {
+export const getConsultationById = async (id: string): Promise<Consultation | undefined> => {
+  if (isLive()) {
+    return apiAdapter.getConsultationById(id)
+  }
   return consultations.find((consultation) => consultation.id === id)
 }
 
-export const getConsultationsByStatus = (status: string): Consultation[] => {
+export const getConsultationsByStatus = async (status: string): Promise<Consultation[]> => {
+  if (isLive()) {
+    const list = await apiAdapter.getConsultations(status)
+    return list as any[]
+  }
   if (status === "all") return getConsultations()
   return consultations.filter((consultation) => consultation.status === status)
 }
 
-export const getUpcomingConsultations = (): Consultation[] => {
+export const getUpcomingConsultations = async (): Promise<Consultation[]> => {
+  if (isLive()) {
+    const list = await apiAdapter.getConsultations('upcoming')
+    return list as any[]
+  }
   const now = new Date()
   return consultations
     .filter((consultation) => {
@@ -107,9 +138,12 @@ export const getUpcomingConsultations = (): Consultation[] => {
     })
 }
 
-export const createConsultation = (
+export const createConsultation = async (
   consultationData: Omit<Consultation, "id" | "createdAt" | "updatedAt">,
-): Consultation => {
+): Promise<Consultation> => {
+  if (isLive()) {
+    return apiAdapter.createConsultation(consultationData)
+  }
   const newConsultation: Consultation = {
     ...consultationData,
     id: `cons-${Date.now()}`,
@@ -120,7 +154,10 @@ export const createConsultation = (
   return newConsultation
 }
 
-export const updateConsultation = (id: string, updates: Partial<Consultation>): Consultation | null => {
+export const updateConsultation = async (id: string, updates: Partial<Consultation>): Promise<Consultation | null> => {
+  if (isLive()) {
+    return apiAdapter.updateConsultation(id, updates)
+  }
   const index = consultations.findIndex((consultation) => consultation.id === id)
   if (index === -1) return null
 
@@ -132,7 +169,10 @@ export const updateConsultation = (id: string, updates: Partial<Consultation>): 
   return consultations[index]
 }
 
-export const deleteConsultation = (id: string): boolean => {
+export const deleteConsultation = async (id: string): Promise<boolean> => {
+  if (isLive()) {
+    return apiAdapter.deleteConsultation(id)
+  }
   const index = consultations.findIndex((consultation) => consultation.id === id)
   if (index === -1) return false
 
@@ -141,19 +181,33 @@ export const deleteConsultation = (id: string): boolean => {
 }
 
 // Medical Records operations
-export const getMedicalRecords = (): MedicalRecord[] => {
-  return medicalRecords.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+export const getMedicalRecords = async (): Promise<MedicalRecord[]> => {
+  if (isLive()) {
+    const list = await apiAdapter.getMedicalRecords()
+    return list as any[]
+  }
+  return [...medicalRecords].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 }
 
-export const getMedicalRecordById = (id: string): MedicalRecord | undefined => {
+export const getMedicalRecordById = async (id: string): Promise<MedicalRecord | undefined> => {
+  if (isLive()) {
+    return apiAdapter.getMedicalRecordById(id)
+  }
   return medicalRecords.find((record) => record.id === id)
 }
 
-export const getMedicalRecordsByConsultation = (consultationId: string): MedicalRecord[] => {
+export const getMedicalRecordsByConsultation = async (consultationId: string): Promise<MedicalRecord[]> => {
+  if (isLive()) {
+    const records = await apiAdapter.getMedicalRecords()
+    return records.filter((r) => r.consultationId === consultationId)
+  }
   return medicalRecords.filter((record) => record.consultationId === consultationId)
 }
 
-export const createMedicalRecord = (recordData: Omit<MedicalRecord, "id" | "createdAt">): MedicalRecord => {
+export const createMedicalRecord = async (recordData: Omit<MedicalRecord, "id" | "createdAt">): Promise<MedicalRecord> => {
+  if (isLive()) {
+    return apiAdapter.createMedicalRecord(recordData)
+  }
   const newRecord: MedicalRecord = {
     ...recordData,
     id: `record-${Date.now()}`,
@@ -164,7 +218,10 @@ export const createMedicalRecord = (recordData: Omit<MedicalRecord, "id" | "crea
 }
 
 // Utility functions
-export const getConsultationStats = () => {
+export const getConsultationStats = async () => {
+  if (isLive()) {
+    return apiAdapter.getConsultationStats()
+  }
   const total = consultations.length
   const completed = consultations.filter((c) => c.status === "completed").length
   const upcoming = consultations.filter((c) => c.status === "upcoming").length
@@ -186,8 +243,11 @@ export const getConsultationStats = () => {
   }
 }
 
-export const getDoctorAvailability = (doctorId: string, date: string): string[] => {
-  const doctor = getDoctorById(doctorId)
+export const getDoctorAvailability = async (doctorId: string, date: string): Promise<string[]> => {
+  if (isLive()) {
+    return apiAdapter.getDoctorAvailability(doctorId, date)
+  }
+  const doctor = await getDoctorById(doctorId)
   if (!doctor) return []
 
   const dayOfWeek = new Date(date).toLocaleDateString("en", { weekday: "long" }).toLowerCase()
@@ -201,7 +261,10 @@ export const getDoctorAvailability = (doctorId: string, date: string): string[] 
   return availableSlots.filter((slot) => !bookedSlots.includes(slot))
 }
 
-export const searchDoctors = (query: string): Doctor[] => {
+export const searchDoctors = async (query: string): Promise<Doctor[]> => {
+  if (isLive()) {
+    return apiAdapter.searchDoctors(query)
+  }
   const searchTerm = query.toLowerCase()
   return doctors.filter(
     (doctor) =>
@@ -211,17 +274,21 @@ export const searchDoctors = (query: string): Doctor[] => {
   )
 }
 
-export const getConsultationsForCalendar = () => {
-  return consultations.map((consultation) => {
-    const doctor = getDoctorById(consultation.doctorId)
-    return {
-      id: consultation.id,
-      title: `${doctor?.name} - ${consultation.reason}`,
-      start: new Date(`${consultation.date}T${consultation.time}`),
-      end: new Date(new Date(`${consultation.date}T${consultation.time}`).getTime() + consultation.duration * 60000),
-      status: consultation.status,
-      doctor: doctor?.name,
-      type: consultation.type,
-    }
-  })
+export const getConsultationsForCalendar = async () => {
+  const currentConsultations = await getConsultations()
+  const resolved = await Promise.all(
+    currentConsultations.map(async (consultation) => {
+      const doctor = await getDoctorById(consultation.doctorId)
+      return {
+        id: consultation.id,
+        title: `${doctor?.name || consultation.patientName} - ${consultation.reason}`,
+        start: new Date(`${consultation.date}T${consultation.time}`),
+        end: new Date(new Date(`${consultation.date}T${consultation.time}`).getTime() + consultation.duration * 60000),
+        status: consultation.status,
+        doctor: doctor?.name,
+        type: consultation.type,
+      }
+    })
+  )
+  return resolved
 }

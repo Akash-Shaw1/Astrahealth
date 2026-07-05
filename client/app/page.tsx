@@ -1,7 +1,7 @@
 "use client";
 
 import HeroContent from "@/components/landing/hero-content";
-import Header from "@/components/landing/heder";
+import Header from "@/components/landing/header";
 import Spline from "@splinetool/react-spline";
 
 export default function ShaderShowcase() {

@@ -1,0 +1,341 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id                            String                 @id @default(uuid())
+  clerkUserId                   String                 @unique
+  email                         String                 @unique
+  firstName                     String?
+  lastName                      String?
+  avatarUrl                     String?
+  phone                         String?
+  dateOfBirth                   DateTime?
+  gender                        String                 @default("Unspecified") // Male/Female/Other/Unspecified
+  address                       String?
+  bloodGroup                    String?
+  emergencyContactName          String?
+  emergencyContactPhone         String?
+  emergencyContactRelationship  String?
+  preferredLanguage             String                 @default("en")
+  preferredHospital             String?
+  insuranceProvider             String?
+  insurancePolicyNumber         String?
+  knownConditions               String                 @default("[]") // JSON string of array
+  allergies                     String                 @default("[]") // JSON string of array
+  notificationPrefs             String                 @default("{\"appointments\": true, \"medications\": true, \"updates\": false, \"marketing\": false}") // JSON string
+  onboardingComplete            Boolean                @default(false)
+  onboardingDraft               String?                // JSON string
+  isActive                      Boolean                @default(true)
+  createdAt                     DateTime               @default(now())
+  updatedAt                     DateTime               @updatedAt
+
+  familyMembers                 FamilyMember[]
+  appointments                  Appointment[]
+  consultations                 Consultation[]
+  medicalRecords                MedicalRecord[]
+  feedback                      Feedback[]
+  campaignRegistrations         CampaignRegistration[]
+  chatSessions                  ChatSession[]
+  healthGoals                   HealthGoal[]
+  educationProgress             EducationProgress[]
+  vitalsEntries                 VitalsEntry[]
+
+  @@map("users")
+}
+
+model FamilyMember {
+  id              String         @id @default(uuid())
+  userId          String
+  name            String
+  relationship    String         // Self/Spouse/Child/Parent/Sibling/Other
+  dateOfBirth     DateTime?
+  gender          String         @default("Unspecified")
+  avatar          String?
+  phone           String?
+  email           String?
+  address         String?
+  knownConditions String         @default("[]") // JSON string
+  allergies       String         @default("[]") // JSON string
+  bloodGroup      String?
+  isActive        Boolean        @default(true)
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  user            User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  appointments    Appointment[]
+  consultations   Consultation[]
+  medicalRecords  MedicalRecord[]
+  medications     Medication[]
+  vitalsEntries   VitalsEntry[]
+
+  @@map("family_members")
+}
+
+model Doctor {
+  id                 String         @id @default(uuid())
+  name               String
+  specialty          String
+  avatar             String?
+  rating             Float
+  experience         Int
+  education          String
+  languages          String         @default("[]") // JSON string of languages
+  availability       String         // JSON string of { "monday": ["09:00", "10:00"] }
+  consultationFee    Int
+  bio                String
+  hospitalAffiliation String?
+
+  appointments       Appointment[]
+  consultations      Consultation[]
+
+  @@map("doctors")
+}
+
+model Appointment {
+  id              String            @id @default(uuid())
+  userId          String
+  familyMemberId  String
+  doctorId        String?
+  doctorName      String
+  date            DateTime
+  time            String
+  duration        Int               @default(30)
+  type            String            // Consultation/Follow_up/Routine/Emergency
+  status          String            @default("Scheduled") // Scheduled/Confirmed/Completed/Cancelled/No_show
+  appointmentMode String            // In_Person/Virtual
+  location        String
+  reason          String
+  notes           String?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  user            User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  familyMember    FamilyMember      @relation(fields: [familyMemberId], references: [id], onDelete: Cascade)
+  doctor          Doctor?           @relation(fields: [doctorId], references: [id], onDelete: SetNull)
+
+  @@map("appointments")
+}
+
+model Consultation {
+  id              String             @id @default(uuid())
+  userId          String
+  familyMemberId  String
+  doctorId        String
+  date            DateTime
+  time            String
+  duration        Int
+  type            String             // Video Call or Phone Call
+  status          String             @default("upcoming") // upcoming/completed/cancelled/missed
+  severity        String             @default("low") // low/medium/high
+  reason          String
+  notes           String?
+  patientNotes    String?
+  prescription    String?
+  attachments     String             @default("[]") // JSON string of urls
+  rating          Float?
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+
+  user            User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  familyMember    FamilyMember       @relation(fields: [familyMemberId], references: [id], onDelete: Cascade)
+  doctor          Doctor             @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  medicalRecords  MedicalRecord[]
+
+  @@map("consultations")
+}
+
+model MedicalRecord {
+  id              String       @id @default(uuid())
+  userId          String
+  familyMemberId  String
+  consultationId  String?
+  recordType      String       // Lab Results, Prescription, Imaging, etc.
+  title           String
+  date            DateTime
+  doctor          String?
+  category        String?
+  status          String       // Final/Active/Draft/Archived
+  fileUrl         String?
+  fileSize        String?
+  description     String?
+  tags            String       @default("[]") // JSON string of tags
+  priority        String       @default("Normal") // High/Medium/Normal
+  details         String?      // JSON string of details
+  createdAt       DateTime     @default(now())
+
+  user            User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  familyMember    FamilyMember @relation(fields: [familyMemberId], references: [id], onDelete: Cascade)
+  consultation    Consultation? @relation(fields: [consultationId], references: [id], onDelete: SetNull)
+
+  @@map("medical_records")
+}
+
+model Medication {
+  id                 String       @id @default(uuid())
+  familyMemberId     String
+  name               String
+  genericName        String?
+  brand              String?
+  strength           String?
+  form               String?
+  purpose            String?
+  dosageInstructions String?
+  frequency          String?
+  timing             String?
+  mealTiming         String?
+  startDate          DateTime?
+  endDate            DateTime?
+  remainingDoses     Int
+  totalDoses         Int
+  reminderEnabled    Boolean      @default(false)
+  reminderTimes      String       @default("[]") // JSON string of reminder times
+  precautions        String       @default("[]") // JSON string of precautions
+  sideEffects        String       @default("[]") // JSON string of side effects
+  addedBy            String       // prescription_scan/pill_identifier/manual_entry
+  isActive           Boolean      @default(true)
+  createdAt          DateTime     @default(now())
+  updatedAt          DateTime     @updatedAt
+
+  familyMember       FamilyMember @relation(fields: [familyMemberId], references: [id], onDelete: Cascade)
+
+  @@map("medications")
+}
+
+model VitalsEntry {
+  id              String       @id @default(uuid())
+  userId          String
+  familyMemberId  String
+  heartRate       Int?
+  systolic        Int?
+  diastolic       Int?
+  temperature     Float?
+  weight          Float?
+  spO2            Int?
+  bloodSugar      Int?
+  notes           String?
+  measuredAt      DateTime
+  createdAt       DateTime     @default(now())
+
+  user            User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  familyMember    FamilyMember @relation(fields: [familyMemberId], references: [id], onDelete: Cascade)
+
+  @@map("vitals_entries")
+}
+
+model HealthCampaign {
+  id                   String                 @id @default(uuid())
+  type                 String                 // IMD/FHC/MHC/BDC/WPC
+  title                String
+  description          String
+  organiser            String
+  location             String
+  startDate            DateTime
+  endDate              DateTime
+  capacity             Int?
+  registrationRequired Boolean                @default(true)
+  vaccines             String                 @default("[]") // JSON string of vaccines
+  contactPhone         String?
+  contactEmail         String?
+
+  registrations        CampaignRegistration[]
+
+  @@map("health_campaigns")
+}
+
+model CampaignRegistration {
+  id             String             @id @default(uuid())
+  userId         String
+  campaignId     String
+  familyMemberId String?
+  status         String             @default("registered") // registered/attended/cancelled
+  registeredAt   DateTime           @default(now())
+
+  user           User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  campaign       HealthCampaign     @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, campaignId, familyMemberId])
+  @@map("campaign_registrations")
+}
+
+model Feedback {
+  id              String     @id @default(uuid())
+  userId          String
+  entityType      String     // hospital/doctor/medicine_shop/testing_center/ambulance_service
+  entityId        String
+  entityName      String
+  ratings         String     // JSON string of Rating ratings object
+  reviewText      String
+  isReferral      Boolean    @default(false)
+  referralTo      String?
+  isEscalation    Boolean    @default(false)
+  escalationReason String?
+  createdAt       DateTime   @default(now())
+
+  user            User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("feedback")
+}
+
+model ChatSession {
+  id        String        @id @default(uuid())
+  userId    String
+  title     String
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages  ChatMessage[]
+
+  @@map("chat_sessions")
+}
+
+model ChatMessage {
+  id          String      @id @default(uuid())
+  sessionId   String
+  role        String      // user/assistant/system
+  content     String
+  attachments String?     // JSON string of attachments
+  createdAt   DateTime    @default(now())
+
+  session     ChatSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@map("chat_messages")
+}
+
+model HealthGoal {
+  id        String   @id @default(uuid())
+  userId    String
+  title     String
+  target    Float
+  current   Float
+  unit      String
+  icon      String
+  color     String
+  streak    Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("health_goals")
+}
+
+model EducationProgress {
+  id                 String    @id @default(uuid())
+  userId             String
+  moduleId           String
+  completionPercent  Int       @default(0)
+  lastAccessedAt     DateTime  @default(now())
+  completedAt        DateTime?
+
+  user               User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, moduleId])
+  @@map("education_progress")
+}

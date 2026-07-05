@@ -1,27 +1,40 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# Dependencies
+node_modules/
+**/node_modules/
 
-# dependencies
-/node_modules
+# Next.js build output
+.next/
+**/client/.next/
+out/
 
-# next.js
-/.next/
-/out/
+# NestJS build output
+dist/
+**/server/dist/
+**/tsconfig.tsbuildinfo
 
-# production
-/build
+# SQLite Database files (zero-configuration development database)
+*.db
+*.db-journal
+dev.db
+server/prisma/dev.db
 
-# debug
+# Environment variables (sensitive API keys)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+**/server/.env
+**/client/.env
+
+# Debug / Logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files
-.env*
-
-# vercel
-.vercel
-
-# typescript
-*.tsbuildinfo
-next-env.d.ts
+# System / IDEs
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

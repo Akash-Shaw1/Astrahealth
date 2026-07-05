@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge"
 import { Activity, AlertTriangle, CheckCircle } from "lucide-react"
 import { cn } from "@/lib/utils"
 
-interface MonitorData {
+export interface MonitorData {
   id: string
   label: string
   value: number

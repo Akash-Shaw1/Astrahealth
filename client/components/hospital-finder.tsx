@@ -276,7 +276,7 @@ export default function HospitalFinder() {
               <div
                 className={cn(
                   "w-20 h-20 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white text-2xl font-bold animate-float",
-                  hospital.specialtyIndex > 8 && "shadow-lg shadow-blue-200 animate-glow-pulse",
+                  hospital.nlpInsights.specialtyIndex > 8 && "shadow-lg shadow-blue-200 animate-glow-pulse",
                 )}
               >
                 {hospital.name.charAt(0)}
@@ -312,17 +312,17 @@ export default function HospitalFinder() {
                     cy="32"
                     r="28"
                     stroke={
-                      hospital.specialtyIndex > 8 ? "#10B981" : hospital.specialtyIndex > 6 ? "#F59E0B" : "#EF4444"
+                      hospital.nlpInsights.specialtyIndex > 8 ? "#10B981" : hospital.nlpInsights.specialtyIndex > 6 ? "#F59E0B" : "#EF4444"
                     }
                     strokeWidth="4"
                     fill="none"
                     strokeDasharray={`${2 * Math.PI * 28}`}
-                    strokeDashoffset={`${2 * Math.PI * 28 * (1 - hospital.specialtyIndex / 10)}`}
+                    strokeDashoffset={`${2 * Math.PI * 28 * (1 - hospital.nlpInsights.specialtyIndex / 10)}`}
                     className="transition-all duration-500"
                   />
                 </svg>
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-sm font-bold">{hospital.specialtyIndex}</span>
+                  <span className="text-sm font-bold">{hospital.nlpInsights.specialtyIndex}</span>
                 </div>
               </div>
             </div>
@@ -394,9 +394,9 @@ export default function HospitalFinder() {
           <div
             className={cn(
               "relative w-8 h-8 rounded-full flex items-center justify-center text-white font-bold text-sm shadow-lg",
-              hospital.specialtyIndex > 8
+              hospital.nlpInsights.specialtyIndex > 8
                 ? "bg-green-500 animate-glow-green"
-                : hospital.specialtyIndex > 6
+                : hospital.nlpInsights.specialtyIndex > 6
                   ? "bg-yellow-500 animate-glow-yellow"
                   : "bg-red-500 animate-glow-red",
             )}

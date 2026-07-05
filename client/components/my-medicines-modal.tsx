@@ -82,9 +82,13 @@ export default function MyMedicinesModal({ isOpen, onClose, onUpdate }: MyMedici
     }
   }, [isOpen])
 
-  const loadMedicines = () => {
-    const currentMedicines = medicineDataService.getCurrentMedicines()
-    setMedicines(currentMedicines.map((med) => ({ ...med, isEditing: false })))
+  const loadMedicines = async () => {
+    try {
+      const currentMedicines = await medicineDataService.getCurrentMedicines()
+      setMedicines(currentMedicines.map((med) => ({ ...med, isEditing: false })))
+    } catch (err) {
+      console.error("Failed to load medicines:", err)
+    }
   }
 
   const filteredMedicines = medicines.filter((medicine) => {
@@ -115,17 +119,17 @@ export default function MyMedicinesModal({ isOpen, onClose, onUpdate }: MyMedici
     )
   }
 
-  const handleSaveMedicine = (id: string, updates: Partial<Medicine>) => {
-    const updatedMedicine = medicineDataService.updateMedicine(id, updates)
+  const handleSaveMedicine = async (id: string, updates: Partial<Medicine>) => {
+    const updatedMedicine = await medicineDataService.updateMedicine(id, updates)
     if (updatedMedicine) {
       setMedicines((prev) => prev.map((med) => (med.id === id ? { ...updatedMedicine, isEditing: false } : med)))
       onUpdate()
     }
   }
 
-  const handleDeleteMedicine = (id: string, name: string) => {
+  const handleDeleteMedicine = async (id: string, name: string) => {
     if (confirm(`Are you sure you want to delete ${name}? This action cannot be undone.`)) {
-      const success = medicineDataService.deleteMedicine(id)
+      const success = await medicineDataService.deleteMedicine(id)
       if (success) {
         setMedicines((prev) => prev.filter((med) => med.id !== id))
         onUpdate()
@@ -133,9 +137,9 @@ export default function MyMedicinesModal({ isOpen, onClose, onUpdate }: MyMedici
     }
   }
 
-  const handleCompleteMedicine = (id: string, name: string) => {
+  const handleCompleteMedicine = async (id: string, name: string) => {
     if (confirm(`Mark ${name} as completed? This will move it to your medicine records.`)) {
-      const success = medicineDataService.completeMedicine(id, "Course completed by user")
+      const success = await medicineDataService.completeMedicine(id, "Course completed by user")
       if (success) {
         setMedicines((prev) => prev.filter((med) => med.id !== id))
         onUpdate()
@@ -143,8 +147,8 @@ export default function MyMedicinesModal({ isOpen, onClose, onUpdate }: MyMedici
     }
   }
 
-  const handleTakeDose = (id: string) => {
-    const success = medicineDataService.decrementDose(id, 1)
+  const handleTakeDose = async (id: string) => {
+    const success = await medicineDataService.decrementDose(id, 1)
     if (success) {
       setMedicines((prev) =>
         prev.map((med) => {
@@ -159,10 +163,10 @@ export default function MyMedicinesModal({ isOpen, onClose, onUpdate }: MyMedici
     }
   }
 
-  const handleRefillMedicine = (id: string, name: string) => {
+  const handleRefillMedicine = async (id: string, name: string) => {
     const refillAmount = prompt(`How many doses would you like to add to ${name}?`, "30")
     if (refillAmount && !isNaN(Number(refillAmount))) {
-      const success = medicineDataService.refillMedicine(id, Number(refillAmount))
+      const success = await medicineDataService.refillMedicine(id, Number(refillAmount))
       if (success) {
         setMedicines((prev) =>
           prev.map((med) => {
@@ -185,13 +189,13 @@ export default function MyMedicinesModal({ isOpen, onClose, onUpdate }: MyMedici
     handleSaveMedicine(id, { reminderEnabled: enabled })
   }
 
-  const handleAddNewMedicine = () => {
+  const handleAddNewMedicine = async () => {
     if (!newMedicine.name || !newMedicine.dosageInstructions) {
       alert("Please fill in at least the medicine name and dosage instructions.")
       return
     }
 
-    const addedMedicine = medicineDataService.addMedicine(newMedicine as Omit<Medicine, "id" | "addedDate">)
+    const addedMedicine = await medicineDataService.addMedicine(newMedicine as Omit<Medicine, "id" | "addedDate">)
     setMedicines((prev) => [...prev, { ...addedMedicine, isEditing: false }])
     setNewMedicine({
       name: "",

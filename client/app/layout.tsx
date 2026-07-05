@@ -8,6 +8,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 import Script from "next/script";
 import GoogleTranslateScript from "@/components/GoogleTranslateScript";
+import { DataSourceProvider } from "@/hooks/use-data-source";
 
 const figtree = Figtree({
   subsets: ["latin"],
@@ -90,7 +91,9 @@ export default function RootLayout({
           {/* Use the client component to load the external script (it can have onError handlers) */}
           <GoogleTranslateScript />
 
-          {children}
+          <DataSourceProvider>
+            {children}
+          </DataSourceProvider>
         </body>
       </html>
     </ClerkProvider>

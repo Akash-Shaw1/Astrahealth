@@ -217,7 +217,7 @@ export default function PillIdentifierModal({ isOpen, onClose, onSuccess }: Pill
       medicineDataService.addMedicine({
         name: identificationResult.name,
         genericName: identificationResult.genericName,
-        brand: identificationResult.brandNames?.length > 0 ? identificationResult.brandNames[0] : "Unknown", // Handle brandNames array
+        brand: (identificationResult.brandNames && identificationResult.brandNames.length > 0) ? identificationResult.brandNames[0] : "Unknown", // Handle brandNames array
         strength: identificationResult.strength,
         form: identificationResult.form,
         purpose: identificationResult.uses?.[0] || "As prescribed", // Safe array access
@@ -236,7 +236,7 @@ export default function PillIdentifierModal({ isOpen, onClose, onSuccess }: Pill
           identificationResult.safetyAdvice?.kidneyLiver,
           identificationResult.safetyAdvice?.alcohol,
         ].filter(Boolean), // Safe object access with filter
-        sideEffects: identificationResult.sideEffectsText || "Consult healthcare provider", // Use text field
+        sideEffects: identificationResult.sideEffectsText ? [identificationResult.sideEffectsText] : ["Consult healthcare provider"], // Use text field
         contraindications: identificationResult.interactions?.drugs || [],
         missedDoseInstructions: identificationResult.missedDoseGuidance,
         practicalTips: identificationResult.quickTips || [], // Safe array access
@@ -503,7 +503,7 @@ export default function PillIdentifierModal({ isOpen, onClose, onSuccess }: Pill
                       <p className="text-gray-600">Generic: {identificationResult.genericName}</p>
                       <p className="text-gray-600">
                         Brand:{" "}
-                        {identificationResult.brandNames?.length > 0
+                        {identificationResult.brandNames && identificationResult.brandNames.length > 0
                           ? identificationResult.brandNames.join(", ")
                           : "Unknown"}
                       </p>
@@ -608,7 +608,7 @@ export default function PillIdentifierModal({ isOpen, onClose, onSuccess }: Pill
                                 <div>
                                   <h5 className="font-medium text-gray-900 mb-1">Common:</h5>
                                   <ul className="list-disc list-inside space-y-1 text-gray-700">
-                                    {identificationResult.sideEffects.common.map((effect, index) => (
+                                    {identificationResult.sideEffects.common.map((effect: string, index: number) => (
                                       <li key={index}>{effect}</li>
                                     ))}
                                   </ul>
@@ -619,7 +619,7 @@ export default function PillIdentifierModal({ isOpen, onClose, onSuccess }: Pill
                                 <div>
                                   <h5 className="font-medium text-gray-900 mb-1">Serious:</h5>
                                   <ul className="list-disc list-inside space-y-1 text-gray-700">
-                                    {identificationResult.sideEffects.serious.map((effect, index) => (
+                                    {identificationResult.sideEffects.serious.map((effect: string, index: number) => (
                                       <li key={index}>{effect}</li>
                                     ))}
                                   </ul>
@@ -630,7 +630,7 @@ export default function PillIdentifierModal({ isOpen, onClose, onSuccess }: Pill
                                 <div>
                                   <h5 className="font-medium text-gray-900 mb-1">Rare:</h5>
                                   <ul className="list-disc list-inside space-y-1 text-gray-700">
-                                    {identificationResult.sideEffects.rare.map((effect, index) => (
+                                    {identificationResult.sideEffects.rare.map((effect: string, index: number) => (
                                       <li key={index}>{effect}</li>
                                     ))}
                                   </ul>

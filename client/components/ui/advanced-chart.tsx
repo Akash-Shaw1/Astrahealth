@@ -23,10 +23,10 @@ import {
 } from "recharts"
 import { cn } from "@/lib/utils"
 
-interface ChartData {
+export interface ChartData {
   name: string
-  value: number
-  [key: string]: string | number
+  value?: number
+  [key: string]: string | number | undefined
 }
 
 interface TooltipPayload {
@@ -51,6 +51,7 @@ interface AdvancedChartProps {
   showTrend?: boolean
   showComparison?: boolean
   className?: string
+  customLabels?: Record<string, string>
 }
 
 const COLORS = ["#3B82F6", "#10B981", "#F59E0B", "#EF4444", "#8B5CF6", "#06B6D4"]
@@ -71,8 +72,8 @@ export function AdvancedChart({
   // Calculate trend
   const calculateTrend = () => {
     if (data.length < 2) return { value: 0, direction: "neutral" as const }
-    const current = data[data.length - 1].value
-    const previous = data[data.length - 2].value
+    const current = data[data.length - 1].value ?? 0
+    const previous = data[data.length - 2].value ?? 0
     const change = ((current - previous) / previous) * 100
     return {
       value: Math.abs(change).toFixed(1),
@@ -170,7 +171,7 @@ export function AdvancedChart({
               cx="50%"
               cy="50%"
               labelLine={false}
-              label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+              label={({ name, percent }: any) => `${name} ${(percent * 100).toFixed(0)}%`}
               outerRadius={80}
               fill="#8884d8"
               dataKey="value"

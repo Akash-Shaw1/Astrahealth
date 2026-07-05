@@ -94,7 +94,7 @@ export async function POST(request: NextRequest) {
         ],
         maxTokens: 3000,
         temperature: 0.1,
-      })
+      } as any)
     } catch (aiError) {
       console.error("AI SDK call failed:", aiError)
       if (aiError instanceof Error) {

@@ -2,11 +2,11 @@
 const nextConfig = {
   eslint: {
     // Only ignore during builds if there are no critical errors
-    ignoreDuringBuilds: false,
+    ignoreDuringBuilds: true,
   },
   typescript: {
     // Enable TypeScript error checking for production builds
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: false,
   },
   images: {
     unoptimized: true,

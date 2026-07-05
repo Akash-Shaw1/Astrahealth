@@ -1,4 +1,5 @@
 import medicinesData from "./data/medicines.json"
+import { apiAdapter } from "./api-adapter"
 
 export interface Medicine {
   id: string
@@ -83,15 +84,24 @@ export interface PrescriptionScanResult {
 }
 
 export interface PillIdentificationResult {
+  identified?: boolean
   name: string
   genericName: string
   brand: string
+  brandNames?: string[]
   strength: string
   form: string
   overview: string
   uses: string[]
+  usesText?: string
   benefits: string[]
-  sideEffects: string[]
+  benefitsText?: string
+  sideEffects: {
+    common: string[]
+    serious: string[]
+    rare: string[]
+  }
+  sideEffectsText?: string
   howToUse: string
   mechanism: string
   safetyAdvice: {
@@ -100,6 +110,7 @@ export interface PillIdentificationResult {
     kidneyLiver: string
     alcohol: string
   }
+  safetyAdviceText?: string
   missedDoseGuidance: string
   substitutes: string[]
   quickTips: string[]
@@ -113,26 +124,47 @@ export interface PillIdentificationResult {
     alcohol: string
     foods: string[]
   }
+  interactionsText?: string
   commonConcerns: Array<{
     question: string
     answer: string
   }>
   confidence: number
+  disclaimer?: string
+}
+
+function isLive(): boolean {
+  if (typeof window === "undefined") return false
+  return localStorage.getItem("astra_data_mode") === "live"
 }
 
 class MedicineDataService {
-  private data = medicinesData
+  private data = medicinesData as unknown as {
+    currentMedicines: Medicine[]
+    pastRecords: MedicineRecord[]
+  }
 
   // Current Medicines CRUD
-  getCurrentMedicines(): Medicine[] {
+  async getCurrentMedicines(): Promise<Medicine[]> {
+    if (isLive()) {
+      const list = await apiAdapter.getMedicines()
+      return list as any[]
+    }
     return this.data.currentMedicines.filter((med) => med.isActive)
   }
 
-  getMedicineById(id: string): Medicine | null {
+  async getMedicineById(id: string): Promise<Medicine | null> {
+    if (isLive()) {
+      return apiAdapter.getMedicineById(id)
+    }
     return this.data.currentMedicines.find((med) => med.id === id) || null
   }
 
-  addMedicine(medicine: Omit<Medicine, "id" | "addedDate">): Medicine {
+  async addMedicine(medicine: Omit<Medicine, "id" | "addedDate">): Promise<Medicine> {
+    if (isLive()) {
+      return apiAdapter.addMedicine(medicine)
+    }
+
     const newMedicine: Medicine = {
       ...medicine,
       id: `med_${Date.now()}`,
@@ -158,7 +190,11 @@ class MedicineDataService {
     return newMedicine
   }
 
-  updateMedicine(id: string, updates: Partial<Medicine>): Medicine | null {
+  async updateMedicine(id: string, updates: Partial<Medicine>): Promise<Medicine | null> {
+    if (isLive()) {
+      return apiAdapter.updateMedicine(id, updates)
+    }
+
     const medicineIndex = this.data.currentMedicines.findIndex((med) => med.id === id)
     if (medicineIndex === -1) return null
 
@@ -186,7 +222,11 @@ class MedicineDataService {
     return updatedMedicine
   }
 
-  deleteMedicine(id: string): boolean {
+  async deleteMedicine(id: string): Promise<boolean> {
+    if (isLive()) {
+      return apiAdapter.deleteMedicine(id)
+    }
+
     const medicineIndex = this.data.currentMedicines.findIndex((med) => med.id === id)
     if (medicineIndex === -1) return false
 
@@ -208,8 +248,13 @@ class MedicineDataService {
     return true
   }
 
-  completeMedicine(id: string, reason = "Course completed"): boolean {
-    const medicine = this.getMedicineById(id)
+  async completeMedicine(id: string, reason = "Course completed"): Promise<boolean> {
+    if (isLive()) {
+      await apiAdapter.completeMedicine(id)
+      return true
+    }
+
+    const medicine = await this.getMedicineById(id)
     if (!medicine) return false
 
     medicine.isActive = false
@@ -230,8 +275,13 @@ class MedicineDataService {
     return true
   }
 
-  decrementDose(id: string, amount = 1): boolean {
-    const medicine = this.getMedicineById(id)
+  async decrementDose(id: string, amount = 1): Promise<boolean> {
+    if (isLive()) {
+      await apiAdapter.decrementDose(id, amount)
+      return true
+    }
+
+    const medicine = await this.getMedicineById(id)
     if (!medicine || medicine.remainingDoses <= 0) return false
 
     medicine.remainingDoses = Math.max(0, medicine.remainingDoses - amount)
@@ -239,14 +289,19 @@ class MedicineDataService {
 
     // Auto-complete if no doses remaining
     if (medicine.remainingDoses === 0) {
-      this.completeMedicine(id, "All doses taken")
+      await this.completeMedicine(id, "All doses taken")
     }
 
     return true
   }
 
-  refillMedicine(id: string, additionalDoses: number): boolean {
-    const medicine = this.getMedicineById(id)
+  async refillMedicine(id: string, additionalDoses: number): Promise<boolean> {
+    if (isLive()) {
+      await apiAdapter.refillMedicine(id, additionalDoses)
+      return true
+    }
+
+    const medicine = await this.getMedicineById(id)
     if (!medicine) return false
 
     const oldDoses = medicine.remainingDoses
@@ -274,10 +329,11 @@ class MedicineDataService {
   }
 
   // Check for existing medicine (for deduplication)
-  findSimilarMedicine(name: string, strength?: string): Medicine | null {
+  async findSimilarMedicine(name: string, strength?: string): Promise<Medicine | null> {
+    const list = await this.getCurrentMedicines()
     const normalizedName = name.toLowerCase().trim()
     return (
-      this.data.currentMedicines.find(
+      list.find(
         (med) =>
           med.isActive &&
           (med.name.toLowerCase().includes(normalizedName) ||
@@ -290,11 +346,21 @@ class MedicineDataService {
   }
 
   // Records CRUD
-  getRecords(): MedicineRecord[] {
-    return this.data.pastRecords.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+  async getRecords(): Promise<MedicineRecord[]> {
+    if (isLive()) {
+      // In live mode, we map prescription files and activities to records logs
+      const list = await apiAdapter.getMedicalRecords()
+      return list.map((record) => ({
+        id: record.id,
+        type: record.recordType === 'Prescription' ? 'prescription_scan' : 'manual_entry',
+        date: record.date,
+        description: record.description || record.title,
+      }))
+    }
+    return [...this.data.pastRecords].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
   }
 
-  addRecord(record: Omit<MedicineRecord, "id" | "date">): MedicineRecord {
+  async addRecord(record: Omit<MedicineRecord, "id" | "date">): Promise<MedicineRecord> {
     const newRecord: MedicineRecord = {
       ...record,
       id: `record_${Date.now()}`,
@@ -306,9 +372,10 @@ class MedicineDataService {
     return newRecord
   }
 
-  searchRecords(query: string): MedicineRecord[] {
+  async searchRecords(query: string): Promise<MedicineRecord[]> {
+    const list = await this.getRecords()
     const normalizedQuery = query.toLowerCase()
-    return this.data.pastRecords.filter(
+    return list.filter(
       (record) =>
         record.description.toLowerCase().includes(normalizedQuery) ||
         record.type.toLowerCase().includes(normalizedQuery) ||
@@ -319,8 +386,7 @@ class MedicineDataService {
 
   // Prescription scanning integration
   async processPrescriptionScan(imageFile: File): Promise<PrescriptionScanResult> {
-    // This will be implemented with OpenAI Vision API
-    // For now, return a mock result
+    // This will be implemented with OpenAI Vision API (frontend router handles it)
     return {
       medicines: [],
       confidence: 0,
@@ -330,8 +396,7 @@ class MedicineDataService {
 
   // Pill identification integration
   async processPillIdentification(imageFile: File): Promise<PillIdentificationResult> {
-    // This will be implemented with OpenAI Vision API
-    // For now, return a mock result
+    // This will be implemented with OpenAI Vision API (frontend router handles it)
     return {
       name: "",
       genericName: "",
@@ -341,7 +406,7 @@ class MedicineDataService {
       overview: "",
       uses: [],
       benefits: [],
-      sideEffects: [],
+      sideEffects: { common: [], serious: [], rare: [] },
       howToUse: "",
       mechanism: "",
       safetyAdvice: {
@@ -369,8 +434,8 @@ class MedicineDataService {
   }
 
   // Merge medicine with existing (for deduplication)
-  mergeMedicineWithExisting(existingId: string, newMedicine: Partial<Medicine>): Medicine | null {
-    const existing = this.getMedicineById(existingId)
+  async mergeMedicineWithExisting(existingId: string, newMedicine: Partial<Medicine>): Promise<Medicine | null> {
+    const existing = await this.getMedicineById(existingId)
     if (!existing) return null
 
     // Merge logic: extend end date, update dosage if different, add remaining doses
@@ -393,8 +458,6 @@ class MedicineDataService {
   }
 
   private saveData(): void {
-    // In a real app, this would save to localStorage or send to server
-    // For now, we'll just keep it in memory
     console.log("[v0] Medicine data updated:", this.data)
   }
 }

@@ -11,8 +11,8 @@ import { EducationModuleCard } from "@/components/ui/education-module-card"
 import { ActivityItem } from "@/components/ui/activity-item"
 import { ProfileCard } from "@/components/ui/profile-card"
 import { AdvancedChart } from "@/components/ui/advanced-chart"
-import { AnalyticsDashboard } from "@/components/ui/analytics-dashboard"
-import { RealTimeMonitor } from "@/components/ui/real-time-monitor"
+import { AnalyticsDashboard, type AnalyticsMetric } from "@/components/ui/analytics-dashboard"
+import { RealTimeMonitor, type MonitorData } from "@/components/ui/real-time-monitor"
 import Link from "next/link"
 
 const personalHealthMetrics = [
@@ -47,37 +47,43 @@ const educationModules = [
   },
 ]
 
-const recentActivity = [
+const recentActivity: Array<{
+  id: number
+  patient: string
+  action: string
+  time: string
+  type: "consultation" | "appointment" | "results" | "emergency"
+}> = [
   {
     id: 1,
     patient: "Dr. Priya Sharma",
     action: "Consultation completed at AMRI Hospital",
     time: "2 days ago",
-    type: 'consultation',
+    type: "consultation",
   },
   {
     id: 2,
     patient: "Apollo Pharmacy, Salt Lake",
     action: "Prescription filled",
     time: "1 week ago",
-    type: 'consultation',
+    type: "consultation",
   },
   {
     id: 3,
     patient: "Peerless Hospital Lab",
     action: "Blood work results available",
     time: "2 weeks ago",
-    type: 'results',
+    type: "results",
   },
 ]
 
-const healthMetrics = [
+const healthMetrics: AnalyticsMetric[] = [
   { label: "Health Score", value: 85, target: 90, unit: "points", trend: "up", color: "bg-green-500" },
   { label: "Exercise Goal", value: 75, target: 100, unit: "percent", trend: "stable", color: "bg-purple-500" },
   { label: "Sleep Quality", value: 78, target: 85, unit: "percent", trend: "up", color: "bg-indigo-500" },
 ]
 
-const upcomingReminders = [
+const upcomingReminders: MonitorData[] = [
   { id: "1", label: "Next Appointment", value: 3, status: "normal", unit: "days", lastUpdated: new Date() },
   { id: "2", label: "Medication Refill", value: 7, status: "warning", unit: "days", lastUpdated: new Date() },
   { id: "3", label: "Health Checkup", value: 45, status: "normal", unit: "days", lastUpdated: new Date() },

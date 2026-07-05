@@ -51,25 +51,31 @@ export default function CalendarModal({ open, onOpenChange }: CalendarModalProps
     }
   }, [open])
 
-  const loadCalendarEvents = () => {
-    const consultations = getConsultations()
-    const calendarEvents: CalendarEvent[] = consultations.map((consultation) => {
-      const doctor = getDoctorById(consultation.doctorId)
-      return {
-        id: consultation.id,
-        consultation,
-        doctor: {
-          name: doctor?.name || "Unknown Doctor",
-          specialty: doctor?.specialty || "General",
-          avatar: doctor?.avatar || "/placeholder.svg",
-        },
-        date: new Date(`${consultation.date}T${consultation.time}`),
-        title: `${doctor?.name} - ${consultation.reason}`,
-        status: consultation.status,
-        type: consultation.type,
-      }
-    })
-    setEvents(calendarEvents)
+  const loadCalendarEvents = async () => {
+    try {
+      const consultationsList = await getConsultations()
+      const calendarEvents: CalendarEvent[] = await Promise.all(
+        consultationsList.map(async (consultation) => {
+          const doctor = await getDoctorById(consultation.doctorId)
+          return {
+            id: consultation.id,
+            consultation,
+            doctor: {
+              name: doctor?.name || "Unknown Doctor",
+              specialty: doctor?.specialty || "General",
+              avatar: doctor?.avatar || "/placeholder.svg",
+            },
+            date: new Date(`${consultation.date}T${consultation.time}`),
+            title: `${doctor?.name || "Doctor"} - ${consultation.reason}`,
+            status: consultation.status,
+            type: consultation.type,
+          }
+        })
+      )
+      setEvents(calendarEvents)
+    } catch (err) {
+      console.error("Failed to load calendar events:", err)
+    }
   }
 
   const getDaysInMonth = (date: Date) => {

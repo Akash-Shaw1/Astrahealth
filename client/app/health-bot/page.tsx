@@ -49,6 +49,9 @@ interface ProcessResult {
   category: string
   confidence: number
   raw_response?: string
+  next_steps?: string[]
+  self_care?: string[]
+  can_book?: boolean
 }
 
 const EMERGENCY_KEYWORDS = [
