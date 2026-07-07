@@ -92,13 +92,13 @@ export default function EConsultationTracker() {
   }
 
   const handleJoinCall = (consultation: Consultation) => {
-    const doctor = getDoctorById(consultation.doctorId)
+    const doctor = doctors.find((d) => d.id === consultation.doctorId)
     console.log("[v0] Joining consultation call:", consultation.id)
     alert(`Joining ${consultation.type} with ${doctor?.name}...`)
   }
 
   const handleDownloadReport = (consultation: Consultation) => {
-    const doctor = getDoctorById(consultation.doctorId)
+    const doctor = doctors.find((d) => d.id === consultation.doctorId)
     console.log("[v0] Downloading report for consultation:", consultation.id)
     const reportName = `${doctor?.name.replace(/\s+/g, "_")}_${consultation.date}_Report.pdf`
     alert(`Downloading ${reportName}...`)
@@ -240,7 +240,7 @@ export default function EConsultationTracker() {
             {/* Consultations List */}
             <div className="space-y-4">
               {filteredConsultations.map((consultation) => {
-                const doctor = getDoctorById(consultation.doctorId)
+                const doctor = doctors.find((d) => d.id === consultation.doctorId)
                 if (!doctor) return null
 
                 return (
@@ -253,7 +253,7 @@ export default function EConsultationTracker() {
                             <AvatarFallback>
                               {doctor.name
                                 .split(" ")
-                                .map((n) => n[0])
+                                .map((n: string) => n[0])
                                 .join("")}
                             </AvatarFallback>
                           </Avatar>
@@ -386,7 +386,7 @@ export default function EConsultationTracker() {
               <CardContent>
                 <div className="space-y-4">
                   {upcomingAppointments.slice(0, 3).map((appointment) => {
-                    const doctor = getDoctorById(appointment.doctorId)
+                    const doctor = doctors.find((d) => d.id === appointment.doctorId)
                     if (!doctor) return null
 
                     return (
@@ -396,7 +396,7 @@ export default function EConsultationTracker() {
                           <AvatarFallback>
                             {doctor.name
                               .split(" ")
-                              .map((n) => n[0])
+                              .map((n: string) => n[0])
                               .join("")}
                           </AvatarFallback>
                         </Avatar>
@@ -487,6 +487,7 @@ export default function EConsultationTracker() {
         open={showDetailsModal}
         onOpenChange={setShowDetailsModal}
         consultation={selectedConsultation}
+        doctor={doctors.find((d) => d.id === selectedConsultation?.doctorId)}
         onConsultationUpdated={handleConsultationUpdated}
       />
     </DashboardLayout>

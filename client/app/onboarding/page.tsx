@@ -64,6 +64,7 @@ const DEMO_MEDICAL = [
   {
     knownConditions: "Hypertension, Mild Diabetes",
     allergies: "None",
+    preferredLanguage: "en",
     preferredHospital: "Apollo Gleneagles Hospital, Kolkata",
     insuranceProvider: "Star Health Insurance",
     insurancePolicyNumber: "SH-983021-99",
@@ -71,6 +72,7 @@ const DEMO_MEDICAL = [
   {
     knownConditions: "Asthma",
     allergies: "Sulfonamides",
+    preferredLanguage: "en",
     preferredHospital: "Fortis Hospital, Anandapur, Kolkata",
     insuranceProvider: "HDFC ERGO Health Optima",
     insurancePolicyNumber: "HE-392019-21",
@@ -219,13 +221,13 @@ export default function OnboardingPage() {
       const payload = {
         ...profile,
         ...medical,
-        knownConditions: medical.knownConditions.split(",").map((s) => s.trim()).filter(Boolean),
-        allergies: medical.allergies.split(",").map((s) => s.trim()).filter(Boolean),
+        knownConditions: medical.knownConditions.split(",").map((s: string) => s.trim()).filter(Boolean),
+        allergies: medical.allergies.split(",").map((s: string) => s.trim()).filter(Boolean),
         notificationPrefs: notifications,
         familyMembers: familyMembers.map((m) => ({
           ...m,
-          knownConditions: m.knownConditions.split(",").map((s) => s.trim()).filter(Boolean),
-          allergies: m.allergies.split(",").map((s) => s.trim()).filter(Boolean),
+          knownConditions: m.knownConditions.split(",").map((s: string) => s.trim()).filter(Boolean),
+          allergies: m.allergies.split(",").map((s: string) => s.trim()).filter(Boolean),
         })),
         onboardingComplete: true,
       }

@@ -43,8 +43,8 @@ export default function MedicineRecordsModal({ isOpen, onClose }: MedicineRecord
     }
   }, [isOpen])
 
-  const loadRecords = () => {
-    const allRecords = medicineDataService.getRecords()
+  const loadRecords = async () => {
+    const allRecords = await medicineDataService.getRecords()
     setRecords(allRecords)
   }
 

@@ -23,12 +23,13 @@ import {
   CheckCircle2,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { getDoctorById, updateConsultation, type Consultation } from "@/lib/data-service"
+import { updateConsultation, type Consultation, type Doctor } from "@/lib/data-service"
 
 interface ConsultationDetailsModalProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   consultation: Consultation | null
+  doctor?: Doctor
   onConsultationUpdated?: () => void
 }
 
@@ -36,6 +37,7 @@ export default function ConsultationDetailsModal({
   open,
   onOpenChange,
   consultation,
+  doctor,
   onConsultationUpdated,
 }: ConsultationDetailsModalProps) {
   const [showRatingForm, setShowRatingForm] = useState(false)
@@ -43,10 +45,7 @@ export default function ConsultationDetailsModal({
   const [feedback, setFeedback] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  if (!consultation) return null
-
-  const doctor = getDoctorById(consultation.doctorId)
-  if (!doctor) return null
+  if (!consultation || !doctor) return null
 
   const handleJoinCall = () => {
     console.log("[v0] Joining consultation call:", consultation.id)
@@ -153,7 +152,7 @@ export default function ConsultationDetailsModal({
                 <AvatarFallback>
                   {doctor.name
                     .split(" ")
-                    .map((n) => n[0])
+                    .map((n: string) => n[0])
                     .join("")}
                 </AvatarFallback>
               </Avatar>

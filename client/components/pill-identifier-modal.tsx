@@ -185,7 +185,7 @@ export default function PillIdentifierModal({ isOpen, onClose, onSuccess }: Pill
     if (!identificationResult) return
 
     // Check for existing medicine
-    const existingMedicine = medicineDataService.findSimilarMedicine(
+    const existingMedicine = await medicineDataService.findSimilarMedicine(
       identificationResult.name,
       identificationResult.strength,
     )

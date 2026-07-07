@@ -52,9 +52,9 @@ export const apiAdapter = {
     }
   },
 
-  // Doctors CRUD (Read-Only)
-  async getDoctors(): Promise<any[]> {
-    return apiRequest<any[]>('GET', '/doctors');
+  async getDoctors(specialty?: string): Promise<any[]> {
+    const path = specialty ? `/doctors?specialty=${encodeURIComponent(specialty)}` : '/doctors';
+    return apiRequest<any[]>('GET', path);
   },
 
   async getDoctorById(id: string): Promise<any> {
@@ -265,5 +265,22 @@ export const apiAdapter = {
 
   async updateEducationProgress(moduleId: string, completionPercent: number): Promise<any> {
     return apiRequest<any>('PUT', `/education/progress/${moduleId}`, { completionPercent });
+  },
+
+  // User Profile & Onboarding
+  async getProfile(): Promise<any> {
+    return apiRequest<any>('GET', '/users/me');
+  },
+
+  async updateProfile(data: any): Promise<any> {
+    return apiRequest<any>('PUT', '/users/me', data);
+  },
+
+  async updateOnboardingDraft(draft: any): Promise<any> {
+    return apiRequest<any>('PATCH', '/users/me/onboarding/draft', draft);
+  },
+
+  async completeOnboarding(onboardingData: any): Promise<any> {
+    return apiRequest<any>('POST', '/users/me/onboarding', onboardingData);
   },
 };

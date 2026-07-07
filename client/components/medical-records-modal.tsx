@@ -112,8 +112,7 @@ export default function MedicalRecordsModal({ open, onOpenChange }: MedicalRecor
   }
 
   const renderRecordDetails = (record: MedicalRecord) => {
-    const doctor = getDoctorById(record.doctorId)
-    const consultation = getConsultationById(record.consultationId)
+    const doctor = doctors.find((d) => d.id === record.doctorId)
 
     return (
       <div className="space-y-6">
@@ -162,7 +161,7 @@ export default function MedicalRecordsModal({ open, onOpenChange }: MedicalRecor
                   <AvatarFallback>
                     {doctor.name
                       .split(" ")
-                      .map((n) => n[0])
+                      .map((n: string) => n[0])
                       .join("")}
                   </AvatarFallback>
                 </Avatar>
